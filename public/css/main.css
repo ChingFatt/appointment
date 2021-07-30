@@ -1,0 +1,19 @@
+th.actions {
+    width: 150px !important;
+}
+.block-table td {
+    padding: 12px 20px !important;
+}
+.place-card.place-card-large { 
+    display: none; 
+}
+.search-results:hover {
+    cursor: pointer;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+#map-place-card {
+    position: absolute;
+    z-index: 1;
+    width: 30%;
+    margin: 15px;
+}
