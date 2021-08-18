@@ -58,7 +58,7 @@
         @yield('js_after')
         <script>
             jQuery(function () {
-                One.helpers(['maxlength', 'select2', 'datepicker', 'flatpickr']);
+                One.helpers(['maxlength', 'select2', 'datepicker', 'fullcalendar']);
             });
             jQuery('.modal').on('hidden.bs.modal', function () {
                 jQuery('.modal form')[0].reset();
@@ -69,18 +69,6 @@
             jQuery('.js-select2').on('change', function(){
                 //alert('changed');
             })
-            // flatpickr(".js-flatpickr", {
-            //     minDate: "today",
-            //     dateFormat: "Y-m-d",
-            //     disable: ["2021-08-30", "2021-09-21", "2021-10-08"],
-            // });
-
-            // jQuery('.picker').datetimepicker({
-            //     datepicker: true,
-            //     timepicker: true,
-            //     disabledDates: ["2021-08-30", "2021-09-21", "2021-10-08"],
-            //     formatDate:'Y-m-d'
-            // });
         </script>
         @stack('scripts')
     </body>

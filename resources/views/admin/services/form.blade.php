@@ -28,6 +28,19 @@
             ) }}
         </div>
     </div>
+    <div class="col-md-12 col-lg-6">
+        <div class="form-group">
+            <label for="duration">Duration <span class="text-muted small font-weight-light">(in Minutes)</span></label>
+            {{ Form::number('duration', 
+                null, [
+                    'class'         => 'form-control', 
+                    'required'      => true, 
+                    'autocomplete'  => 'off',
+                    'min'           => 0
+                ]
+            ) }}
+        </div>
+    </div>
     @if ($action == 'edit')
     <div class="col-md-12 col-lg-6">
         <div class="form-group">

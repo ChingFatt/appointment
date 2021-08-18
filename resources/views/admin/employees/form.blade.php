@@ -50,9 +50,20 @@
                     'autocomplete'      => 'off', 
                     'data-placeholder'  => 'Choose multiple..',
                     'style'             => 'width: 100%;',
-                    'multiple'          => true
+                    'multiple'          => true,
+                    'id'                => 'services'
                 ]
             ) }}
+            <div class="custom-control custom-checkbox custom-control-lg mt-2">
+                {{ Form::checkbox('checkall', 
+                    1, 
+                    null, [
+                        'class' => 'custom-control-input', 
+                        'id' => 'checkall'
+                    ]
+                ); }}
+                <label class="custom-control-label" for="checkall">All Services</label>
+            </div>
         </div>
     </div>
 </div>
@@ -66,3 +77,27 @@
     </div>
 </div>
 @endif
+
+@push('scripts')
+<script>
+jQuery('#services').on('change', function(){
+    var options = jQuery('#services option').length;
+    var selected = jQuery(this).select2('data').length;
+    if (options === selected) {
+        jQuery("#checkall").prop('checked', true);
+    } else {
+        jQuery("#checkall").prop('checked', false);
+    }
+});
+
+jQuery("#checkall").click(function(){
+    if(jQuery(this).is(':checked')){
+        jQuery("#services > option").attr("selected", "selected");
+        jQuery("#services").trigger("change");
+    } else {
+        jQuery("#services > option").removeAttr("selected");
+        jQuery("#services").trigger("change");
+    }
+});
+</script>
+@endpush

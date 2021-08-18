@@ -7,9 +7,14 @@ use App\Models\Industry;
 use App\Models\Merchant;
 use Illuminate\Http\Request;
 use App\DataTables\MerchantDataTable;
+use Auth;
 
 class MerchantController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Merchant::class, 'merchant');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -59,6 +64,7 @@ class MerchantController extends Controller
      */
     public function show(Merchant $merchant)
     {
+        //$this->authorize('view', $merchant);
         $services = $merchant->services->pluck('name', 'service_code');
         return view('admin.merchants.show')->with(compact('merchant', 'services'));
     }

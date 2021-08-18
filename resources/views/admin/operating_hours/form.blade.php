@@ -119,6 +119,128 @@
             ) }}
         </div>
     </div>
+    <div class="col-md-12 col-lg-12">
+        <div class="alert alert-info" role="alert">
+            <h3 class="alert-heading h4 my-2">Public Holiday</h3>
+            <p class="mb-0">Time slot apply to all public holidays. Please leave empty if not applicable.</p>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+        <div class="form-group">
+            <label for="public">Public Holiday</label>
+            <div class="form-group">
+                <div class="input-group datepair operating-hour">
+                    {{ Form::text('operating_hours[public_holiday][start_time]', 
+                        null, [
+                            'class'         => 'time start form-control', 
+                            'required'      => false, 
+                            'autocomplete'  => 'off',
+                            'placeholder'   => 'From'
+                        ]
+                    ) }}
+                    <div class="input-group-prepend input-group-append">
+                        <span class="input-group-text font-w600">
+                            <i class="fa fa-fw fa-arrow-right"></i>
+                        </span>
+                    </div>
+                    {{ Form::text('operating_hours[public_holiday][end_time]', 
+                        null, [
+                            'class'         => 'time end form-control', 
+                            'required'      => false, 
+                            'autocomplete'  => 'off',
+                            'placeholder'   => 'To'
+                        ]
+                    ) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+        <label for="rest_time">Rest Time</label>
+        <div class="form-group">
+            <div class="input-group datepair rest-time">
+                {{ Form::text('operating_hours[public_holiday][rest_start_time]', 
+                    null, [
+                        'class'         => 'time start form-control', 
+                        'required'      => false, 
+                        'autocomplete'  => 'off',
+                        'placeholder'   => 'From'
+                    ]
+                ) }}
+                <div class="input-group-prepend input-group-append">
+                    <span class="input-group-text font-w600">
+                        <i class="fa fa-fw fa-arrow-right"></i>
+                    </span>
+                </div>
+                {{ Form::text('operating_hours[public_holiday][rest_end_time]', 
+                    null, [
+                        'class'         => 'time end form-control', 
+                        'required'      => false, 
+                        'autocomplete'  => 'off',
+                        'placeholder'   => 'To'
+                    ]
+                ) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+        <div class="form-group">
+            <label for="eve">Eve Public Holiday</label>
+            <div class="form-group">
+                <div class="input-group datepair operating-hour">
+                    {{ Form::text('operating_hours[eve_public_holiday][start_time]', 
+                        null, [
+                            'class'         => 'time start form-control', 
+                            'required'      => false, 
+                            'autocomplete'  => 'off',
+                            'placeholder'   => 'From'
+                        ]
+                    ) }}
+                    <div class="input-group-prepend input-group-append">
+                        <span class="input-group-text font-w600">
+                            <i class="fa fa-fw fa-arrow-right"></i>
+                        </span>
+                    </div>
+                    {{ Form::text('operating_hours[eve_public_holiday][end_time]', 
+                        null, [
+                            'class'         => 'time end form-control', 
+                            'required'      => false, 
+                            'autocomplete'  => 'off',
+                            'placeholder'   => 'To'
+                        ]
+                    ) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 col-lg-6">
+        <label for="rest_time">Rest Time</label>
+        <div class="form-group">
+            <div class="input-group datepair rest-time">
+                {{ Form::text('operating_hours[eve_public_holiday][rest_start_time]', 
+                    null, [
+                        'class'         => 'time start form-control', 
+                        'required'      => false, 
+                        'autocomplete'  => 'off',
+                        'placeholder'   => 'From'
+                    ]
+                ) }}
+                <div class="input-group-prepend input-group-append">
+                    <span class="input-group-text font-w600">
+                        <i class="fa fa-fw fa-arrow-right"></i>
+                    </span>
+                </div>
+                {{ Form::text('operating_hours[eve_public_holiday][rest_end_time]', 
+                    null, [
+                        'class'         => 'time end form-control', 
+                        'required'      => false, 
+                        'autocomplete'  => 'off',
+                        'placeholder'   => 'To'
+                    ]
+                ) }}
+            </div>
+        </div>
+    </div>
     @php
         $route = Route::currentRouteAction();
         $action = substr($route, strpos($route, '@') + 1);

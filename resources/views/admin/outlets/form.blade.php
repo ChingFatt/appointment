@@ -18,6 +18,11 @@
     {!! Form::open(['route' => 'admin.outlet.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
 @endif
 
+@php
+    $route = Route::currentRouteAction();
+    $action = substr($route, strpos($route, '@') + 1);
+@endphp
+
 @yield('form')
 <div class="row">
     {{ Form::hidden('merchant_id', 
@@ -38,6 +43,7 @@
                 ]
             ) }}
         </div>
+        @error('name') <span class="error">{{ $message }}</span> @enderror
     </div>
     <div class="col-md-12 col-lg-6">
         <div class="form-group">
@@ -85,6 +91,34 @@
     </div>
     <div class="col-md-12 col-lg-12">
         <div class="form-group">
+            <label for="industry">Services</label>
+            {{ Form::select('service_codes[]', 
+                $services, 
+                $selected ?? null, [
+                    'class'             => 'js-select2 form-control', 
+                    'required'          => false, 
+                    'autocomplete'      => 'off', 
+                    'data-placeholder'  => 'Choose multiple..',
+                    'style'             => 'width: 100%;',
+                    'multiple'          => true,
+                    'id'                => 'services'
+                ]
+            ) }}
+            <div class="custom-control custom-checkbox custom-control-lg mt-2">
+                {{ Form::checkbox('checkall', 
+                    1, 
+                    null, [
+                        'class' => 'custom-control-input', 
+                        'id' => 'checkall'
+                    ]
+                ); }}
+                <label class="custom-control-label" for="checkall">All Services</label>
+            </div>
+        </div>
+    </div>
+    @if ($action == 'edit')
+    <div class="col-md-12 col-lg-12">
+        <div class="form-group">
             <label for="name">Address</label>
             {{ Form::text('address', 
                 null, [
@@ -114,7 +148,8 @@
                 null, [
                     'class'         => 'form-control', 
                     'required'      => false, 
-                    'autocomplete'  => 'off'
+                    'autocomplete'  => 'off',
+                    'id'            => 'postcode'
                 ]
             ) }}
         </div>
@@ -126,7 +161,8 @@
                 null, [
                     'class'         => 'form-control', 
                     'required'      => false, 
-                    'autocomplete'  => 'off'
+                    'autocomplete'  => 'off',
+                    'id'            => 'state'
                 ]
             ) }}
         </div>
@@ -138,7 +174,8 @@
                 null, [
                     'class'         => 'form-control', 
                     'required'      => false, 
-                    'autocomplete'  => 'off'
+                    'autocomplete'  => 'off',
+                    'id'            => 'country'
                 ]
             ) }}
         </div>
@@ -196,22 +233,7 @@
         </div>
         <div class="block" id="searchResults" style="height: 300px; overflow-y: scroll;"></div>
     </div>
-    <div class="col-md-12 col-lg-12">
-        <div class="form-group">
-            <label for="industry">Services</label>
-            {{ Form::select('service_codes[]', 
-                $services, 
-                $selected ?? null, [
-                    'class'             => 'js-select2 form-control', 
-                    'required'          => false, 
-                    'autocomplete'      => 'off', 
-                    'data-placeholder'  => 'Choose multiple..',
-                    'style'             => 'width: 100%;',
-                    'multiple'          => true
-                ]
-            ) }}
-        </div>
-    </div>
+    @endif
     <div class="col-md-12 col-lg-6">
         <div class="form-group">
             <label>Publish</label>
@@ -228,10 +250,6 @@
         </div>
     </div>
 </div>
-@php
-    $route = Route::currentRouteAction();
-    $action = substr($route, strpos($route, '@') + 1);
-@endphp
 @if ($action == 'create' || $action == 'edit')
 <div class="row">
     <div class="col-md-12 col-lg-6">
@@ -365,12 +383,12 @@ jQuery('#searchBtn').on('click', function(e){
         var listing = '';
 
         result.items.forEach((item) => {
-        listing += '<div class="block block-bordered search-results"><div class="p-3">'+item.title+'</div></div>';
-        results = document.createElement('div');
-        results.innerHTML += '<div class="block block-bordered search-results"><div class="p-3">'+item.title+'</div></div>';
-        results.addEventListener('click', function(){
-            getSearchLocation(item);
-        }, false);
+        //listing += '<div class="block block-bordered search-results"><div class="p-3">'+item.address.label+'</div></div>';
+            results = document.createElement('div');
+            results.innerHTML += '<div class="block block-bordered search-results"><div class="p-3">'+item.address.label+'</div></div>';
+            results.addEventListener('click', function(){
+                getSearchLocation(item);
+            }, false);
             jQuery('#searchResults').append(results);
         });
         One.block('state_toggle', '#searchResults');
@@ -384,13 +402,36 @@ function getSearchLocation(location) {
 
     jQuery('#latitude').val(location.position.lat.toFixed(6));
     jQuery('#longitude').val(location.position.lng.toFixed(6));
+    jQuery('#postcode').val(location.address.postalCode);
+    jQuery('#state').val(location.address.state);
+    jQuery('#country').val(location.address.countryName);
 
     map.setCenter(location.position);
 }
 
 // Now use the map as required...
-window.onload = function () {
-    addMarkersToMap(map);
-}
+addMarkersToMap(map);
+
+jQuery('#services').on('change', function(){
+    var options = jQuery('#services option').length;
+    var selected = jQuery(this).select2('data').length;
+    if (options === selected) {
+        jQuery("#checkall").prop('checked', true);
+    } else {
+        jQuery("#checkall").prop('checked', false);
+    }
+});
+
+jQuery("#checkall").click(function(){
+    if(jQuery(this).is(':checked')){
+        jQuery("#services > option").attr("selected", "selected");
+        jQuery("#services").trigger("change");
+        //jQuery('#services').select2({disabled:'readonly'});
+    } else {
+        jQuery("#services > option").removeAttr("selected");
+        jQuery("#services").trigger("change");
+        //jQuery('#services').select2({disabled:false});
+    }
+});
 </script>
 @endpush

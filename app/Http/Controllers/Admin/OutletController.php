@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Http;
 
 class OutletController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Outlet::class, 'outlet');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -90,10 +95,9 @@ class OutletController extends Controller
             }
         }
 
-
-        //$service_codes = $outlet->merchant->services->whereIn('service_code', $outlet->service_codes)->pluck('name', 'service_code');
-        $services = $outlet->services();
-        return view('admin.outlets.show')->with(compact('outlet', 'services', 'picker'));
+        $services = $outlet->merchant->services->pluck('name', 'service_code');
+        $outlet_services = $outlet->services();
+        return view('admin.outlets.show')->with(compact('outlet', 'services', 'outlet_services', 'picker'));
     }
 
     /**

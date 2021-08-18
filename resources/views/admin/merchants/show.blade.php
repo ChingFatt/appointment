@@ -45,7 +45,9 @@
 	<div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">Details</h3>
+            @role('admin')
             {!! Form::btnBack(route('admin.merchant.index')) !!}
+            @endrole
             {!! Form::btnEdit(route('admin.merchant.edit', $merchant)) !!}
             {!! Form::btnDelete() !!}
         </div>
@@ -102,7 +104,6 @@
                         <tr>
                             <th>Name</th>
                             <th>Outlet Code</th>
-                            <th class="d-none d-md-table-cell">Location</th>
                             <th class="d-none d-md-table-cell">Phone</th>
                             <th class="d-none d-md-table-cell">Email</th>
                             <th class="d-none d-md-table-cell">Published</th>
@@ -114,7 +115,6 @@
                         <tr>
                            <td>{{ $outlet->name }}</td>
                            <td>{{ $outlet->outlet_code }}</td>
-                           <td class="d-none d-md-table-cell">{{ $outlet->location }}</td>
                            <td class="d-none d-md-table-cell">{{ $outlet->phone }}</td>
                            <td class="d-none d-md-table-cell">{{ $outlet->email }}</td>
                            <td class="d-none d-md-table-cell">{!! $outlet->published !!}</td>
@@ -140,6 +140,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Duration</th>
                             <th class="d-none d-md-table-cell">Service Code</th>
                             <th class="d-none d-md-table-cell">Created</th>
                             <th class="actions">Action</th>
@@ -149,6 +150,7 @@
                         @foreach ($merchant->services as $service)
                         <tr>
                            <td>{{ $service->name }}</td>
+                           <td>{!! $service->durations !!}</td>
                            <td class="d-none d-md-table-cell">{{ $service->service_code }}</td>
                            <td class="d-none d-md-table-cell">{{ $service->created_at }}</td>
                            <td>

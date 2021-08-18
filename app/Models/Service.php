@@ -16,6 +16,7 @@ class Service extends Model
 
     protected $fillable = [
         'name',
+        'duration',
         'merchant_id',
         'service_code'
     ];
@@ -23,5 +24,15 @@ class Service extends Model
     public function merchant()
     {
         return $this->belongsTo('App\Models\Merchant');
+    }
+
+    public function getDurationsAttribute()
+    {
+        return "{$this->duration} minutes";
+    }
+
+    public function getServiceDurationAttribute()
+    {
+        return "{$this->name}";// - {$this->service_code}
     }
 }

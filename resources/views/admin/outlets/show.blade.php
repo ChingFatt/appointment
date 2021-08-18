@@ -53,42 +53,12 @@
 <div class="content">
     <div class="row">
         <div class="col-lg-8 col-md-12">
-            {{-- <div class="block block-rounded">
-                <div class="block-header block-header-default">
-                    <h3 class="block-title">Datepicker</h3>
-                </div>
-                <div class="block-content block-content-full">
-                    <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                            <div class="input-group">
-                                <input type="text" class="js-datepicker start form-control" id="date" name="date" data-week-start="1" data-today-highlight="true" data-date-format="yyyy-mm-dd" placeholder="yyyy-mm-dd" autocomplete="off">
-                                <div class="input-group-append">
-                                    <span class="input-group-text">
-                                        <i class="si si-calendar"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-group">
-                                <div class="input-group datepair">
-                                    <input type="text" class="time start form-control" name="date" placeholder="From" autocomplete="off">
-                                    <div class="input-group-prepend input-group-append">
-                                        <span class="input-group-text font-w600">
-                                            <i class="fa fa-fw fa-arrow-right"></i>
-                                        </span>
-                                    </div>
-                                    <input type="text" class="time end form-control" name="date2" placeholder="To" autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Details</h3>
+                    @role('admin')
                     {!! Form::btnBack(route('admin.outlet.index')) !!}
+                    @endrole
                     {!! Form::btnEdit(route('admin.outlet.edit', $outlet)) !!}
                     {!! Form::btnDelete() !!}
                 </div>
@@ -176,7 +146,9 @@
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Employee ({{ count($outlet->employees) }})</h3>
+                    @role('admin|merchant')
                     {!! Form::btnModalCreate('#employee-modal') !!}
+                    @endrole
                 </div>
                 <div class="block-content block-content-full">
                     <div class="table-responsive">
@@ -213,7 +185,7 @@
                 <div class="table-responsive block-content p-0">
                     <table class="table table-borderless table-striped table-vcenter block-table">
                         <tbody>
-                            @foreach($services as $code => $name)
+                            @foreach($outlet_services as $code => $name)
                             <tr>
                                <td>{{ $name }}</td>
                             </tr>

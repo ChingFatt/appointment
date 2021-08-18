@@ -49,22 +49,16 @@
         @yield('js_after')
         <script>
             jQuery(function () {
-                One.helpers(['maxlength', 'select2', 'datepicker', 'flatpickr']);
+                One.helpers(['maxlength', 'select2']);
             });
             jQuery('.js-select2').on('change', function(){
             });
-            // flatpickr(".js-flatpickr", {
-            //     minDate: "today",
-            //     dateFormat: "Y-m-d",
-            //     disable: ["2021-08-30", "2021-09-21", "2021-10-08"],
-            // });
-
-            // jQuery('.picker').datetimepicker({
-            //     datepicker: true,
-            //     timepicker: true,
-            //     disabledDates: ["2021-08-30", "2021-09-21", "2021-10-08"],
-            //     formatDate:'Y-m-d'
-            // });
+            jQuery(".js-slider").slick({
+                lazyLoad: true,
+                dots: true,
+                autoplay: true,
+                autoplaySpeed: 5000
+            });
         </script>
         @stack('scripts')
     </body>

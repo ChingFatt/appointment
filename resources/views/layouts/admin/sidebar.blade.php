@@ -25,6 +25,33 @@
                         <span class="nav-main-link-name text-capitalize">Dashboard</span>
                     </a>
                 </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
+                        <i class="nav-main-link-icon si si-cursor"></i>
+                        <span class="nav-main-link-name">Appointments</span>
+                    </a>
+                    <ul class="nav-main-submenu">
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->is('admin.calendar') ? ' active' : '' }}" href="{{ route('admin.calendar') }}">
+                                <span class="nav-main-link-name">Calendar</span>
+                            </a>
+                        </li>
+                        <li class="nav-main-item">
+                            <a class="nav-main-link{{ request()->is('admin.appointment.index') ? ' active' : '' }}" href="{{ route('admin.appointment.index') }}">
+                                <span class="nav-main-link-name">Listing</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @role('merchant')
+                <li class="nav-main-item">
+                    <a class="nav-main-link{{ request()->is('admin.merchant.show') ? ' active' : '' }}" href="{{ route('admin.merchant.show', Auth::user()->merchant_id) }}">
+                        <i class="nav-main-link-icon si si-cursor"></i>
+                        <span class="nav-main-link-name text-capitalize">Merchant</span>
+                    </a>
+                </li>
+                @endrole
+                @role('admin')
                 <li class="nav-main-heading">Setting</li>
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('admin.industry.index') ? ' active' : '' }}" href="{{ route('admin.industry.index') }}">
@@ -44,6 +71,13 @@
                         <span class="nav-main-link-name text-capitalize">Outlets</span>
                     </a>
                 </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link{{ request()->is('admin.user.index') ? ' active' : '' }}" href="{{ route('admin.user.index') }}">
+                        <i class="nav-main-link-icon si si-cursor"></i>
+                        <span class="nav-main-link-name text-capitalize">Users</span>
+                    </a>
+                </li>
+                @endrole
             </ul>
         </div>
         <!-- END Side Navigation -->
