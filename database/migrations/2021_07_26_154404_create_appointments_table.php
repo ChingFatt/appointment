@@ -24,7 +24,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreignId('merchant_id');
             $table->json('service_id');
             $table->foreignId('outlet_id');
-            $table->foreignId('employee_id');
+            $table->json('employee_id')->nullable();
             $table->string('date');
             $table->string('time');
             $table->string('end_time')->nullable();
@@ -32,6 +32,7 @@ class CreateAppointmentsTable extends Migration
             $table->string('comments')->nullable();
             $table->string('status');
             $table->foreignId('action_by')->nullable();
+            $table->string('remarks')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

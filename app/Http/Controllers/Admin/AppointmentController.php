@@ -4,12 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use App\Models\Employee;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Auth;
 
 class AppointmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Appointment::class, 'appointment');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -50,8 +56,29 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        $services = Service::whereIn('id', $appointment->services())->get('name')->implode('name', ', ');
-        return view('admin.appointments.show')->with(compact('appointment', 'services'));
+        //$services = Service::whereIn('id', $appointment->services())->get();
+        //$employees = Employee::whereIn('id', $appointment->employees())->get();
+
+        $services = $appointment->services();
+        $employees = $appointment->employees();
+
+        $preferred_employees = [];
+
+        foreach ($services as $service_key => $service_id) {
+            $service = Service::findOrFail($service_id);
+            foreach ($employees as $employee_key => $employee_id) {
+                $employee = Employee::where('id', $employee_id)->get();
+                if ($service_key == $employee_key) {
+                    if ($employee->isEmpty()) {
+                        $preferred_employees[$service->name] = 'Anyone';
+                    } else {
+                        $preferred_employees[$service->name] = $employee->first()->name;
+                    }
+                }
+            }
+        }
+
+        return view('admin.appointments.show')->with(compact('appointment', 'preferred_employees', 'services', 'employees'));
     }
 
     /**
@@ -102,7 +129,13 @@ class AppointmentController extends Controller
      */
     public function calendar()
     {
-        $data = Appointment::all();
+        //$this->authorize(Appointment::class, 'appointment');
+
+        if (Auth::user()->hasRole('merchant')) {
+            $data = Appointment::where('merchant_id', Auth::user()->merchant_id)->get();
+        } else {
+            $data = Appointment::all();
+        }
 
         $listing = [];
         foreach ($data as $appointment) {

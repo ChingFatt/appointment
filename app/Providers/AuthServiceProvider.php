@@ -5,9 +5,6 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
-use App\Models\Merchant;
-use App\Policies\MerchantPolicy;
-
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -16,8 +13,6 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-        'App\Models\Merchant' => 'App\Policies\MerchantPolicy',
-        'App\Models\Outlet' => 'App\Policies\OutletPolicy',
     ];
 
     /**

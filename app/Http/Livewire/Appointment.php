@@ -19,13 +19,13 @@ class Appointment extends Component
     public $services;
     public $duration;
     public $service_listing;
+
     public $selectedDay = NULL;
-    //public $selectedIndustry = NULL;
-    //public $selectedMerchant = NULL;
     public $selectedOutlet = NULL;
     public $selectedService = NULL;
     public $selectedDate = NULL;
     public $pickedIndustry = NULL;
+    public $selectedEmployee = NULL;
 
     public $fullname;
     public $phone;
@@ -58,7 +58,7 @@ class Appointment extends Component
         $this->merchants = collect();
         $this->outlets = Outlet::has('operating_hour')->where('merchant_id', $this->merchant->id)->get()->pluck('name', 'id')->toArray();
         $this->employees = collect();
-        $this->services = Service::where('merchant_id', $this->merchant->id)->get()->pluck('service_duration', 'id');
+        $this->services = collect();
     }
 
     public function render()
@@ -66,26 +66,10 @@ class Appointment extends Component
         return view('livewire.appointment');
     }
 
-    //public function updatedselectedIndustry($industry)
-    //{
-    //    if (!is_null($industry)) {
-    //        $this->merchants = Merchant::where('industry_id', $industry)->pluck('name', 'id');
-    //    }
-    //}
-
-    //public function pickedIndustry($industry)
-    //{
-    //    if (!is_null($industry)) {
-    //        $this->merchants = Merchant::where('industry_id', $industry)->pluck('name', 'id');
-    //    }
-    //}
-
-    //public function updatedselectedMerchant($merchant)
-    //{
-    //    if (!is_null($merchant)) {
-    //        $this->services = Service::where('merchant_id', $merchant)->pluck('name', 'id');
-    //    }
-    //}
+    public function updatedsselectedEmployee($employee)
+    {
+        dd($employee);
+    }
 
     public function updatedselectedService($service)
     {
@@ -93,34 +77,56 @@ class Appointment extends Component
         $this->duration = 0;
 
         if (!is_null($service)) {
+            $employees = [];
             foreach ($this->service_listing as $service) {
                 $this->duration += $service->duration;
+                $employees[$service->name] = Employee::where('service_codes', 'like', '%'.$service->service_code.'%')->get();
             }
-            //$service = Service::findOrFail($service->id);
-            //$this->outlets = Outlet::has('operating_hour')->where('service_codes', 'like', '%'.$service.'%')->pluck('name', 'id')->toArray();
-            //$this->employees = Employee::where('service_codes', 'like', '%'.$service.'%')->pluck('name', 'id');
-            //dd($duration);
             $this->dispatchBrowserEvent('updateDuration');
+            //dd($employees);
+            
+            $employee_listing = [];
+            if (count($employees) > 0) {
+                foreach ($employees as $service_name => $staff) {
+                    foreach ($staff as  $employee) {
+                        //$employee_listing[$service_name][$employee->id]['id'] = $employee->id;
+                        //$employee_listing[$service_name][$employee->id]['text'] = $employee->name;
+                        $employee_listing[$service_name][$employee->id] = $employee->name;
+                    }
+                }
+            }
+            $this->employees = $employee_listing;
+            //dd($employee_listing);
+            //$this->dispatchBrowserEvent('updateEmployee', ['employees' => $employee_listing]);
         }
     }
 
     public function updatedselectedOutlet($outlet)
     {
-        $employees = [];
-        $employees = Employee::where('outlet_id', $outlet)->get();
-        
-        $employee_listing = [];
-        if (count($employees) > 0) {
-            foreach ($employees as $employee) {
-                $employee_listing[$employee->id]['id'] = $employee->id;
-                $employee_listing[$employee->id]['text'] = $employee->name;
-            }
-        }
-        $this->dispatchBrowserEvent('updateEmployee', ['employees' => array_values($employee_listing)]);
-
         $daysOfWeekDisabled = [];
         if (!is_null($outlet)) {
             $outlet = Outlet::findOrFail($outlet);
+
+            $services = [];
+            $services = $outlet->services();
+            
+            $services_array = [];
+            foreach ($services as $code => $name) {
+                $services_array[] = $code;
+            }
+
+            $new_services = Service::whereIn('service_code', $services_array)->get();
+
+            $service_listing = [];
+            if (count($new_services) > 0) {
+                foreach ($new_services as $service) {
+                    $service_listing[$service->id]['id'] = $service->id;
+                    $service_listing[$service->id]['text'] = $service->name;
+                    //$service_listing[$service->id] = $service->name;
+                }
+            }
+            //$this->services = $service_listing;
+            $this->dispatchBrowserEvent('updateService', ['services' => array_values($service_listing)]);
 
             if (isset($outlet->operating_hour)) {
                 $operating_hours = $outlet->operating_hour->operating_hours;
@@ -154,7 +160,6 @@ class Appointment extends Component
                     $reserved[$time] = array($time, date('H:ia', strtotime($time) + 60));
                 }
             }
-            //array_push($reserved, $reserved[$time]);
 
             if (isset($outlet->operating_hour)) {
                 $operating_hours = $outlet->operating_hour->operating_hours;
@@ -176,10 +181,7 @@ class Appointment extends Component
                     }
                 }
             }
-
             $picker->put('reserved', array_values($reserved));
-            //dd(json_encode(array_values($reserved)));
-
             $this->dispatchBrowserEvent('updateTime', ['picker' => $picker]);
         }
     }

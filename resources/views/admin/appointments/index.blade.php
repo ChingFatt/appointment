@@ -27,7 +27,6 @@
     <div class="block block-rounded">
         <div class="block-header">
             <h3 class="block-title">Listing</h3>
-            {!! Form::btnCreate(route('admin.industry.create')) !!}
         </div>
         <div class="block-content block-content-full">
             <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
@@ -47,6 +46,7 @@
                 </thead>
                 <tbody>
                     @foreach ($appointments as $appointment)
+                    @can('view', $appointment)
                     <tr>
                         <td class="text-center">{{ $loop->iteration }}</td>
                         <td class="d-sm-table-cell">{{ $appointment->appointment_no }}</td>
@@ -61,6 +61,7 @@
                             {!! Form::btnEdit(route('admin.appointment.edit', $appointment)) !!}
                         </td>
                     </tr>
+                    @endcan
                     @endforeach
                 </tbody>
             </table>

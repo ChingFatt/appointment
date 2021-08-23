@@ -41,7 +41,7 @@ class MerchantPolicy
      */
     public function create(User $user)
     {
-        return $user->merchant_id === $merchant->id;
+        return $user->hasRole('admin');
     }
 
     /**

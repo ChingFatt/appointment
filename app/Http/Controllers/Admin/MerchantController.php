@@ -15,6 +15,7 @@ class MerchantController extends Controller
     {
         $this->authorizeResource(Merchant::class, 'merchant');
     }
+    
     /**
      * Display a listing of the resource.
      *

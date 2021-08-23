@@ -41,7 +41,7 @@ class OutletPolicy
      */
     public function create(User $user)
     {
-        return $user->merchant_id === $outlet->merchant_id;
+        return true;
     }
 
     /**

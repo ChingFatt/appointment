@@ -125,19 +125,6 @@
                                 </address>
                             </div>
                             <div style="width: 100%; height: 400px" id="map"></div>
-                            {{-- <iframe 
-                                width="100%" 
-                                height="400" 
-                                frameborder="0" 
-                                scrolling="no" 
-                                marginheight="0" 
-                                marginwidth="0" 
-                                loading="lazy" 
-                                class="m-0 p-0 d-block" 
-                                id="map" 
-                                src="https://maps.google.com/maps?q={{ $outlet->latitude }},{{ $outlet->longitude }}&z=18&amp;output=embed"
-                            >
-                            </iframe> --}}
                         </div>
                     </div>
                 </div>

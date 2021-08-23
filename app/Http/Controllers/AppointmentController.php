@@ -37,25 +37,31 @@ class AppointmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
+    {   
         if (isset($request->merchant_code)) {
             $merchant = Merchant::where('merchant_code', $request->merchant_code)->first();
             $outlet = Outlet::findOrFail($request->outlet_id);
             $interval = $outlet->operating_hour->interval;
 
-            $end_time = date("G:i:s", strtotime('+'.$request->duration.' minutes', strtotime($request->time)));
             $start_time = $request->time;
+            $end_time = date("G:i:s", strtotime('+'.$request->duration.' minutes', strtotime($request->time)));
             $rounded_end_time = date('g:ia', round(strtotime($end_time) / ($interval * 60)) * ($interval * 60));
+
+            foreach ($outlet->operating_hour->operating_hours as $day => $value) {
+                if (isset($value['start_time']) && $day == date('l', strtotime($request->date))) {
+                    $end_operating_hour = $value['end_time'];
+                }
+            }
+
+            if ($rounded_end_time > $end_operating_hour) {
+                return redirect()->route('appointment', $request->merchant_code)->withError('Total service duration exceeded operating hours. Please try again.');
+            }
 
             $appointments = Appointment::where('status', 'Pending')
                 ->where('outlet_id', $request->outlet_id)
                 ->where('date', $request->date)
                 ->where(function($query) use ($start_time,$rounded_end_time){
                     $query->whereTime('time', '>', $start_time);
-                    $query->whereTime('time', '<', $rounded_end_time);
-                })
-                ->orWhere(function($query) use ($start_time,$rounded_end_time){
-                    $query->whereTime('end_time', '>', $start_time);
                     $query->whereTime('end_time', '<', $rounded_end_time);
                 })
                 ->get()
@@ -65,6 +71,7 @@ class AppointmentController extends Controller
                 $request->merge([
                     'merchant_id'   => $merchant->id,
                     'industry_id'   => $merchant->industry_id,
+                    'employee_id'   => array_map(null, explode(',', $request->employee_id)),
                     'end_time'      => $rounded_end_time,
                     'status'        => 'Pending'
                 ]);
@@ -125,35 +132,7 @@ class AppointmentController extends Controller
 
     public function availability(Request $request)
     {
-        $picker = collect();
-        $outlet = Outlet::where('id', $request->outlet_id)->first();
-
-        if (isset($outlet->operating_hour)) {
-            $operating_hours = $outlet->operating_hour->operating_hours;
-            $picker->put('operating_hours', $outlet->operating_hour->operating_hours);
-            $picker->put('interval', $outlet->operating_hour->interval);
-
-            $daysOfWeekDisabled = [];
-
-            foreach ($operating_hours as $day => $value) {
-                if (empty($value['start_time']) && empty($value['end_time'])) {
-                    $daysOfWeekDisabled[] = date('w', strtotime($day));
-                    $picker->put('daysOfWeekDisabled', $daysOfWeekDisabled);
-                }
-
-                if (isset($value['start_time']) && $day == 'Friday') {
-                    $picker->put('start_time', $value['start_time']);
-                    $picker->put('end_time', $value['end_time']);
-                }
-
-                if (isset($value['rest_start_time']) && isset($value['rest_end_time']) && $day == 'Friday') {
-                    $picker->put('rest_start_time', $value['rest_start_time']);
-                    $picker->put('rest_end_time', $value['rest_end_time']);
-                }
-            }
-        }
-
-        return view('appointment.availability')->with(compact('picker')); 
+        //
     }
 
     public function appointment_no($appointment)
@@ -167,10 +146,12 @@ class AppointmentController extends Controller
 
     public function appointment($merchant)
     {
-        if (isset($merchant)) {
+        $validation = Merchant::where('merchant_code', $merchant)->first();
+
+        if (isset($validation)) {
             return view('appointment.index')->with(compact('merchant'));
         } else {
-
+            return redirect()->route('landing');
         }
     }
 }

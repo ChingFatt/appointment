@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\Employee;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Employee::class, 'employee');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -59,7 +65,10 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return view('admin.employees.show')->with(compact('employee'));
+        $today_appointments = Appointment::where('employee_id', 'like', '%'.$employee->id.'%')->where('date', date('Y-m-d'))->get();
+        $appointments = Appointment::where('employee_id', 'like', '%'.$employee->id.'%')->where('date', '!=', date('Y-m-d'))->get();
+
+        return view('admin.employees.show')->with(compact('employee', 'appointments', 'today_appointments'));
     }
 
     /**

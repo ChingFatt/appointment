@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class OperatingHourController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(OperatingHour::class, 'operating_hour');
+    }
+
     /**
      * Display a listing of the resource.
      *

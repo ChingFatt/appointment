@@ -6,7 +6,9 @@
                     <img class="img-fluid w-100" src="{{ asset('/images/banner1-1.jpg') }}" alt="">
                 </div>
                 <div>
-                    <img class="img-fluid w-100" src="{{ asset('/images/banner1-1.jpg') }}" alt="">
+                    <a href="/" target="_blank">
+                        <img class="img-fluid w-100" src="{{ asset('/images/banner1-1.jpg') }}" alt="">
+                    </a>
                 </div>
             </div>
         </div>
@@ -26,11 +28,11 @@
         <div class="col-lg-8 col-md-12">
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Appointment</h3>
+                    <h3 class="block-title">Book Your Appointment</h3>
                 </div>
                 <div class="block-content block-content-full">
                     <div>
-                        {!! Form::open(['route' => 'appointment.store', 'method' => 'post', 'files' => true]) !!}
+                        {!! Form::open(['route' => 'appointment.store', 'method' => 'post', 'files' => true, 'id' => 'appointment']) !!}
                         <div class="row">
                             <div class="col-md-12 col-lg-12">
                                 <div class="alert alert-info" role="alert">
@@ -82,16 +84,17 @@
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-4">
-                                <div class="form-group">
-                                    <label for="gender">Gender</label>
+                                <div class="form-group" wire:ignore>
+                                    <label for="gender">Gender <span class="text-muted small font-weight-light">(Optional)</span></label>
                                     {{ Form::select('gender', [
                                             'Male' => 'Male',
                                             'Female' => 'Female'
                                         ],
                                         null, [
-                                            'class'         => 'form-control', 
+                                            'class'         => 'js-select2 form-control', 
                                             'required'      => false, 
                                             'placeholder'   => '- Please Select -',
+                                            'data-placeholder'  => 'Choose one..',
                                             'autocomplete'  => 'off'
                                         ]
                                     ) }}
@@ -115,23 +118,6 @@
                                     ) }}
                                 </div>
                             </div>
-                            <div class="col-md-12 col-lg-6">
-                                <div class="form-group" wire:ignore>
-                                    <label for="employee">Preferred Employee <span class="text-muted small font-weight-light">(Optional)</span></label>
-                                    {{ Form::select('employee_id', 
-                                        $employees, 
-                                        null, [
-                                            'class'             => 'js-select2 form-control', 
-                                            'required'          => false, 
-                                            'autocomplete'      => 'off', 
-                                            'data-placeholder'  => 'Choose one..',
-                                            'placeholder'       => '- Please Select -',
-                                            'style'             => 'width: 100%;',
-                                            'id'                => 'employees'
-                                        ]
-                                    ) }}
-                                </div>
-                            </div>
                             <div class="col-md-12 col-lg-12">
                                 <div class="form-group required" wire:ignore>
                                     {{ Form::hidden('merchant_code', 
@@ -148,8 +134,7 @@
                                             'class'             => 'js-select2 form-control', 
                                             'required'          => true, 
                                             'autocomplete'      => 'off', 
-                                            'data-placeholder'  => 'Choose multiple..',
-                                            'placeholder'       => '- Please Select -',
+                                            'data-placeholder'  => 'Choose one or multiple..',
                                             'style'             => 'width: 100%;',
                                             'multiple'          => true,
                                             'id'                => 'services',
@@ -158,7 +143,24 @@
                                     ) }}
                                 </div>
                             </div>
-                            <div class="col-md-12 col-lg-3" id="datepicker">
+{{--                             <div class="col-md-12 col-lg-6">
+                                <div class="form-group" wire:ignore>
+                                    <label for="employee">Preferred Employee <span class="text-muted small font-weight-light">(Optional)</span></label>
+                                    {{ Form::select('employee_id', 
+                                        $employees, 
+                                        null, [
+                                            'class'             => 'js-select2 form-control', 
+                                            'required'          => false, 
+                                            'autocomplete'      => 'off', 
+                                            'data-placeholder'  => 'Choose one..',
+                                            'placeholder'       => '- Please Select -',
+                                            'style'             => 'width: 100%;',
+                                            'id'                => 'employees'
+                                        ]
+                                    ) }}
+                                </div>
+                            </div> --}}
+                            <div class="col-md-12 col-lg-4" id="datepicker">
                                 <div class="form-group required">
                                     <label for="date">Appointment Date</label>
                                     <div class="input-group">
@@ -171,10 +173,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-12 col-lg-3">
+                            <div class="col-md-12 col-lg-4">
                                 <div class="form-group required">
                                     <label for="date">Preferred Time</label>
-                                    <div class="input-group">
+                                    <div class="input-group" wire:ignore>
                                         <input type="text" class="time start form-control" id="time" name="time" placeholder="Preferred Time" autocomplete="off" required>
                                         <div class="input-group-append">
                                             <span class="input-group-text">
@@ -186,7 +188,7 @@
                             </div>
                             <div class="col-md-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="comments">Comments</label>
+                                    <label for="comments">Comments <span class="text-muted small font-weight-light">(Optional)</span></label>
                                     {{ Form::textarea('comments', 
                                         null, [
                                             'class'             => 'js-maxlength form-control', 
@@ -204,9 +206,6 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-alt-primary {{ ($errors->any()) ? 'disabled' : '' }}" {{ ($errors->any()) ? 'disabled' : '' }}>Book Appointment</button>
-                        {{ Form::hidden('duration', $duration ?? 0) }}
-                        {{ Form::close() }}
                     </div>
                 </div>
             </div>
@@ -214,18 +213,26 @@
         <div class="col-lg-4 col-md-12">
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
-                    <h3 class="block-title">Details</h3>
+                    <h3 class="block-title">Summary</h3>
                 </div>
                 <div class="block table-responsive block-content p-0" id="duration">
                 <table class="table table-borderless table-striped table-vcenter block-table">
                     <tbody>
                         @isset($service_listing)
-                        @foreach ($service_listing as $service)
+                        @forelse ($service_listing as $service)
                         <tr>
                             <td>{{ $service->name }}</td>
                             <td class="text-muted actions">{!! $service->durations !!}</td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="2" class="text-muted text-center">No selected services.</td>
+                        </tr>
+                        @endforelse
+                        @else
+                        <tr>
+                            <td colspan="2" class="text-muted text-center">No selected services.</td>
+                        </tr>
                         @endisset
                         <tr class="font-weight-bold" style="border-top:2px solid #000;background-color: #efefef;">
                             <td>Total Service Duration:</td>
@@ -235,6 +242,50 @@
                 </table>
                 </div>
             </div>
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Preferred Employee <span class="text-muted small font-weight-light">(Optional)</span></h3>
+                </div>
+                <div class="block block-content block-content-full">
+                    <input type="hidden" name="employee_id" id="employee_id" class="form-control">
+                    <div class="row">
+                        @isset($service_listing)
+                        @forelse ($service_listing as $service)
+                            <div class="col-md-12 col-lg-12">
+                                <div class="form-group" wire:ignore.self>
+                                    <label for="employee">{{ $service->name }}</label>
+                                    {{ Form::select('employees', 
+                                        $employees[$service->name], 
+                                        null, [
+                                            'class'             => 'form-control employees', 
+                                            'required'          => false, 
+                                            'autocomplete'      => 'off', 
+                                            'data-placeholder'  => 'Choose one..',
+                                            'placeholder'       => '- Please Select -',
+                                            'style'             => 'width: 100',
+                                            'id'                => 'employee'.$loop->iteration,
+                                            'wire:model.lazy'   => 'selectedEmployee.'.$loop->iteration
+                                        ]
+                                    ) }}
+                                </div>
+                            </div>
+                        @empty
+                        <div class="col-md-12 col-lg-12 text-muted text-center">
+                            No preferred employees.
+                        </div>
+                        @endforelse
+                        @else
+                        <div class="col-md-12 col-lg-12 text-muted text-center">
+                            No preferred employees.
+                        </div>
+                        @endisset
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn d-block w-100 shadow-sm btn-primary {{ ($errors->any()) ? 'disabled' : '' }}" {{ ($errors->any()) ? 'disabled' : '' }}>Book Appointment</button>
+            {{ Form::hidden('duration', $duration ?? 0) }}
+            {{ Form::close() }}
         </div>
     </div>
 </div>
@@ -242,7 +293,6 @@
 @push('scripts')
 <script>
 window.addEventListener('updateCalendar', event => {
-    //console.log(event);
     resetCalendar();
     One.block('state_toggle', '#datepicker');
     jQuery('.js-datepicker').datepicker({
@@ -259,7 +309,10 @@ window.addEventListener('updateCalendar', event => {
 })
 
 window.addEventListener('updateTime', event => {
+    jQuery('.time').val('');
     jQuery('.time').timepicker({
+        disableTextInput: true,
+        listWidth: 1,
         step: event.detail.picker.interval,
         minTime: event.detail.picker.start_time,
         maxTime: event.detail.picker.end_time,
@@ -269,11 +322,14 @@ window.addEventListener('updateTime', event => {
 })
 
 window.addEventListener('updateEmployee', event => {
-    console.log(event.detail.employees);
-    jQuery('#employees').select2().val(null).trigger("change");
-    jQuery('#employees').html('').select2({data: [{id: '', text: ''}]});
-    jQuery('#employees').select2({
-        data: event.detail.employees
+    jQuery('.employees').select2();
+})
+
+window.addEventListener('updateService', event => {
+    jQuery('#services').select2().val(null).trigger("destroy").trigger("change");
+    jQuery('#services').html('').select2({data: [{id: '', text: ''}]});
+    jQuery('#services').select2({
+        data: event.detail.services
     });
 })
 
@@ -298,8 +354,25 @@ jQuery('#services').on('change', function (e) {
     One.block('state_loading', '#duration');
 });
 
+jQuery('#employee').on('change', function (e) {
+    var data = jQuery(this).val();
+    @this.set('selectedEmployee', data);
+});
+
 jQuery('#time').on('change', function (){
     var data = jQuery(this).val();
+});
+
+jQuery('#appointment').submit(function() {
+    var employee_ids = [];
+    jQuery('.employees').each(function(i, obj) {
+        if (jQuery(this).val() != '') {
+            employee_ids.push(jQuery(this).val());
+        } else {
+            employee_ids.push('0');
+        }
+        jQuery('#employee_id').val(employee_ids);
+    });
 });
 
 jQuery("#checkall").click(function(){
@@ -313,10 +386,5 @@ jQuery("#checkall").click(function(){
         //jQuery('#services').select2({disabled:false});
     }
 });
-
-// jQuery('.industry-listing').on('click', function(e){
-//     e.preventDefault();
-//     jQuery('.industry-listing').removeClass('border-success');
-// });
 </script>
 @endpush

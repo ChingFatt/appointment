@@ -22,10 +22,6 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 require __DIR__.'/auth.php';
 
 Route::view('/pages/slick', 'pages.slick');
@@ -62,5 +58,7 @@ Route::group([], function ($subdomain) { //'subdomain' => '{merchant}.'.config('
 
     Route::get('{merchant}', [App\Http\Controllers\AppointmentController::class, 'appointment'])->name('appointment');
 
-    Route::view('/', 'landing');
+    Route::get('/', function () {
+        return view('landing');
+    })->name('landing');
 });

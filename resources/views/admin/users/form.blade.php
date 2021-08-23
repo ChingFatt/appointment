@@ -42,13 +42,20 @@
     <div class="col-md-12 col-lg-4">
         <div class="form-group">
             <label for="password">Password Generator</label>
-            {{ Form::text('password', 
-                null, [
-                    'class'         => 'form-control', 
-                    'required'      => true, 
-                    'autocomplete'  => 'off'
-                ]
-            ) }}
+            <div class="input-group">
+                {{ Form::text('password', 
+                    null, [
+                        'class'         => 'form-control', 
+                        'required'      => true, 
+                        'autocomplete'  => 'off',
+                        'minlength'     => 6,
+                        'id'            => 'password'
+                    ]
+                ) }}
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-alt-dark" id="generate">Generate</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-12 col-lg-6">
@@ -96,3 +103,16 @@
         @endif
     </div>
 </div>
+
+@push('scripts')
+<script>
+    jQuery('#generate').on('click', function(){
+        var randomChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var result = '';
+        for ( var i = 0; i < 8; i++ ) {
+            result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
+        }
+        jQuery('#password').val(result);
+    });
+</script>
+@endpush

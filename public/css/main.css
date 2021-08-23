@@ -1,7 +1,7 @@
 th.actions {
     width: 150px !important;
 }
-.block-table td {
+.block-table td, .block-table th{
     padding: 12px 20px !important;
 }
 .place-card.place-card-large { 

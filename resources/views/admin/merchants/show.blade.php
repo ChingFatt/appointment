@@ -49,7 +49,9 @@
             {!! Form::btnBack(route('admin.merchant.index')) !!}
             @endrole
             {!! Form::btnEdit(route('admin.merchant.edit', $merchant)) !!}
+            @role('admin')
             {!! Form::btnDelete() !!}
+            @endrole
         </div>
         <div class="block-content">
             <div class="row">
@@ -94,6 +96,41 @@
     </div>
     <div class="block block-rounded">
         <div class="block-header block-header-default">
+            <h3 class="block-title">Services ({{ count($merchant->services) }})</h3>
+            {!! Form::btnModalCreate('#service-modal') !!}
+        </div>
+        <div class="block-content block-content-full">
+            <div class="table-responsive">
+                <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Duration</th>
+                            <th class="d-none d-md-table-cell">Service Code</th>
+                            <th class="d-none d-md-table-cell">Created</th>
+                            <th class="actions">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($merchant->services as $service)
+                        <tr>
+                           <td>{{ $service->name }}</td>
+                           <td>{!! $service->durations !!}</td>
+                           <td class="d-none d-md-table-cell">{{ $service->service_code }}</td>
+                           <td class="d-none d-md-table-cell">{{ $service->created_at }}</td>
+                           <td>
+                                {!! Form::btnView(route('admin.service.show', $service)) !!}
+                                {!! Form::btnEdit(route('admin.service.edit', $service)) !!}
+                           </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="block block-rounded">
+        <div class="block-header block-header-default">
             <h3 class="block-title">Outlets ({{ count($merchant->outlets) }})</h3>
             {!! Form::btnModalCreate('#outlet-modal') !!}
         </div>
@@ -121,41 +158,6 @@
                            <td>
                                 {!! Form::btnView(route('admin.outlet.show', $outlet)) !!}
                                 {!! Form::btnEdit(route('admin.outlet.edit', $outlet)) !!}
-                           </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="block block-rounded">
-        <div class="block-header block-header-default">
-            <h3 class="block-title">Services ({{ count($merchant->services) }})</h3>
-            {!! Form::btnModalCreate('#service-modal') !!}
-        </div>
-        <div class="block-content block-content-full">
-            <div class="table-responsive">
-                <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Duration</th>
-                            <th class="d-none d-md-table-cell">Service Code</th>
-                            <th class="d-none d-md-table-cell">Created</th>
-                            <th class="actions">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($merchant->services as $service)
-                        <tr>
-                           <td>{{ $service->name }}</td>
-                           <td>{!! $service->durations !!}</td>
-                           <td class="d-none d-md-table-cell">{{ $service->service_code }}</td>
-                           <td class="d-none d-md-table-cell">{{ $service->created_at }}</td>
-                           <td>
-                                {!! Form::btnView(route('admin.service.show', $service)) !!}
-                                {!! Form::btnEdit(route('admin.service.edit', $service)) !!}
                            </td>
                         </tr>
                         @endforeach

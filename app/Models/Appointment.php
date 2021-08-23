@@ -37,6 +37,7 @@ class Appointment extends Model
 
     protected $casts = [
         'service_id' => 'json',
+        'employee_id' => 'json'
     ];
 
     public function setServiceIdAttribute($value)
@@ -48,9 +49,25 @@ class Appointment extends Model
     {
         return $this->attributes['service_id'] = (string) $value;
     }
+
     public function services()
     {
         return json_decode($this->attributes['service_id']);
+    }
+
+    public function setEmployeeIdAttribute($value)
+    {
+        $this->attributes['employee_id'] = json_encode($value);
+    }
+
+    public function getEmployeeIdAttribute($value)
+    {
+        return $this->attributes['employee_id'] = (string) $value;
+    }
+    
+    public function employees()
+    {
+        return json_decode($this->attributes['employee_id']);
     }
 
     public function industry()

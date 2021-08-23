@@ -8,7 +8,7 @@
                 <div class="block">
                     @role('admin|merchant')
                     <div class="block-header">
-                        <h3 class="block-title">Welcome to your app ({{ Auth::user()->getRoleNames() }})</h3>
+                        <h3 class="block-title">Welcome to your app ({{ Auth::user()->getRoleNames()->implode(',') }})</h3>
                     </div>
                     @endrole
                     <div class="block-content">

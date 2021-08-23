@@ -3,5 +3,11 @@
 ## About Laravel
 
 ```sh
+git pull https://github.com/ChingFatt/appointment.git
 composer install
+npm install && npm run dev
+php artisan telescope:install
+php artisan migrate
+php artisan db:seed
+php artisan storage:link
 ```

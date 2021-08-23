@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Service;
+use App\Models\Employee;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ServicePolicy
+class EmployeePolicy
 {
     use HandlesAuthorization;
 
@@ -25,12 +25,12 @@ class ServicePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Employee  $employee
      * @return mixed
      */
-    public function view(User $user, Service $service)
+    public function view(User $user, Employee $employee)
     {
-        return $user->merchant_id === $service->merchant_id;
+        return $user->merchant_id === $employee->outlet->merchant->id;
     }
 
     /**
@@ -48,34 +48,34 @@ class ServicePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Employee  $employee
      * @return mixed
      */
-    public function update(User $user, Service $service)
+    public function update(User $user, Employee $employee)
     {
-        return $user->merchant_id === $service->merchant_id;
+        return $user->merchant_id === $employee->outlet->merchant->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Employee  $employee
      * @return mixed
      */
-    public function delete(User $user, Service $service)
+    public function delete(User $user, Employee $employee)
     {
-        return $user->merchant_id === $service->merchant_id;
+        return $user->merchant_id === $employee->outlet->merchant->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Employee  $employee
      * @return mixed
      */
-    public function restore(User $user, Service $service)
+    public function restore(User $user, Employee $employee)
     {
         return false;
     }
@@ -84,10 +84,10 @@ class ServicePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Service  $service
+     * @param  \App\Models\Employee  $employee
      * @return mixed
      */
-    public function forceDelete(User $user, Service $service)
+    public function forceDelete(User $user, Employee $employee)
     {
         return false;
     }
