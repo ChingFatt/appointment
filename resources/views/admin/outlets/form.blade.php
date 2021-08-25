@@ -262,6 +262,7 @@
 @endif
 
 @push('scripts')
+@if ($action == 'edit')
 <script>
 jQuery('#getlocation').on('click', function(e){
     e.preventDefault();
@@ -411,7 +412,9 @@ function getSearchLocation(location) {
 
 // Now use the map as required...
 addMarkersToMap(map);
-
+</script>
+@endif
+<script>
 jQuery('#services').on('change', function(){
     var options = jQuery('#services option').length;
     var selected = jQuery(this).select2('data').length;

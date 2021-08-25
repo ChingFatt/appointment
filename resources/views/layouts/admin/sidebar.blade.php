@@ -20,7 +20,7 @@
         <div class="content-side">
             <ul class="nav-main">
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}" href="/admin/dashboard">
+                    <a class="nav-main-link{{ request()->is('admin/dashboard*') ? ' active' : '' }}" href="/admin/dashboard">
                         <i class="nav-main-link-icon si si-cursor"></i>
                         <span class="nav-main-link-name text-capitalize">Dashboard</span>
                     </a>
@@ -32,12 +32,12 @@
                     </a>
                     <ul class="nav-main-submenu">
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->is('admin.calendar') ? ' active' : '' }}" href="{{ route('admin.calendar') }}">
+                            <a class="nav-main-link{{ request()->is('admin/calendar*') ? ' active' : '' }}" href="{{ route('admin.calendar') }}">
                                 <span class="nav-main-link-name">Calendar</span>
                             </a>
                         </li>
                         <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->is('admin.appointment.index') ? ' active' : '' }}" href="{{ route('admin.appointment.index') }}">
+                            <a class="nav-main-link{{ request()->is('admin/appointment*') ? ' active' : '' }}" href="{{ route('admin.appointment.index') }}">
                                 <span class="nav-main-link-name">Listing</span>
                             </a>
                         </li>
@@ -45,7 +45,7 @@
                 </li>
                 @role('merchant')
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('admin.merchant.show') ? ' active' : '' }}" href="{{ route('admin.merchant.show', Auth::user()->merchant_id) }}">
+                    <a class="nav-main-link{{ request()->is('admin/merchant*') ? ' active' : '' }}" href="{{ route('admin.merchant.show', Auth::user()->merchant_id) }}">
                         <i class="nav-main-link-icon si si-cursor"></i>
                         <span class="nav-main-link-name text-capitalize">Merchant</span>
                     </a>
@@ -54,25 +54,25 @@
                 @role('admin')
                 <li class="nav-main-heading">Setting</li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('admin.industry.index') ? ' active' : '' }}" href="{{ route('admin.industry.index') }}">
+                    <a class="nav-main-link{{ request()->is('admin/industry*') ? ' active' : '' }}" href="{{ route('admin.industry.index') }}">
                         <i class="nav-main-link-icon si si-cursor"></i>
                         <span class="nav-main-link-name text-capitalize">Industries</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('admin.merchant.index') ? ' active' : '' }}" href="{{ route('admin.merchant.index') }}">
+                    <a class="nav-main-link{{ request()->is('admin/merchant*') ? ' active' : '' }}" href="{{ route('admin.merchant.index') }}">
                         <i class="nav-main-link-icon si si-cursor"></i>
                         <span class="nav-main-link-name text-capitalize">Merchants</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('admin.outlet.index') ? ' active' : '' }}" href="{{ route('admin.outlet.index') }}">
+                    <a class="nav-main-link{{ request()->is('admin/outlet*') ? ' active' : '' }}" href="{{ route('admin.outlet.index') }}">
                         <i class="nav-main-link-icon si si-cursor"></i>
                         <span class="nav-main-link-name text-capitalize">Outlets</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('admin.user.index') ? ' active' : '' }}" href="{{ route('admin.user.index') }}">
+                    <a class="nav-main-link{{ request()->is('admin/user*') ? ' active' : '' }}" href="{{ route('admin.user.index') }}">
                         <i class="nav-main-link-icon si si-cursor"></i>
                         <span class="nav-main-link-name text-capitalize">Users</span>
                     </a>

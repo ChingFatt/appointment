@@ -56,8 +56,8 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
-        //$services = Service::whereIn('id', $appointment->services())->get();
-        //$employees = Employee::whereIn('id', $appointment->employees())->get();
+        $services_listing = Service::whereIn('id', $appointment->services())->get();
+        $employees_listing = Employee::whereIn('id', $appointment->employees())->get();
 
         $services = $appointment->services();
         $employees = $appointment->employees();
@@ -78,7 +78,7 @@ class AppointmentController extends Controller
             }
         }
 
-        return view('admin.appointments.show')->with(compact('appointment', 'preferred_employees', 'services', 'employees'));
+        return view('admin.appointments.show')->with(compact('appointment', 'preferred_employees', 'services_listing', 'employees_listing'));
     }
 
     /**

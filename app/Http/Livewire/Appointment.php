@@ -80,24 +80,27 @@ class Appointment extends Component
             $employees = [];
             foreach ($this->service_listing as $service) {
                 $this->duration += $service->duration;
-                $employees[$service->name] = Employee::where('service_codes', 'like', '%'.$service->service_code.'%')->get();
+                $employee = Employee::where('service_codes', 'like', '%'.$service->service_code.'%')->get();
+                $employees[$service->name] = $employee ?? '';
             }
             $this->dispatchBrowserEvent('updateDuration');
-            //dd($employees);
             
             $employee_listing = [];
             if (count($employees) > 0) {
                 foreach ($employees as $service_name => $staff) {
-                    foreach ($staff as  $employee) {
-                        //$employee_listing[$service_name][$employee->id]['id'] = $employee->id;
-                        //$employee_listing[$service_name][$employee->id]['text'] = $employee->name;
-                        $employee_listing[$service_name][$employee->id] = $employee->name;
+                    if (count($staff) > 0) {
+                        foreach ($staff as $employee) {
+                            $employee_listing[$service_name][$employee->id] = $employee->name;
+                            //$employee_listing[$service_name][$employee->id]['id'] = $employee->id;
+                            //$employee_listing[$service_name][$employee->id]['text'] = $employee->name;
+                        }
+                    } else {
+                        $employee_listing[$service_name][0] = 'Anyone';
                     }
                 }
             }
             $this->employees = $employee_listing;
-            //dd($employee_listing);
-            //$this->dispatchBrowserEvent('updateEmployee', ['employees' => $employee_listing]);
+            $this->dispatchBrowserEvent('updateEmployee');
         }
     }
 
@@ -125,14 +128,14 @@ class Appointment extends Component
                     //$service_listing[$service->id] = $service->name;
                 }
             }
-            //$this->services = $service_listing;
+            $this->services = $service_listing;
             $this->dispatchBrowserEvent('updateService', ['services' => array_values($service_listing)]);
 
             if (isset($outlet->operating_hour)) {
                 $operating_hours = $outlet->operating_hour->operating_hours;
-
+                $week = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
                 foreach ($operating_hours as $day => $value) {
-                    if (empty($value['start_time']) && empty($value['start_time'])) {
+                    if (empty($value['start_time']) && empty($value['end_time']) && in_array($day, $week)) {
                         $daysOfWeekDisabled[] = date('w', strtotime($day));
                     }
                 }

@@ -127,7 +127,7 @@
                                             'autocomplete'      => 'off',
                                         ]
                                     ) }}
-                                    <label for="service">Service</label>
+                                    <label for="service">Services</label>
                                     {{ Form::select('service_id[]', 
                                         $services, 
                                         null, [
@@ -248,7 +248,7 @@
                 </div>
                 <div class="block block-content block-content-full">
                     <input type="hidden" name="employee_id" id="employee_id" class="form-control">
-                    <div class="row">
+                    <div class="row" id="preferred_employee">
                         @isset($service_listing)
                         @forelse ($service_listing as $service)
                             <div class="col-md-12 col-lg-12">
@@ -309,6 +309,7 @@ window.addEventListener('updateCalendar', event => {
 })
 
 window.addEventListener('updateTime', event => {
+    jQuery('.employees').select2();
     jQuery('.time').val('');
     jQuery('.time').timepicker({
         disableTextInput: true,
@@ -326,8 +327,8 @@ window.addEventListener('updateEmployee', event => {
 })
 
 window.addEventListener('updateService', event => {
-    jQuery('#services').select2().val(null).trigger("destroy").trigger("change");
-    jQuery('#services').html('').select2({data: [{id: '', text: ''}]});
+    jQuery('#preferred_employee').empty().trigger("change");
+    jQuery('#services').empty().trigger("change");
     jQuery('#services').select2({
         data: event.detail.services
     });

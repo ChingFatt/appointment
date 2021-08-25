@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\Service;
 use Illuminate\Http\Request;
 
@@ -55,7 +56,8 @@ class ServiceController extends Controller
      */
     public function show(Service $service)
     {
-        return view('admin.services.show')->with(compact('service'));
+        $employees = Employee::where('service_codes', 'like', '%'.$service->service_code.'%')->get();
+        return view('admin.services.show')->with(compact('service', 'employees'));
     }
 
     /**

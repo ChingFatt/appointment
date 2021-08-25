@@ -20,6 +20,7 @@
 @push('scripts')
 <script>
 jQuery('.time').timepicker({
+    listWidth: 1,
     step: {!! $picker['interval'] ?? 30 !!},
     minTime: '{!! $picker['start_time'] ?? '' !!}',
     maxTime: '{!! $picker['end_time'] ?? '' !!}',

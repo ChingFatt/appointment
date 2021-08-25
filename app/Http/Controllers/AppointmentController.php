@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Welcome;
 use App\Models\Appointment;
 use App\Models\Merchant;
 use App\Models\Outlet;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class AppointmentController extends Controller
 {
@@ -76,7 +78,9 @@ class AppointmentController extends Controller
                     'status'        => 'Pending'
                 ]);
                 $appointment = Appointment::create($request->all());
-                $this->appointment_no($appointment); 
+                $this->appointment_no($appointment);
+
+                Mail::to($request->email)->send(new Welcome($request));
 
                 return redirect()->route('appointment', $request->merchant_code)->withSuccess('Thank you. Appointment has been made.');
             }

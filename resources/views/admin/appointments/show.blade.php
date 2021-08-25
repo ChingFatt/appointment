@@ -120,7 +120,9 @@
                             @foreach($preferred_employees as $service => $employee)
                             <tr>
                                <td>{{ $service ?? '' }}</td>
-                               <td>{{ $employee ?? '' }}</td>
+                               <td>
+                                    {{ $employee ?? '' }}
+                                </td>
                             </tr>
                             @endforeach
                         </tbody>

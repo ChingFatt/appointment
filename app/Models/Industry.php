@@ -18,4 +18,9 @@ class Industry extends Model
         'name',
         'description'
     ];
+
+    public function merchants()
+    {
+        return $this->hasMany('App\Models\Merchant');
+    }
 }
