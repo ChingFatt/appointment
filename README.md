@@ -5,13 +5,18 @@ https://docs.google.com/document/d/1V0E4hUYF0qyvqSmrbqx5W8005HVION28cF6vlr9MVAQ/
 
 ## About Appointment System
 
-Command to run:
+Installation
 ```sh
 git pull https://github.com/ChingFatt/appointment.git
 composer install
 npm install && npm run dev
 php artisan telescope:install
+```
+
+Commands to run
+```sh
 php artisan migrate
 php artisan db:seed
 php artisan storage:link
+php artisan optimize
 ```
