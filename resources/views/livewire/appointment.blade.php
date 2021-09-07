@@ -83,13 +83,17 @@
                                     @error('email') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                             </div>
+                            @php
+                            $gender = [
+                                'Male' => 'Male',
+                                'Female' => 'Female'
+                            ];
+                            @endphp
                             <div class="col-md-12 col-lg-4">
                                 <div class="form-group" wire:ignore>
                                     <label for="gender">Gender <span class="text-muted small font-weight-light">(Optional)</span></label>
-                                    {{ Form::select('gender', [
-                                            'Male' => 'Male',
-                                            'Female' => 'Female'
-                                        ],
+                                    {{ Form::select('gender', 
+                                        $gender,
                                         null, [
                                             'class'         => 'js-select2 form-control', 
                                             'required'      => false, 
@@ -283,7 +287,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn d-block w-100 shadow-sm btn-primary {{ ($errors->any()) ? 'disabled' : '' }}" {{ ($errors->any()) ? 'disabled' : '' }}>Book Appointment</button>
+            <button type="submit" class="btn d-block w-100 mb-4 shadow-sm btn-primary {{ ($errors->any()) ? 'disabled' : '' }}" {{ ($errors->any()) ? 'disabled' : '' }}>Book Appointment</button>
             {{ Form::hidden('duration', $duration ?? 0) }}
             {{ Form::close() }}
         </div>
@@ -302,7 +306,7 @@ window.addEventListener('updateCalendar', event => {
         autoclose: true,
         multidate: false,
         daysOfWeekDisabled: event.detail.daysOfWeekDisabled,
-        datesDisabled: []
+        datesDisabled: event.detail.datesDisabled
     }).on('changeDate', function(e) {
         @this.set('selectedDate', [jQuery('#date').val(), jQuery('#outlet').val()]);
     });
@@ -350,7 +354,7 @@ jQuery('#outlet').on('change', function (e) {
 });
 
 jQuery('#services').on('change', function (e) {
-    var data = jQuery(this).val();
+    var data = jQuery(this).val();//[jQuery('#outlet').val(), jQuery(this).val()];
     @this.set('selectedService', data);
     One.block('state_loading', '#duration');
 });

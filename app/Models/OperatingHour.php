@@ -19,27 +19,26 @@ class OperatingHour extends Model
         'operating_hours',
         'interval',
         'capacity',
-        'rest_time'
+        'rest_time',
+        'public_holidays'
     ];
 
     protected $casts = [
         'operating_hours' => 'json',
+        'public_holidays' => 'json',
     ];
-
-    public function setOperatingHourAttribute($value)
-    {
-        $this->attributes['operating_hours'] = json_encode($value);
-    }
-
-    public function getOperatingHourAttribute($value)
-    {
-        return $this->attributes['operating_hours'] = (string) $value;
-    }
 
     public function week()
     {
-        //$week = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
-        return $week = array('Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday');
+        return [
+            'Sunday'    => 'Sunday',
+            'Monday'    => 'Monday',
+            'Tuesday'   => 'Tuesday',
+            'Wednesday' => 'Wednesday',
+            'Thursday'  => 'Thursday',
+            'Friday'    => 'Friday',
+            'Saturday'  => 'Saturday',
+        ];
     }
 
     public function outlet()

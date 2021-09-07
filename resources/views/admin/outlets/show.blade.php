@@ -84,7 +84,25 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group">
-                                <label for="example-text-input">Published</label>
+                                <label for="example-text-input">Email</label>
+                                <div>{{ $outlet->email }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="example-text-input">Phone</label>
+                                <div>{{ $outlet->phone }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="example-text-input">Description</label>
+                                <div>{{ $outlet->description }}</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label for="example-text-input">Status</label>
                                 <div>{!! $outlet->published !!}</div>
                             </div>
                         </div>
@@ -168,6 +186,9 @@
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Services</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                    </div>
                 </div>
                 <div class="table-responsive block-content p-0">
                     <table class="table table-borderless table-striped table-vcenter block-table">
@@ -184,19 +205,20 @@
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Operating Hours</h3>
-                    @empty ($outlet->operating_hour)
-                    {!! Form::btnModalCreate('#operating-modal') !!}
-                    @else
-                    {!! Form::btnEdit(route('admin.operating_hour.edit', $outlet->operating_hour->id)) !!}
-                    @endempty
+                    <div class="block-options">
+                        @empty ($outlet->operating_hour)
+                        {!! Form::btnModalCreate('#operating-modal') !!}
+                        @else
+                        {!! Form::btnEdit(route('admin.operating_hour.edit', $outlet->operating_hour->id)) !!}
+                        @endempty
+                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                    </div>
+                    
                 </div>
                 @isset ($outlet->operating_hour)
                 <div class="table-responsive block-content p-0">
                     <table class="table table-borderless table-striped table-vcenter block-table">
                         <tbody>
-                            @php
-                                $week = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-                            @endphp
                             @foreach($week as $day)
                                 @if(array_key_exists($day, $picker['operating_hours']))
                                     @php
@@ -223,6 +245,33 @@
                 </div>
                 @endisset
             </div>
+            @isset ($outlet->operating_hour->public_holidays)
+            <div class="block block-rounded">
+                 <div class="block-header block-header-default">
+                    <h3 class="block-title">Public Holidays</h3>
+                    <div class="block-options">
+                        <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
+                    </div>
+                </div>
+                <div class="table-responsive block-content p-0">
+                    <table class="table table-borderless table-striped table-vcenter block-table">
+                        <tbody>
+                            @foreach ($outlet->operating_hour->public_holidays as $date => $holiday)
+                                <tr>
+                                    <td>
+                                        <div class="font-weight-bold">
+                                            {{ $date }}
+                                        </div>
+                                        {{ $holiday['name'] }}
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @endisset
         </div>
     </div>
 </div>
@@ -280,32 +329,6 @@
 
 @push('scripts')
 <script>
-jQuery('.js-datepicker').datepicker({
-    startDate: '0d',
-    todayHighlight: true,
-    autoclose: true,
-    multidate: true,
-    daysOfWeekDisabled: [{!! json_encode($picker['daysOfWeekDisabled'] ?? '') !!}],
-    datesDisabled: [
-        "2021-08-01",
-        "2021-08-15",
-        "2021-08-31"
-    ]
-}).on('changeDate', function(e) {
-    console.log('changed');
-});;
-
-jQuery('.time').timepicker({
-    listWidth: 1,
-    step: {!! $picker['interval'] ?? 30 !!},
-    minTime: '{!! $picker['start_time'] ?? '' !!}',
-    maxTime: '{!! $picker['end_time'] ?? '' !!}',
-    forceRoundTime: false,
-    disableTimeRanges: [
-        [{!! json_encode($picker['rest_start_time'] ?? '') !!}, {!! json_encode($picker['rest_end_time'] ?? '') !!}]
-    ]
-});
-
 jQuery('.datepair.operating-hour').datepair({
     defaultTimeDelta: 8 * 60 * 60 * 1000,
 });

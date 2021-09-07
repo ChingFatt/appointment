@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\OperatingHour;
 use Illuminate\Http\Request;
+use Rinvex\Country\Models\Country;
 
 class OperatingHourController extends Controller
 {
@@ -30,7 +31,8 @@ class OperatingHourController extends Controller
      */
     public function create()
     {
-        return view('admin.operating_hours.create');
+        $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
+        return view('admin.operating_hours.create')->with(compact('countries'));
     }
 
     /**
@@ -64,7 +66,16 @@ class OperatingHourController extends Controller
      */
     public function edit(OperatingHour $operatingHour)
     {
-        return view('admin.operating_hours.edit')->with(compact('operatingHour'));
+        $years[date('Y')] = date('Y');
+
+        for ($x = 1; $x < 5; $x++) {
+            $loop_year = date("Y", strtotime("+ ".$x." year"));
+            $years[$loop_year] = $loop_year;
+        }
+
+        $public_holidays = $operatingHour->public_holidays;
+        $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
+        return view('admin.operating_hours.edit')->with(compact('operatingHour', 'countries', 'years', 'public_holidays'));
     }
 
     /**
@@ -76,6 +87,33 @@ class OperatingHourController extends Controller
      */
     public function update(Request $request, OperatingHour $operatingHour)
     {
+        if (isset($request->public_holidays)) {
+            $public_holidays = [];
+            $holidays = $request->public_holidays;
+
+            foreach ($holidays as $date => $holiday) {
+                $ph     = (empty($holiday['ph'])) ? false : true;
+                $eve    = (empty($holiday['eve'])) ? false : true;
+
+                $date = date('Y-m-d', strtotime($date));
+
+                $public_holidays[$date] = [
+                    'name'  => $holiday['name'],
+                    'ph'    => $ph,
+                    'eve'   => $eve
+                ];
+            }
+
+            //dd($public_holidays);
+
+            $request->merge([
+                'public_holidays' => collect($public_holidays)->toArray()
+            ]);
+        }
+
+        $request->merge([
+            'operating_hours' => collect($request->operating_hours)->toArray()
+        ]);
         $operatingHour->update($request->except('_method', '_token'));
         return redirect()->route('admin.outlet.show', $request->outlet_id);
     }

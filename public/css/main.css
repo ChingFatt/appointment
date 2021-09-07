@@ -43,3 +43,6 @@ th.actions {
 .datepicker table tr td{
     border-radius: 0;
 }
+.pagination{
+    margin-bottom: 0 !important;
+}

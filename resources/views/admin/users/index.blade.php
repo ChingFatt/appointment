@@ -39,6 +39,7 @@
                             <th class="d-none d-md-table-cell text-center" style="width: 80px;">#</th>
                             <th>Name</th>
                             <th>Role</th>
+                            <th>Email</th>
                             <th class="actions">Actions</th>
                         </tr>
                     </thead>
@@ -48,6 +49,7 @@
                             <td class="d-none d-md-table-cell text-center">{{ $loop->iteration }}</td>
                             <td class="d-sm-table-cell">{{ $user->name }}</td>
                             <td class="d-sm-table-cell">{{ $user->getRoleNames()->implode(',') }}</td>
+                            <td class="d-sm-table-cell">{{ $user->email }}</td>
                             <td>
                                 {{-- @role('admin')
                                 {!! Form::btnView(route('admin.user.show', $user)) !!}

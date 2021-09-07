@@ -28,9 +28,7 @@
 @endsection
 
 @section('content')
-    <!-- Page Content -->
     <div class="content">
-        <!-- Dynamic Table Full -->
         <div class="block block-rounded">
             <div class="block-header">
                 <h3 class="block-title">Listing</h3>
@@ -39,12 +37,9 @@
                 @endrole
             </div>
             <div class="block-content block-content-full">
-                {{-- {{ $dataTable->table() }} --}}
-                <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
-                <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
+                <table class="table table-borderless table-striped table-vcenter ajax-table">
                     <thead>
                         <tr>
-                            <th class="d-none d-md-table-cell text-center" style="width: 80px;">#</th>
                             <th>Name</th>
                             <th>Merchant Code</th>
                             <th class="d-none d-md-table-cell">Industry</th>
@@ -56,7 +51,6 @@
                         @foreach ($merchants as $merchant)
                         @can('view-any', $merchant)
                         <tr>
-                            <td class="d-none d-md-table-cell text-center">{{ $loop->iteration }}</td>
                             <td class="d-sm-table-cell">{{ $merchant->name }}</td>
                             <td class="d-sm-table-cell">{{ $merchant->merchant_code }}</td>
                             <td class="d-none d-md-table-cell">{{ $merchant->industry->name }}</td>
@@ -70,9 +64,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                <x-pagination :model="$merchants"/>
             </div>
         </div>
-        <!-- END Dynamic Table Full -->
     </div>
-    <!-- END Page Content -->
 @endsection

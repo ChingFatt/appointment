@@ -49,7 +49,7 @@ class Outlet extends Model
 
     public function getPublishedAttribute($value)
     {
-        return $this->attributes['is_publish'] ? '<span class="badge badge-success">Published</span>' : '<span class="badge badge-warning">Unpublished</span>';
+        return $this->attributes['is_publish'] ? '<span class="bg-success-light text-success font-size-sm font-w600 px-2 py-1 rounded">Published</span>' : '<span class="bg-warning-light text-warning font-size-sm font-w600 px-2 py-1 rounded">Unpublished</span>';
     }
 
     public function merchant()

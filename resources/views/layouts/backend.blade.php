@@ -58,7 +58,7 @@
         @yield('js_after')
         <script>
             jQuery(function () {
-                One.helpers(['maxlength', 'select2', 'datepicker', 'fullcalendar']);
+                One.helpers(['maxlength', 'select2', 'datepicker', 'fullcalendar','sparkline', 'table-tools-checkable']);
             });
             jQuery('.modal').on('hidden.bs.modal', function () {
                 jQuery('.modal form')[0].reset();

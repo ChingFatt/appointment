@@ -127,6 +127,14 @@
                     </tbody>
                 </table>
             </div>
+            {{-- <div class="row align-items-center justify-content-between">
+                <div class="col col-auto">
+                    Page <strong>{{ $merchant_services->currentPage() }}</strong> of <strong>{{ $merchant_services->lastPage() }}</strong>
+                </div>
+                <div class="col col-auto">
+                    {{ $merchant_services->links() }}
+                </div>
+            </div> --}}
         </div>
     </div>
     <div class="block block-rounded">

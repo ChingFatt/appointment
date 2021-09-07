@@ -95,15 +95,12 @@ class Appointment extends Model
         return $this->belongsTo('App\Models\Employee', 'employee_id');
     }
 
-    public function getAppointmentStatusAttribute($value)
+    public function getStatusColorAttribute($value)
     {
-        if ($this->attributes['status'] == 'Pending') {
-            return '<span class="badge badge-warning">Pending</span>';
-        } elseif ($this->attributes['status'] == 'Scheduled') {
-            return '<span class="badge badge-success">Scheduled</span>';
-        } elseif ($this->attributes['status'] == 'Cancelled') {
-            return '<span class="badge badge-danger">Cancelled</span>';
-        }
+        return [
+            'Scheduled' => 'success',
+            'Cancelled' => 'danger',
+        ][$this->status] ?? 'warning';
     }
 
     public function user()

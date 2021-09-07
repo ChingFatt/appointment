@@ -1,27 +1,31 @@
+@php
+    $route = Route::currentRouteAction();
+    $action = substr($route, strpos($route, '@') + 1);
+@endphp
+
 @section('css_before')
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
+    @if ($action == 'edit')
     <link rel="stylesheet" type="text/css" href="https://js.api.here.com/v3/3.1/mapsjs-ui.css" />
+    @endif
 @endsection
 
 @section('js_after')
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+    @if ($action == 'edit')
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-core.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
+    @endif
 @endsection
 
 @sectionMissing('form')
     {!! Form::open(['route' => 'admin.outlet.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
 @endif
-
-@php
-    $route = Route::currentRouteAction();
-    $action = substr($route, strpos($route, '@') + 1);
-@endphp
 
 @yield('form')
 <div class="row">
@@ -250,16 +254,7 @@
         </div>
     </div>
 </div>
-@if ($action == 'create' || $action == 'edit')
-<div class="row">
-    <div class="col-md-12 col-lg-6">
-        <div class="form-group">
-            {!! Form::btnSave() !!}
-            {{ Form::close() }}
-        </div>
-    </div>
-</div>
-@endif
+<x-forms.button/>
 
 @push('scripts')
 @if ($action == 'edit')

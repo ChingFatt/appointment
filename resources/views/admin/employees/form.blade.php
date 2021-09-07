@@ -67,16 +67,7 @@
         </div>
     </div>
 </div>
-@if ($action == 'create' || $action == 'edit')
-<div class="row">
-    <div class="col-md-12 col-lg-6">
-        <div class="form-group">
-            {!! Form::btnSave() !!}
-            {{ Form::close() }}
-        </div>
-    </div>
-</div>
-@endif
+<x-forms.button/>
 
 @push('scripts')
 <script>

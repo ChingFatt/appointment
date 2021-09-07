@@ -25,7 +25,7 @@
                         <span class="nav-main-link-name text-capitalize">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-main-item">
+                <li class="nav-main-item{{ (request()->is('admin/appointment*') || request()->is('admin/calendar*')) ? ' open' : '' }}">
                     <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
                         <i class="nav-main-link-icon si si-cursor"></i>
                         <span class="nav-main-link-name">Appointments</span>

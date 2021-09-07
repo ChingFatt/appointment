@@ -94,7 +94,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label for="example-text-input">Status</label>
-                                <div>{!! $appointment->appointment_status !!}</div>
+                                <div><span class="badge badge-{!! $appointment->status_color !!}">{{ $appointment->status }}</span></div>
                             </div>
                         </div>
                         @isset($appointment->action_by)

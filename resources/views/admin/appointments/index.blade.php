@@ -55,7 +55,9 @@
                         <td class="d-sm-table-cell">{{ $appointment->outlet->outlet_code }}</td>
                         <td class="d-sm-table-cell">{{ $appointment->date }}</td>
                         <td class="d-sm-table-cell">{{ $appointment->time }}</td>
-                        <td class="d-sm-table-cell">{!! $appointment->appointment_status !!}</td>
+                        <td class="d-sm-table-cell">
+                            <span class="bg-{!! $appointment->status_color !!}-light text-{!! $appointment->status_color !!} font-size-sm font-w600 px-2 py-1 rounded">{{ $appointment->status }}</span>
+                        </td>
                         <td>
                             {!! Form::btnView(route('admin.appointment.show', $appointment)) !!}
                             {!! Form::btnEdit(route('admin.appointment.edit', $appointment)) !!}

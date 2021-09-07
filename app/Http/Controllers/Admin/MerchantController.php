@@ -23,7 +23,7 @@ class MerchantController extends Controller
      */
     public function index(MerchantDataTable $dataTable)
     {
-        $merchants = Merchant::with('industry')->latest()->get();
+        $merchants = Merchant::with('industry')->latest()->paginate();
         return view('admin.merchants.index')->with(compact('merchants'));
         //return $dataTable->render('admin.merchants.index');
         //return datatables(Merchant::all())->toJson();
@@ -66,6 +66,8 @@ class MerchantController extends Controller
     public function show(Merchant $merchant)
     {
         //$this->authorize('view', $merchant);
+        //$merchant_services = Merchant::paginate(5, ['*'], 'merchant')->withQueryString();
+        //$merchant_outlets = Industry::paginate(5, ['*'], 'industry')->withQueryString();
         $services = $merchant->services->pluck('name', 'service_code');
         return view('admin.merchants.show')->with(compact('merchant', 'services'));
     }

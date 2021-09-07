@@ -9,7 +9,7 @@ class HtmlBuilder extends \Collective\Html\FormBuilder {
     }
 
     public function btnView($url = null, $label = null) {
-        return '<a href="'.$url.'" class="btn btn-sm btn-alt-warning" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-fw fa-eye"></i>'.$label.'</a>';
+        return '<a href="'.$url.'" class="btn btn-sm btn-alt-info" data-toggle="tooltip" data-placement="top" title="View"><i class="far fa-fw fa-eye"></i>'.$label.'</a>';
     }
     
     public function btnEdit($url = null, $label = null) {

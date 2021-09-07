@@ -70,15 +70,6 @@
                 <label class="custom-control-label" for="is_publish"></label>
             </div>
         </div>
-        @php
-            $route = Route::currentRouteAction();
-            $action = substr($route, strpos($route, '@') + 1);
-        @endphp
-        @if ($action == 'create' || $action == 'edit')
-        <div class="form-group">
-            {!! Form::btnSave() !!}
-            {{ Form::close() }}
-        </div>
-        @endif
+        <x-forms.button/>
     </div>
 </div>

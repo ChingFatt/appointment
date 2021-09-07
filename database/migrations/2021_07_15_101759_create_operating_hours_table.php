@@ -19,7 +19,7 @@ class CreateOperatingHoursTable extends Migration
             $table->json('operating_hours')->nullable();
             $table->integer('interval')->nullable();
             $table->integer('capacity')->nullable();
-            $table->string('rest_time')->nullable();
+            $table->json('public_holidays')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

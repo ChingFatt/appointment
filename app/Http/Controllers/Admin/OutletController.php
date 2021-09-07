@@ -7,6 +7,7 @@ use App\Models\Outlet;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Rinvex\Country\Models\Country;
 
 class OutletController extends Controller
 {
@@ -69,35 +70,28 @@ class OutletController extends Controller
      */
     public function show(Outlet $outlet)
     {       
+        $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
         $picker = collect();
+
         if (isset($outlet->operating_hour)) {
             $operating_hours = $outlet->operating_hour->operating_hours;
-            $picker->put('operating_hours', $outlet->operating_hour->operating_hours);
+            $picker->put('operating_hours', $operating_hours);
             $picker->put('interval', $outlet->operating_hour->interval);
 
             $daysOfWeekDisabled = [];
 
-            foreach ($operating_hours as $day => $value) {
+            foreach (collect($operating_hours)->toArray() as $day => $value) {
                 if (empty($value['start_time'])) {
                     $daysOfWeekDisabled[] = date('w', strtotime($day));
                     $picker->put('daysOfWeekDisabled', $daysOfWeekDisabled);
                 }
-
-                if (isset($value['start_time']) && $day == 'Friday') {
-                    $picker->put('start_time', $value['start_time']);
-                    $picker->put('end_time', $value['end_time']);
-                }
-
-                if (isset($value['rest_start_time']) && isset($value['rest_end_time']) && $day == 'Friday') {
-                    $picker->put('rest_start_time', $value['rest_start_time']);
-                    $picker->put('rest_end_time', $value['rest_end_time']);
-                }
             }
         }
 
+        $week = $outlet->operating_hour->week();
         $services = $outlet->merchant->services->pluck('name', 'service_code');
         $outlet_services = $outlet->services();
-        return view('admin.outlets.show')->with(compact('outlet', 'services', 'outlet_services', 'picker'));
+        return view('admin.outlets.show')->with(compact('outlet', 'services', 'outlet_services', 'picker', 'countries', 'week'));
     }
 
     /**

@@ -3,6 +3,11 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Pagination\Paginator;
+use App\Models\Appointment;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +28,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Schema::defaultStringLength(255);
+
+        Paginator::useBootstrap();
+
+        //View::composer('*', function ($view) {
+        //    $appointment_notification = Appointment::where('status', 'Pending')->latest()->get();
+        //    $view->with('appointment_notification', $appointment_notification);
+        //});
+
+        Builder::macro('search', function ($field, $string) {
+            return $string ? $this->where($field, 'like', '%'.$string.'%') : $this;
+        });
     }
 }
