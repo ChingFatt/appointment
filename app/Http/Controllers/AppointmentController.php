@@ -82,7 +82,7 @@ class AppointmentController extends Controller
 
                 Mail::to($request->email)->bcc(['outlet7@software.com'])->send(new Welcome($request));
 
-                return redirect()->route('appointment', $request->merchant_code)->withSuccess('Thank you. Appointment has been made.');
+                return redirect()->route('appointment', $request->merchant_code)->withSuccess('Thank you. Your appointment has been made.');
             }
 
             return redirect()->route('appointment', $request->merchant_code)->withError('Insufficient time slot. Please try again.');
