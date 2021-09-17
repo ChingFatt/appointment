@@ -33,19 +33,21 @@
     </head>
     <body>
         <div id="page-loader" class="show"></div>
-        <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-scroll page-header-fixed main-content-narrow">
-
-            @include('layouts.admin.sidebar')
-            @include('layouts.admin.header')
+        <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-overlay-hover side-scroll page-header-fixed main-content-narrow">
+            @yield('aside')
+            <x-layout.admin.sidebar/>
+            <x-layout.admin.header/>
             
             <main id="main-container">
                 <div class="bg-body-light">
-                    @includeWhen(Route::currentRouteName() != 'admin.dashboard.index', 'layouts.admin.breadcrumb')
+                    @if (Route::currentRouteName() != 'admin.dashboard.index')
+                    <x-layout.admin.breadcrumb/>
+                    @endif
                 </div>
                 @yield('content')
             </main>
 
-            @include('layouts.admin.footer')
+            <x-layout.admin.footer/>
         </div>
         <!-- END Page Container -->
         
@@ -55,6 +57,7 @@
         <!-- Laravel Scaffolding JS -->
         <script src="{{ mix('/js/laravel.app.js') }}"></script>
 
+        @stack('js_before')
         @yield('js_after')
         <script>
             jQuery(function () {

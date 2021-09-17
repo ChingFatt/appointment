@@ -1,14 +1,11 @@
-@extends('layouts.backend')
-
 @section('form')
     {!! Form::model($operatingHour, ['route' => ['admin.operating_hour.update', $operatingHour], 'method' => 'put', 'files' => true]) !!}
 @endsection
 
-@section('content')
+<x-layout.backend>
 <div class="content">
     @include('admin.operating_hours.form')
 </div>
-@endsection
 
 @push('scripts')
 <script>
@@ -31,3 +28,4 @@ jQuery('.datepair.rest-time').datepair({
 });
 </script>
 @endpush
+</x-layout.backend>

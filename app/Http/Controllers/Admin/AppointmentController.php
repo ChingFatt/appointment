@@ -23,7 +23,12 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = Appointment::with('industry', 'merchant', 'outlet')->latest()->get();
+        if (Auth::user()->hasRole('merchant')) {
+            $appointments = Appointment::with('industry', 'merchant', 'outlet')->where('merchant_id', Auth::user()->merchant_id)->latest()->paginate();
+        } else {
+            $appointments = Appointment::with('industry', 'merchant', 'outlet')->latest()->paginate();
+        }
+
         return view('admin.appointments.index')->with(compact('appointments'));
     }
 
@@ -59,26 +64,40 @@ class AppointmentController extends Controller
         $services_listing = Service::whereIn('id', $appointment->services())->get();
         $employees_listing = Employee::whereIn('id', $appointment->employees())->get();
 
-        $services = $appointment->services();
+        //$services = $appointment->services();
         $employees = $appointment->employees();
 
         $preferred_employees = [];
-
-        foreach ($services as $service_key => $service_id) {
-            $service = Service::findOrFail($service_id);
-            foreach ($employees as $employee_key => $employee_id) {
-                $employee = Employee::where('id', $employee_id)->get();
-                if ($service_key == $employee_key) {
-                    if ($employee->isEmpty()) {
-                        $preferred_employees[$service->name] = 'Anyone';
-                    } else {
-                        $preferred_employees[$service->name] = $employee->first()->name;
+        $preferred_employees = $services_listing->mapWithKeys(function ($service, $key) use ($employees, $employees_listing) {
+            if (collect($employees_listing)->isEmpty()){
+                return [$service['name'] => 'Anyone'];
+            } else {
+                foreach ($employees as $employee_key => $employee_id) {
+                    $employee = Employee::where('id', $employee_id)->get();
+                    if ($key == $employee_key) {
+                        return [$service['name'] => (collect($employee)->isEmpty()) ? 'Anyone' : $employee->first()->name];
                     }
                 }
             }
-        }
+        })->toArray();
 
-        return view('admin.appointments.show')->with(compact('appointment', 'preferred_employees', 'services_listing', 'employees_listing'));
+        //foreach ($services as $service_key => $service_id) {
+        //    $service = Service::findOrFail($service_id);
+        //    foreach ($employees as $employee_key => $employee_id) {
+        //        $employee = Employee::where('id', $employee_id)->get();
+        //        if ($service_key == $employee_key) {
+        //            if ($employee->isEmpty()) {
+        //                $preferred_employees[$service->name] = 'Anyone';
+        //            } else {
+        //                $preferred_employees[$service->name] = $employee->first()->name;
+        //            }
+        //        }
+        //    }
+        //}
+
+        $appointments_aside = Appointment::where('date', $appointment->date)->get();
+
+        return view('admin.appointments.show')->with(compact('appointment', 'preferred_employees', 'services_listing', 'employees_listing', 'appointments_aside'));
     }
 
     /**

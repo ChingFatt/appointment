@@ -169,6 +169,7 @@ return [
          */
         App\Providers\HtmlServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
+        Lab404\Impersonate\ImpersonateServiceProvider::class,
 
         /*
          * Application Service Providers...

@@ -1,5 +1,3 @@
-@extends('layouts.backend')
-
 @section('css_before')
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
@@ -36,7 +34,7 @@
     @include('layouts.admin.sweetalert', ['route' => route('admin.service.destroy', $service), 'redirect' => route('admin.merchant.show', $service->merchant->id)])
 @endsection
 
-@section('content')
+<x-layout.backend>
 <div class="content">
 	<div class="block block-rounded">
         <div class="block-header block-header-default">
@@ -116,4 +114,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layout.backend>

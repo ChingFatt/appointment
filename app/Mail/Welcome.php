@@ -28,8 +28,8 @@ class Welcome extends Mailable
     {
         $this->data      = $data;
         $this->outlet    = Outlet::findOrFail($this->data['outlet_id']);
-        $this->employees = Employee::whereIn('id', $this->data['employee_id'])->get();
-        $this->services  = Service::whereIn('id', $this->data['service_id'])->get();
+        $this->employees = Employee::findMany($this->data['employee_id']);
+        $this->services  = Service::findMany($this->data['service_id']);
     }
 
     /**

@@ -24,12 +24,9 @@ use App\Http\Controllers\Admin\UserController;
 
 require __DIR__.'/auth.php';
 
-Route::view('/pages/slick', 'pages.slick');
-Route::view('/pages/datatables', 'pages.datatables');
-Route::view('/pages/blank', 'pages.blank');
-
-
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {//['role:admin|merchant']]
+    Route::get('/impersonate_leave', [UserController::class, 'impersonate_leave'])->name('impersonate.leave');
+
     Route::group(['middleware' => ['role:admin|merchant']], function () {
         Route::resources([
             'appointment'       => AppointmentController::class,
@@ -46,6 +43,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
             'industry'          => IndustryController::class,
             'user'              => UserController::class
         ]);
+
+        Route::get('/impersonate/{user_id}', [UserController::class, 'impersonate'])->name('impersonate');
+
     });
 
     Route::get('calendar', [AppointmentController::class, 'calendar'])->name('calendar');

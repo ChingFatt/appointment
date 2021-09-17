@@ -1,10 +1,8 @@
-@extends('layouts.backend')
-
 @section('form')
     {!! Form::model($employee, ['route' => ['admin.employee.update', $employee], 'method' => 'put', 'files' => true]) !!}
 @endsection
 
-@section('content')
+<x-layout.backend>
 <div class="content">
     <div class="block block-rounded">
         <div class="block-header block-header-default">
@@ -15,4 +13,4 @@
         </div>
     </div>
 </div>
-@endsection
+</x-layout.backend>

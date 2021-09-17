@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\Merchant;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 
 class UserController extends Controller
 {
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->get();
+        $users = User::latest()->paginate();
         return view('admin.users.index')->with(compact('users'));
     }
 
@@ -96,5 +97,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function impersonate($user_id)
+    {
+        $user = User::find($user_id);
+        Auth::user()->impersonate($user);
+        return redirect()->route('admin.dashboard.index');
+    }
+
+    public function impersonate_leave()
+    {
+        Auth::user()->leaveImpersonation();
+        return redirect()->route('admin.dashboard.index');
     }
 }

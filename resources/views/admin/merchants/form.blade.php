@@ -1,19 +1,12 @@
 @section('css_before')
-    <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
 @endsection
 
 @section('js_after')
-    <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 @endsection
 
-@sectionMissing('form')
-    {!! Form::open(['route' => 'admin.merchant.store', 'method' => 'post', 'files' => true]) !!}
-@endif
-
-@yield('form')
 <div class="row justify-content-center">
     <div class="col-md-12 col-lg-12">
         <div class="form-group">
@@ -70,6 +63,5 @@
                 <label class="custom-control-label" for="is_publish"></label>
             </div>
         </div>
-        <x-forms.button/>
     </div>
 </div>

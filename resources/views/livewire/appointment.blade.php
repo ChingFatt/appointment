@@ -287,7 +287,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn d-block w-100 mb-4 shadow-sm btn-primary {{ ($errors->any()) ? 'disabled' : '' }}" {{ ($errors->any()) ? 'disabled' : '' }} wire:loading.class="disabled">Book Appointment</button>
+            <button type="submit" class="btn d-block w-100 mb-4 shadow-sm btn-primary {{ ($errors->any()) ? 'disabled' : '' }}" {{ ($errors->any()) ? 'disabled' : '' }} wire:loading.class.delay="disabled">Book Appointment</button>
             {{ Form::hidden('duration', $duration ?? 0) }}
             {{ Form::close() }}
         </div>

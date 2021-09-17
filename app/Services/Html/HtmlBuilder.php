@@ -31,4 +31,8 @@ class HtmlBuilder extends \Collective\Html\FormBuilder {
     public function btnBack($url = null, $label = null) {
         return '<a href="'.$url.'" class="btn btn-sm btn-alt-info mr-1" data-toggle="tooltip" data-placement="top" title="Back to Listing"><i class="fa fa-fw fa-list-ul"></i>'.$label.'</a>';
     }
+
+    public function btnImpersonate($url = null, $label = null) {
+        return '<a class="btn btn-sm btn-alt-warning js-tooltip-enabled" data-toggle="tooltip" data-placement="top" title="Impersonate" href="'.$url.'"><i class="fa fa-user-cog"></i></a>';
+    }
 }

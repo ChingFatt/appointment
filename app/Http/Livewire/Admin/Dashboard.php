@@ -37,6 +37,11 @@ class Dashboard extends Component
         //session()->put('duration', $this->duration);
     }
 
+    public function test()
+    {
+        return redirect()->route('admin.merchant.show', 8);
+    }
+
     public function selectedDuration($duration = null)
     {
         //$holiday = Http::get('https://calendarific.com/api/v2/holidays?&api_key=a82664be48e31697f59ce9bd56e6b14a4cc0607d&country=SG&year=2021');
@@ -75,14 +80,14 @@ class Dashboard extends Component
         $this->current_week = $this->getWeeklyAppointments($startOfWeek, $endOfWeek);
         $this->last_week = $this->getWeeklyAppointments($startOfWeek->subWeek(), $endOfWeek->subWeek());
 
-        //merchant role
+        //if merchant role
         if (Auth::user()->hasRole('merchant')) {
-            $today_scheduled->where('merchant_id', Auth::user()->merchant_id);
-            $weekly_scheduled->where('merchant_id', Auth::user()->merchant_id);
-            $last_weekly_scheduled->where('merchant_id', Auth::user()->merchant_id);
-            $scheduled->where('merchant_id', Auth::user()->merchant_id);
-            $total->where('merchant_id', Auth::user()->merchant_id);
-            $customers->where('merchant_id', Auth::user()->merchant_id);
+            $this->getMerchantAppointments(collect($this->current_week));
+            $this->getMerchantAppointments(collect($this->last_week));
+            $this->getMerchantAppointments($today_scheduled);
+            $this->getMerchantAppointments($scheduled);
+            $this->getMerchantAppointments($total);
+            $this->getMerchantAppointments($customers);
         }
 
         if ($this->last_week > 0) {
@@ -122,6 +127,12 @@ class Dashboard extends Component
                 }
             }
         }
+
         return array_values($data);
+    }
+
+    public function getMerchantAppointments($collection)
+    {
+        return $collection->where('merchant_id', Auth::user()->merchant_id);
     }
 }

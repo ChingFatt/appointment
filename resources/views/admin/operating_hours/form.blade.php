@@ -1,5 +1,6 @@
 @section('css_before')
     <!-- Page JS Plugins CSS -->
+    <link rel="stylesheet" href="{{ asset('/js/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}">
     <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/js/plugins/jquery-timepicker/jquery.timepicker.min.css') }}">
 @endsection
@@ -7,6 +8,7 @@
 @section('js_after')
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
     <!-- Page JS Plugins -->
+    <script src="{{ asset('/js/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/jquery-timepicker/jquery.timepicker.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/jquery-timepicker/datepair.min.js') }}"></script>
     <script src="{{ asset('/js/plugins/jquery-timepicker/jquery.datepair.min.js') }}"></script>
@@ -29,6 +31,9 @@
         @if ($action == 'edit')
         <li class="nav-item">
             <a class="nav-link" href="#public-holiday">Public Holidays</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#other-holiday">Other Holidays</a>
         </li>
         @endif
         {{-- <li class="nav-item ml-auto">
@@ -353,8 +358,8 @@
                                         <label class="custom-control-label" for="checkall"></label>
                                     </div>
                                 </th>
-                                <th>Name</th>
                                 <th>Date</th>
+                                <th>Name</th>
                                 <th>Close on this day</th>
                                 <th>Close on eve</th>
                             </tr>
@@ -369,19 +374,19 @@
                                         <label class="custom-control-label" for="public_holidays{{ $date }}"></label>
                                     </div>
                                 </td>
+                                <td>{{ $date }}</td>
                                 <td>
                                     <input type="checkbox" checked class="d-none holidayclose" name="public_holidays[{{ $date }}][name]" value="{{ $holiday['name'] }}">{{ $holiday['name'] }}
                                 </td>
-                                <td>{{ $date }}</td>
                                 <td>
                                     <div class="custom-control custom-checkbox d-inline-block">
-                                        <input type="checkbox" class="custom-control-input holidayclose" id="public_holidays[{{ $date }}][ph]" name="public_holidays[{{ $date }}][ph]" value="1" {{ ($holiday['ph'] == 1) ? 'checked' : ''; }}>
+                                        <input type="checkbox" class="custom-control-input holidayclose" id="public_holidays[{{ $date }}][ph]" name="public_holidays[{{ $date }}][ph]" value="1" {{ ($holiday['ph']) ? 'checked' : ''; }}>
                                         <label class="custom-control-label" for="public_holidays[{{ $date }}][ph]"></label>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="custom-control custom-checkbox d-inline-block">
-                                        <input type="checkbox" class="custom-control-input holidayclose" id="public_holidays[{{ $date }}][eve]" name="public_holidays[{{ $date }}][eve]" value="1" {{ ($holiday['eve'] == 1) ? 'checked' : ''; }}>
+                                        <input type="checkbox" class="custom-control-input holidayclose" id="public_holidays[{{ $date }}][eve]" name="public_holidays[{{ $date }}][eve]" value="1" {{ ($holiday['eve']) ? 'checked' : ''; }}>
                                         <label class="custom-control-label" for="public_holidays[{{ $date }}][eve]"></label>
                                     </div>
                                 </td>
@@ -390,6 +395,54 @@
                             @endisset
                         </tbody>
                         <tbody id="result">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="other-holiday" role="tabpanel">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <table class="table table-bordered table-striped table-hover table-vcenter">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Close on this day</th>
+                                <th>Close on eve</th>
+                                <th><a href="javascript:void(0);" class="btn btn-sm btn-alt-success js-tooltip-enabled add_button" title="Add"><i class="fa fa-fw fa-plus"></i></a></th>
+                            </tr>
+                        </thead>
+                        <tbody class="field_wrapper">
+                            @isset($operatingHour->other_holidays)
+                            @foreach ($operatingHour->other_holidays as $date => $other_holiday)
+                            <tr>
+                                <td>
+                                    <input type="text" name="other_holidays[{{ $loop->iteration }}][date]" class="form-control datepicker" onclick="datepicker(this)" value="{{ $date ?? '' }}" placeholder="yyyy-mm-dd"/>
+                                </td>
+                                <td>
+                                    <input type="text" name="other_holidays[{{ $loop->iteration }}][name]" class="form-control" value="{{ $other_holiday['name'] ?? '' }}" placeholder="Holiday Name"/>
+                                </td>
+                                <td>
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <input type="checkbox" class="custom-control-input holidayclose" id="other_holidays[{{ $loop->iteration }}][ph]" name="other_holidays[{{ $loop->iteration }}][ph]" value="1" {{ ($other_holiday['ph']) ? 'checked' : ''; }}>
+                                        <label class="custom-control-label" for="other_holidays[{{ $loop->iteration }}][ph]"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="custom-control custom-checkbox d-inline-block">
+                                        <input type="checkbox" class="custom-control-input holidayclose" id="other_holidays[{{ $loop->iteration }}][eve]" name="other_holidays[{{ $loop->iteration }}][eve]" value="1" {{ ($other_holiday['eve']) ? 'checked' : ''; }}>
+                                        <label class="custom-control-label" for="other_holidays[{{ $loop->iteration }}][eve]"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-alt-danger js-tooltip-enabled remove_button" title="Add">
+                                        <i class="fa fa-fw fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endisset
                         </tbody>
                     </table>
                 </div>
@@ -419,8 +472,8 @@ jQuery('#searchBtn').on('click', function(e){
             data.response.holidays.forEach((item) => {
                 result = '<tr>';
                 result += '<td class="text-center"><div class="custom-control custom-checkbox d-inline-block"><input type="checkbox" class="custom-control-input checkholiday" onclick="isCheckedbox(event, this)" id="public_holidays'+x+'" name="public_holidays['+item.date.iso+']'+x+'"><label class="custom-control-label" for="public_holidays'+x+'"></label></div></td>';
-                result += '<td><input type="checkbox" class="d-none holidayclose" name="public_holidays['+item.date.iso+'][name]" value="'+item.name+'">'+item.name+'</td>';
                 result += '<td>'+item.date.iso+'</td>';
+                result += '<td><input type="checkbox" class="d-none holidayclose" name="public_holidays['+item.date.iso+'][name]" value="'+item.name+'">'+item.name+'</td>';
                 result += '<td><div class="custom-control custom-checkbox d-inline-block"><input type="checkbox" class="custom-control-input holidayclose" id="public_holidays['+item.date.iso+'][ph]" name="public_holidays['+item.date.iso+'][ph]" value="1"><label class="custom-control-label" for="public_holidays['+item.date.iso+'][ph]"></label></div></td>';
                 result += '<td><div class="custom-control custom-checkbox d-inline-block"><input type="checkbox" class="custom-control-input holidayclose" id="public_holidays['+item.date.iso+'][eve]" name="public_holidays['+item.date.iso+'][eve]" value="1"><label class="custom-control-label" for="public_holidays['+item.date.iso+'][eve]"></label></div></td>';
                 result += '</tr>';
@@ -469,4 +522,47 @@ function isCheckedbox(e, input){
     }
 }
 </script>
+@if ($action == 'edit')
+<script>
+jQuery(document).ready(function(){
+    var maxField = 10; 
+    var addButton = jQuery('.add_button');
+    var wrapper = jQuery('.field_wrapper');                                        
+    var x = {{ (isset($operatingHour->other_holidays)) ? count($operatingHour->other_holidays) + 1 : 1}};
+    
+    jQuery(addButton).click(function(){
+        var fieldHTML   = '<tr>';
+        fieldHTML       += '<td><input type="text" name="other_holidays['+x+'][date]" class="form-control datepicker" onclick="datepicker(this)" value="" placeholder="yyyy-mm-dd"/></td>';
+        fieldHTML       += '<td><input type="text" name="other_holidays['+x+'][name]" class="form-control" value="" placeholder="Holiday Name"/></td>';
+        fieldHTML       += '<td><div class="custom-control custom-checkbox d-inline-block"><input type="checkbox" class="custom-control-input holidayclose" id="other_holidays['+x+'][ph]" name="other_holidays['+x+'][ph]" value="1"><label class="custom-control-label" for="other_holidays['+x+'][ph]"></label></div></td>';
+        fieldHTML       += '<td><div class="custom-control custom-checkbox d-inline-block"><input type="checkbox" class="custom-control-input holidayclose" id="other_holidays['+x+'][eve]" name="other_holidays['+x+'][eve]" value="1"><label class="custom-control-label" for="other_holidays['+x+'][eve]"></label></div></td>';
+        fieldHTML       += '<td><a href="javascript:void(0);" class="btn btn-sm btn-alt-danger js-tooltip-enabled remove_button" title="Remove"><i class="fa fa-fw fa-trash"></i></a></td>';
+        fieldHTML       += '</tr>';
+
+        jQuery(wrapper).append(fieldHTML);
+        x++;
+    });
+    
+    jQuery(wrapper).on('click', '.remove_button', function(e){
+        e.preventDefault();
+        jQuery(this).closest('tr').remove();
+        //x--;
+    });
+});
+
+function datepicker(input){
+    jQuery(input).datepicker({
+        startDate: '+1d',
+        format: 'yyyy-mm-dd',
+        todayHighlight: false,
+        enableOnReadonly: false,
+        autoclose: true,
+        multidate: false
+    }).on('changeDate', function(e) {
+        //
+    });
+    jQuery(input).datepicker('show');
+}
+</script>
+@endif
 @endpush

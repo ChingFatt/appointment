@@ -74,6 +74,7 @@ class OperatingHourController extends Controller
         }
 
         $public_holidays = $operatingHour->public_holidays;
+        //dd($operatingHour->other_holidays);
         $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
         return view('admin.operating_hours.edit')->with(compact('operatingHour', 'countries', 'years', 'public_holidays'));
     }
@@ -87,6 +88,7 @@ class OperatingHourController extends Controller
      */
     public function update(Request $request, OperatingHour $operatingHour)
     {
+        //dd($request);
         if (isset($request->public_holidays)) {
             $public_holidays = [];
             $holidays = $request->public_holidays;
@@ -108,6 +110,32 @@ class OperatingHourController extends Controller
 
             $request->merge([
                 'public_holidays' => collect($public_holidays)->toArray()
+            ]);
+        }
+
+        if (isset($request->other_holidays)) {
+            $other_holidays = [];
+            $holidays = $request->other_holidays;
+
+            foreach ($holidays as $holiday) {
+                $ph     = (empty($holiday['ph'])) ? false : true;
+                $eve    = (empty($holiday['eve'])) ? false : true;
+
+                $date = date('Y-m-d', strtotime($holiday['date']));
+
+                $other_holidays[$date] = [
+                    'name'  => $holiday['name'],
+                    'ph'    => $ph,
+                    'eve'   => $eve
+                ];
+            }
+
+            $request->merge([
+                'other_holidays' => collect($other_holidays)->toArray()
+            ]);
+        } else {
+             $request->merge([
+                'other_holidays' => null
             ]);
         }
 

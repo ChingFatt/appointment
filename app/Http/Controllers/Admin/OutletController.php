@@ -23,7 +23,7 @@ class OutletController extends Controller
      */
     public function index()
     {
-        $outlets = Outlet::with('merchant')->latest()->get();
+        $outlets = Outlet::with('merchant')->latest()->paginate();
         return view('admin.outlets.index')->with(compact('outlets'));
     }
 
@@ -69,7 +69,7 @@ class OutletController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Outlet $outlet)
-    {       
+    {
         $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
         $picker = collect();
 

@@ -1,5 +1,3 @@
-@extends('layouts.backend')
-
 @section('css_before')
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
@@ -20,31 +18,28 @@
     <script src="{{ asset('js/pages/tables_datatables.js') }}"></script>
 @endsection
 
-@section('content')
-    <!-- Page Content -->
+<x-layout.backend>
     <div class="content">
-        <!-- Dynamic Table Full -->
         <div class="block block-rounded">
             <div class="block-header">
                 <h3 class="block-title">Listing</h3>
             </div>
             <div class="block-content block-content-full table-responsive">
-                <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
-                <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
+                <table class="table table-borderless table-hover table-striped table-vcenter">
                     <thead>
                         <tr>
-                            <th class="d-none d-md-table-cell text-center" style="width: 80px;">#</th>
+                            <th class="d-none d-md-table-cell text-center" style="width: 80px;">ID</th>
                             <th>Name</th>
                             <th>Outlet Code</th>
                             <th class="d-none d-md-table-cell">Merchant Code</th>
-                            <th class="d-none d-md-table-cell">Published</th>
+                            <th class="d-none d-md-table-cell">Status</th>
                             <th class="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($outlets as $outlet)
                         <tr>
-                            <td class="d-none d-md-table-cell text-center">{{ $loop->iteration }}</td>
+                            <td class="d-none d-md-table-cell text-center">{{ $outlet->id }}</td>
                             <td class="d-sm-table-cell">{{ $outlet->name }}</td>
                             <td class="d-sm-table-cell">{{ $outlet->outlet_code }}</td>
                             <td class="d-none d-md-table-cell">{{ $outlet->merchant->merchant_code }}</td>
@@ -57,9 +52,8 @@
                         @endforeach
                     </tbody>
                 </table>
+                <x-pagination :model="$outlets"/>
             </div>
         </div>
-        <!-- END Dynamic Table Full -->
     </div>
-    <!-- END Page Content -->
-@endsection
+</x-layout.backend>

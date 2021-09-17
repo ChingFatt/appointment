@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Rennokki\QueryCache\Traits\QueryCacheable;
+use Kyslik\ColumnSortable\Sortable;
 
 class Merchant extends Model
 {
-    use HasFactory, SoftDeletes, QueryCacheable;
+    use HasFactory, SoftDeletes, QueryCacheable, Sortable;
 
     //public $incrementing = false;
     protected $primaryKey = 'id';
     public $cacheFor = 3600;
     protected static $flushCacheOnUpdate = true;
+
+    public $sortable = ['name'];
 
     protected $fillable = [
         'name',

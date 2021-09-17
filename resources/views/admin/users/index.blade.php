@@ -1,5 +1,3 @@
-@extends('layouts.backend')
-
 @section('css_before')
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
@@ -20,49 +18,52 @@
     <script src="{{ asset('js/pages/tables_datatables.js') }}"></script>
 @endsection
 
-@section('content')
-    <!-- Page Content -->
+<x-layout.backend>
     <div class="content">
         <!-- Dynamic Table Full -->
         <div class="block block-rounded">
             <div class="block-header">
                 <h3 class="block-title">Listing</h3>
                 @role('admin')
-                {!! Form::btnCreate(route('admin.user.create')) !!}
+                <x-btn type="create" :url="route('admin.user.create')"/>
                 @endrole
             </div>
             <div class="block-content block-content-full table-responsive">
-                <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
-                <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
+                <table class="table table-borderless table-striped table-vcenter">
                     <thead>
                         <tr>
-                            <th class="d-none d-md-table-cell text-center" style="width: 80px;">#</th>
                             <th>Name</th>
-                            <th>Role</th>
                             <th>Email</th>
+                            <th>Roles</th>
                             <th class="actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
                         <tr>
-                            <td class="d-none d-md-table-cell text-center">{{ $loop->iteration }}</td>
                             <td class="d-sm-table-cell">{{ $user->name }}</td>
-                            <td class="d-sm-table-cell">{{ $user->getRoleNames()->implode(',') }}</td>
                             <td class="d-sm-table-cell">{{ $user->email }}</td>
+                            <td class="d-sm-table-cell">
+                                @foreach ($user->getRoleNames() as $role)
+                                <span class="bg-body-dark text-secondary font-size-sm font-w600 px-2 py-1 rounded">
+                                    {{ $role }}
+                                </span>
+                                @endforeach
+                            </td>
                             <td>
-                                {{-- @role('admin')
-                                {!! Form::btnView(route('admin.user.show', $user)) !!}
-                                {!! Form::btnEdit(route('admin.user.edit', $user)) !!}
-                                @endrole --}}
+                                @role('admin')
+                                <x-btn type="edit" :url="route('admin.user.edit', $user)"/>
+                                @canBeImpersonated($user, $guard = null)
+                                <x-btn type="impersonate" :url="route('admin.impersonate', $user)"/>
+                                @endCanBeImpersonated
+                                @endrole
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+                <x-pagination :model="$users"/>
             </div>
         </div>
-        <!-- END Dynamic Table Full -->
     </div>
-    <!-- END Page Content -->
-@endsection
+</x-layout.backend>

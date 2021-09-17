@@ -254,7 +254,6 @@
         </div>
     </div>
 </div>
-<x-forms.button/>
 
 @push('scripts')
 @if ($action == 'edit')

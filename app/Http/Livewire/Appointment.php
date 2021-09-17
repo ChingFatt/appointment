@@ -146,6 +146,19 @@ class Appointment extends Component
                         }
                     }
                 }
+
+                if (isset($outlet->operating_hour->other_holidays)) {
+                    $other_holidays = $outlet->operating_hour->other_holidays;
+                    //dd($other_holidays);
+                    foreach ($other_holidays as $date => $holiday) {
+                        if ($holiday['ph']) {
+                            $datesDisabled[] = date('Y-m-d', strtotime($date));
+                        }
+                        if ($holiday['eve']) {
+                            $datesDisabled[] = date('Y-m-d', strtotime($date."-1 day"));
+                        }
+                    }
+                }
             }
 
             $this->dispatchBrowserEvent('updateCalendar', ['daysOfWeekDisabled' => $daysOfWeekDisabled, 'datesDisabled' => $datesDisabled]);
@@ -175,6 +188,7 @@ class Appointment extends Component
             if (isset($outlet->operating_hour)) {
                 $operating_hours = $outlet->operating_hour->operating_hours;
                 $public_holidays = $outlet->operating_hour->public_holidays;
+                $other_holidays = $outlet->operating_hour->other_holidays;
                 $picker->put('operating_hours', $outlet->operating_hour->operating_hours);
                 $interval = $outlet->operating_hour->interval ?? 30;
                 $picker->put('interval', $interval);
@@ -182,6 +196,11 @@ class Appointment extends Component
                 $holiday_eve = [];
                 $holidays = [];
                 foreach ($public_holidays as $date => $holiday) {
+                    $holidays[]     = date('Y-m-d', strtotime($date));
+                    $holiday_eve[]  = date('Y-m-d', strtotime($date."-1 day"));
+                }
+
+                foreach ($other_holidays as $date => $holiday) {
                     $holidays[]     = date('Y-m-d', strtotime($date));
                     $holiday_eve[]  = date('Y-m-d', strtotime($date."-1 day"));
                 }

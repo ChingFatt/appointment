@@ -1,5 +1,3 @@
-@extends('layouts.backend')
-
 @section('css_before')
     <!-- Page JS Plugins CSS -->
     <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
@@ -49,7 +47,7 @@
     @include('layouts.admin.sweetalert', ['route' => route('admin.outlet.destroy', $outlet), 'redirect' => route('admin.merchant.show', $outlet->merchant->id)])
 @endsection
 
-@section('content')
+<x-layout.backend>
 <div class="content">
     <div class="row">
         <div class="col-lg-8 col-md-12">
@@ -325,7 +323,6 @@
         </div>
     </div>
 </div>
-@endsection
 
 @push('scripts')
 <script>
@@ -387,3 +384,4 @@ window.onload = function () {
 }
 </script>
 @endpush
+</x-layout.backend>

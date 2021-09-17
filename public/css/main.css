@@ -46,3 +46,17 @@ th.actions {
 .pagination{
     margin-bottom: 0 !important;
 }
+.appointment-aside.active{
+    background-color: #efefef;
+}
+.table th.sorting:hover{
+    cursor: pointer;
+}
+.table th.sorting a{
+    color: #343a40;
+}
+@media only screen and (max-width: 991px) {
+nav#sidebar{
+    width: 75vw;
+}
+}

@@ -20,12 +20,14 @@ class OperatingHour extends Model
         'interval',
         'capacity',
         'rest_time',
-        'public_holidays'
+        'public_holidays',
+        'other_holidays'
     ];
 
     protected $casts = [
         'operating_hours' => 'json',
         'public_holidays' => 'json',
+        'other_holidays' => 'json',
     ];
 
     public function week()

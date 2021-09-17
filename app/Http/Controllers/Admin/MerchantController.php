@@ -21,13 +21,10 @@ class MerchantController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(MerchantDataTable $dataTable)
+    public function index(Request $request)
     {
-        $merchants = Merchant::with('industry')->latest()->paginate();
+        $merchants = Merchant::with('industry')->sortable()->latest()->paginate();
         return view('admin.merchants.index')->with(compact('merchants'));
-        //return $dataTable->render('admin.merchants.index');
-        //return datatables(Merchant::all())->toJson();
-        //return Datatables::of(Merchant::all())->make(true);
     }
 
     /**

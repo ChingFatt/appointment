@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Blade;
+use App\View\Components\Button\Button;
 use App\Models\Appointment;
 
 class AppServiceProvider extends ServiceProvider
@@ -31,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(255);
 
         Paginator::useBootstrap();
+
+        Blade::component('btn', Button::class);
 
         //View::composer('*', function ($view) {
         //    $appointment_notification = Appointment::where('status', 'Pending')->latest()->get();
