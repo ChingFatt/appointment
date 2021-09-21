@@ -73,44 +73,38 @@
             <h3 class="block-title">Appointment Today</h3>
         </div>
         <div class="block-content block-content-full">
-            <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
-            <table class="table table-borderless table-striped table-vcenter js-dataTable-buttons">
-                <thead>
-                    <tr>
-                        <th class="text-center" style="width: 80px;">#</th>
-                        <th>Appointment No.</th>
-                        <th>Customer</th>
-                        <th>Merchant</th>
-                        <th>Outlet</th>
-                        <th>Appointment Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                        <th class="actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <x-table class="js-datatable">
+                <x-slot name="head">
+                    <x-table.heading>ID</x-table.heading>
+                    <x-table.heading>Customer</x-table.heading>
+                    <x-table.heading>Merchant</x-table.heading>
+                    <x-table.heading>Outlet</x-table.heading>
+                    <x-table.heading>Date</x-table.heading>
+                    <x-table.heading>Time</x-table.heading>
+                    <x-table.heading>Status</x-table.heading>
+                    <x-table.heading class="actions">Actions</x-table.heading>
+                </x-slot>
+
+                <x-slot name="body">
                     @foreach ($today_appointments as $appointment)
-                    @can('view', $appointment)
-                    <tr>
-                        <td class="text-center">{{ $loop->iteration }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->appointment_no }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->fullname }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->merchant->merchant_code }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->outlet->outlet_code }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->date }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->time }}</td>
-                        <td class="d-sm-table-cell">
-                            <span class="badge badge-{!! $appointment->status_color !!}">{{ $appointment->status }}</span>
-                        </td>
-                        <td>
-                            {!! Form::btnView(route('admin.appointment.show', $appointment)) !!}
-                            {!! Form::btnEdit(route('admin.appointment.edit', $appointment)) !!}
-                        </td>
-                    </tr>
+                    @can('view-any', $appointment)
+                        <x-table.row>
+                            <x-table.cell>{{ $appointment->id }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->fullname }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->merchant->merchant_code }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->outlet->outlet_code }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->date }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->time }}</x-table.cell>
+                            <x-table.cell><span class="bg-{!! $appointment->status_color !!}-light text-{!! $appointment->status_color !!} font-size-sm font-w600 px-2 py-1 rounded">{{ $appointment->status }}</span></x-table.cell>
+                            <x-table.cell>
+                                <x-btn type="show" :url="route('admin.appointment.show', $appointment)"/>
+                                <x-btn type="edit" :url="route('admin.appointment.edit', $appointment)"/>
+                            </x-table.cell>
+                        </x-table.row>
                     @endcan
                     @endforeach
-                </tbody>
-            </table>
+                </x-slot>
+            </x-table>
         </div>
     </div>
     <div class="block block-rounded">
@@ -118,44 +112,38 @@
             <h3 class="block-title">Assigned Appointment</h3>
         </div>
         <div class="block-content block-content-full">
-            <!-- DataTables init on table by adding .js-dataTable-full class, functionality is initialized in js/pages/tables_datatables.js -->
-            <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
-                <thead>
-                    <tr>
-                        <th class="text-center" style="width: 80px;">#</th>
-                        <th>Appointment No.</th>
-                        <th>Customer</th>
-                        <th>Merchant</th>
-                        <th>Outlet</th>
-                        <th>Appointment Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                        <th class="actions">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <x-table class="js-datatable">
+                <x-slot name="head">
+                    <x-table.heading>ID</x-table.heading>
+                    <x-table.heading>Customer</x-table.heading>
+                    <x-table.heading>Merchant</x-table.heading>
+                    <x-table.heading>Outlet</x-table.heading>
+                    <x-table.heading>Date</x-table.heading>
+                    <x-table.heading>Time</x-table.heading>
+                    <x-table.heading>Status</x-table.heading>
+                    <x-table.heading class="actions">Actions</x-table.heading>
+                </x-slot>
+
+                <x-slot name="body">
                     @foreach ($appointments as $appointment)
-                    @can('view', $appointment)
-                    <tr>
-                        <td class="text-center">{{ $loop->iteration }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->appointment_no }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->fullname }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->merchant->merchant_code }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->outlet->outlet_code }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->date }}</td>
-                        <td class="d-sm-table-cell">{{ $appointment->time }}</td>
-                        <td class="d-sm-table-cell">
-                            <span class="badge badge-{!! $appointment->status_color !!}">{{ $appointment->status }}</span>
-                        </td>
-                        <td>
-                            {!! Form::btnView(route('admin.appointment.show', $appointment)) !!}
-                            {!! Form::btnEdit(route('admin.appointment.edit', $appointment)) !!}
-                        </td>
-                    </tr>
+                    @can('view-any', $appointment)
+                        <x-table.row>
+                            <x-table.cell>{{ $appointment->id }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->fullname }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->merchant->merchant_code }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->outlet->outlet_code }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->date }}</x-table.cell>
+                            <x-table.cell>{{ $appointment->time }}</x-table.cell>
+                            <x-table.cell><span class="bg-{!! $appointment->status_color !!}-light text-{!! $appointment->status_color !!} font-size-sm font-w600 px-2 py-1 rounded">{{ $appointment->status }}</span></x-table.cell>
+                            <x-table.cell>
+                                <x-btn type="show" :url="route('admin.appointment.show', $appointment)"/>
+                                <x-btn type="edit" :url="route('admin.appointment.edit', $appointment)"/>
+                            </x-table.cell>
+                        </x-table.row>
                     @endcan
                     @endforeach
-                </tbody>
-            </table>
+                </x-slot>
+            </x-table>
         </div>
     </div>
 </div>

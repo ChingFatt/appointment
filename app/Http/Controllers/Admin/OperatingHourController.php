@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\OperatingHour;
+use App\Models\Outlet;
 use Illuminate\Http\Request;
 use Rinvex\Country\Models\Country;
+use Auth;
 
 class OperatingHourController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(OperatingHour::class, 'operating_hour');
+        //$this->authorizeResource(OperatingHour::class, 'operating_hour');
     }
 
     /**
@@ -29,10 +31,15 @@ class OperatingHourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Outlet $outlet)
     {
-        $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
-        return view('admin.operating_hours.create')->with(compact('countries'));
+        if (Auth::user()->hasRole('admin') || (Auth::user()->merchant->outlets->contains($outlet->id))) {
+            $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
+            return view('admin.operating_hours.create')->with(compact('countries', 'outlet'));
+        } else {
+            abort(403);
+        }
+        
     }
 
     /**
@@ -66,6 +73,9 @@ class OperatingHourController extends Controller
      */
     public function edit(OperatingHour $operatingHour)
     {
+        //dd($operatingHour->outlet->id);
+        //dd(Auth::user()->merchant->outlets);
+        //dd(Auth::user()->merchant->outlets->contains($operatingHour->outlet->id));
         $years[date('Y')] = date('Y');
 
         for ($x = 1; $x < 5; $x++) {

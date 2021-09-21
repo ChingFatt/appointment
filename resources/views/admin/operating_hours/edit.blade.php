@@ -1,7 +1,3 @@
-@section('form')
-    {!! Form::model($operatingHour, ['route' => ['admin.operating_hour.update', $operatingHour], 'method' => 'put', 'files' => true]) !!}
-@endsection
-
 <x-layout.backend>
 <div class="content">
     @include('admin.operating_hours.form')

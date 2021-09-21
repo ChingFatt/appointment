@@ -28,12 +28,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::get('/impersonate_leave', [UserController::class, 'impersonate_leave'])->name('impersonate.leave');
 
     Route::group(['middleware' => ['role:admin|merchant']], function () {
+        Route::resource('outlet.operating_hour', OperatingHourController::class)->shallow();
         Route::resources([
             'appointment'       => AppointmentController::class,
             'dashboard'         => DashboardController::class,
             'employee'          => EmployeeController::class,
             'merchant'          => MerchantController::class,
-            'operating_hour'    => OperatingHourController::class,
+            //'operating_hour'    => OperatingHourController::class,
             'outlet'            => OutletController::class,
             'service'           => ServiceController::class
         ]);

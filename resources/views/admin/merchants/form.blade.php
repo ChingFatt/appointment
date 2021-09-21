@@ -7,6 +7,17 @@
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 @endsection
 
+@php
+    $route = Route::currentRouteAction();
+    $action = substr($route, strpos($route, '@') + 1);
+@endphp
+
+@if ($action == 'edit')
+    {!! Form::model($merchant, ['route' => ['admin.merchant.update', $merchant], 'method' => 'put', 'files' => true]) !!}
+@else
+    {!! Form::open(['route' => 'admin.merchant.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
+@endif
+
 <div class="row justify-content-center">
     <div class="col-md-12 col-lg-12">
         <div class="form-group">
@@ -65,3 +76,4 @@
         </div>
     </div>
 </div>
+<x-forms.button/>

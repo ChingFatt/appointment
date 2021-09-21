@@ -9,6 +9,17 @@
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 @endsection
 
+@php
+    $route = Route::currentRouteAction();
+    $action = substr($route, strpos($route, '@') + 1);
+@endphp
+
+@if ($action == 'edit')
+    {!! Form::model($industry, ['route' => ['admin.industry.update', $industry], 'method' => 'put', 'files' => true]) !!}
+@else
+    {!! Form::open(['route' => 'admin.industry.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
+@endif
+
 <div class="row">
     <div class="col-md-12 col-lg-12">
         <div class="form-group">
@@ -40,3 +51,4 @@
         </div>
     </div>
 </div>
+<x-forms.button/>

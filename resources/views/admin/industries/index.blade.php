@@ -1,3 +1,13 @@
+@section('css_before')
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
+@endsection
+
+@section('js_after')
+    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+@endsection
+
 <x-layout.backend>
     <div class="content">
         <div class="block block-rounded">
@@ -6,7 +16,7 @@
                 <x-btn type="create" :url="route('admin.industry.create')"/>
             </div>
             <div class="block-content block-content-full">
-                <x-table>
+                <x-table class="js-datatable">
                     <x-slot name="head">
                         <x-table.heading>ID</x-table.heading>
                         <x-table.heading sortable>Name</x-table.heading>
@@ -30,7 +40,6 @@
                         @endforeach
                     </x-slot>
                 </x-table>
-                <x-pagination :model="$industries"/>
             </div>
         </div>
     </div>

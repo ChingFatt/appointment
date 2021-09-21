@@ -21,7 +21,7 @@
             <h3 class="block-title">Listing</h3>
         </div>
         <div class="block-content block-content-full">
-             <x-table>
+             <x-table class="js-datatable">
                 <x-slot name="head">
                     <x-table.heading>ID</x-table.heading>
                     <x-table.heading>Customer</x-table.heading>
@@ -53,7 +53,6 @@
                     @endforeach
                 </x-slot>
             </x-table>
-            <x-pagination :model="$appointments"/>
         </div>
     </div>
 </div>

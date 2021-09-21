@@ -24,9 +24,9 @@ class AppointmentController extends Controller
     public function index()
     {
         if (Auth::user()->hasRole('merchant')) {
-            $appointments = Appointment::with('industry', 'merchant', 'outlet')->where('merchant_id', Auth::user()->merchant_id)->latest()->paginate();
+            $appointments = Appointment::with('industry', 'merchant', 'outlet')->where('merchant_id', Auth::user()->merchant_id)->latest()->get();
         } else {
-            $appointments = Appointment::with('industry', 'merchant', 'outlet')->latest()->paginate();
+            $appointments = Appointment::with('industry', 'merchant', 'outlet')->latest()->get();
         }
 
         return view('admin.appointments.index')->with(compact('appointments'));
@@ -158,23 +158,15 @@ class AppointmentController extends Controller
 
         $listing = [];
         foreach ($data as $appointment) {
-            if ($appointment->status == 'Scheduled') {
-                $color = '#1fae77';
-            } elseif ($appointment->status == 'Pending') {
-                $color = '#e5ae67';
-            } elseif ($appointment->status == 'Cancelled') {
-                $color = '#e56767';
-            }
-
             $services = Service::whereIn('id', $appointment->services())->get('name')->implode('name', ', ');
 
             $listing[$appointment->id]['title']       = $appointment->fullname.' - '.$services;
             $listing[$appointment->id]['start']       = $appointment->date.' '.date('H:i:s', strtotime($appointment->time));
             $listing[$appointment->id]['url']         = route('admin.appointment.show', $appointment);
-            $listing[$appointment->id]['color']       = $color;
+            $listing[$appointment->id]['color']       = $appointment->calendar_status_color;
         }
         //dd(json_encode(array_values($listing)));
-        $appointments = json_encode(array_values($listing));
+        $appointments = collect($listing)->values()->toJson();
         return view('admin.appointments.calendar')->with(compact('appointments'));
     }
 

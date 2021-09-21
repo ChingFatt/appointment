@@ -14,11 +14,17 @@
     <script src="{{ asset('/js/plugins/jquery-timepicker/jquery.datepair.min.js') }}"></script>
 @endsection
 
-@sectionMissing('form')
-    {!! Form::open(['route' => 'admin.operating_hour.store', 'method' => 'post', 'files' => true]) !!}
+@php
+    $route = Route::currentRouteAction();
+    $action = substr($route, strpos($route, '@') + 1);
+@endphp
+
+@if ($action == 'edit')
+    {!! Form::model($operatingHour, ['route' => ['admin.operating_hour.update', $operatingHour], 'method' => 'put', 'files' => true]) !!}
+@else
+    {!! Form::open(['route' => ['admin.outlet.operating_hour.store', $outlet], 'method' => 'post', 'files' => true]) !!}
 @endif
 
-@yield('form')
 <div class="block block-rounded">
     <ul class="nav nav-tabs nav-tabs-block align-items-center" data-toggle="tabs" role="tablist">
         <li class="nav-item">
@@ -457,6 +463,13 @@
 
 @push('scripts')
 <script>
+jQuery('.datepair.operating-hour').datepair({
+    defaultTimeDelta: 8 * 60 * 60 * 1000,
+});
+jQuery('.datepair.rest-time').datepair({
+    defaultTimeDelta: 1 * 60 * 60 * 1000,
+});
+
 jQuery('#searchBtn').on('click', function(e){
     e.preventDefault();
     var country = jQuery('#country').val();

@@ -41,6 +41,11 @@ class Merchant extends Model
         return $this->belongsTo('App\Models\Industry', 'industry_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
     public function outlets()
     {
         return $this->hasMany('App\Models\Outlet');

@@ -6,15 +6,7 @@
 @section('js_after')
     <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
 
-    <!-- Page JS Code -->
-    <script src="{{ asset('js/pages/tables_datatables.js') }}"></script>
-    
     <!-- Sweetalert2 JS Code -->
     <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
     
@@ -62,7 +54,7 @@
                 @endrole
             </div>
             <div class="block-content block-content-full">
-                <x-table class="js-dataTable-full">
+                <x-table class="js-datatable">
                     <x-slot name="head">
                         <x-table.heading>ID</x-table.heading>
                         <x-table.heading>Name</x-table.heading>

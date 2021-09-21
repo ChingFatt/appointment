@@ -5,9 +5,7 @@
                 <h3 class="block-title">Info</h3>
             </div>
             <div class="block-content">
-                {!! Form::open(['route' => 'admin.industry.store', 'method' => 'post', 'files' => true]) !!}
                 @include('admin.industries.form')
-                <x-forms.button/>
             </div>
         </div>
     </div>

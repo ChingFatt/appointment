@@ -15,7 +15,7 @@ class IndustryController extends Controller
      */
     public function index()
     {
-        $industries = Industry::latest()->paginate();
+        $industries = Industry::latest()->get();
         return view('admin.industries.index')->with(compact('industries'));
     }
 

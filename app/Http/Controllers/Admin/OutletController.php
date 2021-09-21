@@ -23,7 +23,7 @@ class OutletController extends Controller
      */
     public function index()
     {
-        $outlets = Outlet::with('merchant')->latest()->paginate();
+        $outlets = Outlet::with('merchant')->latest()->get();
         return view('admin.outlets.index')->with(compact('outlets'));
     }
 
@@ -88,7 +88,7 @@ class OutletController extends Controller
             }
         }
 
-        $week = $outlet->operating_hour->week();
+        $week = app('App\Models\OperatingHour')->week();
         $services = $outlet->merchant->services->pluck('name', 'service_code');
         $outlet_services = $outlet->services();
         return view('admin.outlets.show')->with(compact('outlet', 'services', 'outlet_services', 'picker', 'countries', 'week'));

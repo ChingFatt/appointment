@@ -40,12 +40,12 @@
                             <span class="font-size-sm font-w500">Profile</span>
                             <span class="small text-warning">Coming Soon</span>
                         </a>
+                        <div role="separator" class="dropdown-divider"></div>
                         @impersonating($guard = null)
                             <a class="dropdown-item d-flex align-items-center justify-content-between" href="{{ route('admin.impersonate.leave') }}">
                                 <span class="font-size-sm font-w500">Leave Impersonation</span>
                             </a>
-                        @endImpersonating
-                        <div role="separator" class="dropdown-divider"></div>
+                        @else
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
                             <a class="dropdown-item d-flex align-items-center justify-content-between" 
@@ -58,6 +58,7 @@
                                 <span class="font-size-sm font-w500">{{ __('Logout') }}</span>
                             </a>
                         </form>
+                        @endImpersonating
                     </div>
                 </div>
             </div>

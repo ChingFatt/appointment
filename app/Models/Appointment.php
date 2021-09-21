@@ -103,6 +103,14 @@ class Appointment extends Model
         ][$this->status] ?? 'warning';
     }
 
+    public function getCalendarStatusColorAttribute($value)
+    {
+        return [
+            'Scheduled' => '#1fae77',
+            'Cancelled' => '#e56767',
+        ][$this->status] ?? '#e5ae67';
+    }
+
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'action_by');

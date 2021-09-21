@@ -9,14 +9,16 @@
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
 @endsection
 
-@sectionMissing('form')
-    {!! Form::open(['route' => 'admin.employee.store', 'method' => 'post', 'files' => true]) !!}
-@endif
-
 @php
     $route = Route::currentRouteAction();
     $action = substr($route, strpos($route, '@') + 1);
 @endphp
+
+@if ($action == 'edit')
+    {!! Form::model($employee, ['route' => ['admin.employee.update', $employee], 'method' => 'put', 'files' => true]) !!}
+@else
+    {!! Form::open(['route' => 'admin.employee.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
+@endif
 
 @yield('form')
 <div class="row justify-content-center">

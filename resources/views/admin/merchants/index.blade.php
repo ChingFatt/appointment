@@ -1,3 +1,13 @@
+@section('css_before')
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
+@endsection
+
+@section('js_after')
+    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+@endsection
+
 <x-layout.backend>
     <div class="content">
         <div class="block block-rounded">
@@ -8,32 +18,10 @@
                 @endrole
             </div>
             <div class="block-content block-content-full">
-                {{-- <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        {!! Form::open(['route' => 'admin.merchant.index', 'method' => 'get', 'files' => true]) !!}
-                        <div class="form-group">
-                            <div class="input-group">
-                                {{ Form::text('search', 
-                                    null, [
-                                        'class'         => 'form-control', 
-                                        'required'      => false, 
-                                        'autocomplete'  => 'off'
-                                    ]
-                                ) }}
-                                <div class="input-group-append">
-                                    <button type="submit" class="btn btn-alt-primary">
-                                        <i class="fa fa-search mr-1"></i> Search
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        {{ Form::close() }}
-                    </div>
-                </div> --}}
-                <x-table>
+                <x-table class="js-datatable">
                     <x-slot name="head">
                         <x-table.heading>ID</x-table.heading>
-                        <x-table.heading sortable>@sortablelink('name')</x-table.heading>
+                        <x-table.heading>Name</x-table.heading>
                         <x-table.heading>Merchant Code</x-table.heading>
                         <x-table.heading>Industry</x-table.heading>
                         <x-table.heading>Status</x-table.heading>
@@ -58,7 +46,6 @@
                         @endforeach
                     </x-slot>
                 </x-table>
-                <x-pagination :model="$merchants"/>
             </div>
         </div>
     </div>

@@ -14,11 +14,6 @@
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
 
     <script src="{{ asset('js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/plugins/jquery-validation/additional-methods.js') }}"></script>
@@ -154,29 +149,28 @@
                     @endrole
                 </div>
                 <div class="block-content block-content-full">
-                    <div class="table-responsive">
-                        <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Employee Code</th>
-                                    <th class="actions">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($outlet->employees as $employee)
-                                <tr>
-                                   <td>{{ $employee->name }}</td>
-                                   <td>{{ $employee->employee_code }}</td>
-                                   <td>
-                                        {!! Form::btnView(route('admin.employee.show', $employee)) !!}
-                                        {!! Form::btnEdit(route('admin.employee.edit', $employee)) !!}
-                                   </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                    <x-table class="js-datatable">
+                        <x-slot name="head">
+                            <x-table.heading>ID</x-table.heading>
+                            <x-table.heading>Name</x-table.heading>
+                            <x-table.heading>Employee Code</x-table.heading>
+                            <x-table.heading class="actions">Actions</x-table.heading>
+                        </x-slot>
+
+                        <x-slot name="body">
+                            @foreach ($outlet->employees as $employee)
+                                <x-table.row>
+                                    <x-table.cell>{{ $employee->id }}</x-table.cell>
+                                    <x-table.cell>{{ $employee->name }}</x-table.cell>
+                                    <x-table.cell>{{ $employee->employee_code }}</x-table.cell>
+                                    <x-table.cell>
+                                        <x-btn type="show" :url="route('admin.employee.show', $employee)"/>
+                                        <x-btn type="edit" :url="route('admin.employee.edit', $employee)"/>
+                                    </x-table.cell>
+                                </x-table.row>
+                            @endforeach
+                        </x-slot>
+                    </x-table>
                 </div>
             </div>
         </div>
@@ -191,11 +185,13 @@
                 <div class="table-responsive block-content p-0">
                     <table class="table table-borderless table-striped table-vcenter block-table">
                         <tbody>
+                            @isset($outlet_services)
                             @foreach($outlet_services as $code => $name)
                             <tr>
                                <td>{{ $name }}</td>
                             </tr>
                             @endforeach
+                            @endisset
                         </tbody>
                     </table>
                 </div>
@@ -205,7 +201,7 @@
                     <h3 class="block-title">Operating Hours</h3>
                     <div class="block-options">
                         @empty ($outlet->operating_hour)
-                        {!! Form::btnModalCreate('#operating-modal') !!}
+                        {!! Form::btnCreate(route('admin.outlet.operating_hour.create', $outlet)) !!}
                         @else
                         {!! Form::btnEdit(route('admin.operating_hour.edit', $outlet->operating_hour->id)) !!}
                         @endempty
@@ -274,55 +270,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="employee-modal" tabindex="-1" role="dialog" aria-labelledby="service-modal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="block block-rounded block-themed block-transparent mb-0">
-                <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Employee</h3>
-                    <div class="block-options">
-                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-fw fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="block-content font-size-sm">
-                    @include('admin.employees.form')
-                </div>
-                <div class="p-2 text-right border-top">
-                    <button type="button" class="btn btn-alt-secondary mr-1" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-alt-primary">Save</button>
-                </div>
-             {{ Form::close() }}
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="operating-modal" tabindex="-1" role="dialog" aria-labelledby="service-modal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="block block-rounded block-themed block-transparent mb-0">
-                <div class="block-header bg-primary-dark">
-                    <h3 class="block-title">Operating Hours</h3>
-                    <div class="block-options">
-                        <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                            <i class="fa fa-fw fa-times"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="block-content font-size-sm">
-                    @include('admin.operating_hours.form')
-                </div>
-                <div class="p-2 text-right border-top">
-                    <button type="button" class="btn btn-alt-secondary mr-1" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-alt-primary">Save</button>
-                </div>
-             {{ Form::close() }}
-            </div>
-        </div>
-    </div>
-</div>
+<x-modal modal="employee-modal">
+    <x-slot name="header">
+        Employee
+    </x-slot>
+    @include('admin.employees.form')
+</x-modal>
 
 @push('scripts')
 <script>

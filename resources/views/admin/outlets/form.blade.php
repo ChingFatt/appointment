@@ -23,11 +23,12 @@
     @endif
 @endsection
 
-@sectionMissing('form')
+@if ($action == 'edit')
+    {!! Form::model($outlet, ['route' => ['admin.outlet.update', $outlet], 'method' => 'put', 'files' => true]) !!}
+@else
     {!! Form::open(['route' => 'admin.outlet.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
 @endif
 
-@yield('form')
 <div class="row">
     {{ Form::hidden('merchant_id', 
         $merchant->id ?? $outlet->merchant_id, [
@@ -254,6 +255,7 @@
         </div>
     </div>
 </div>
+<x-forms.button/>
 
 @push('scripts')
 @if ($action == 'edit')

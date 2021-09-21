@@ -9,24 +9,16 @@
     <!-- Page JS Plugins -->
     <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
 
     <script src="{{ asset('js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('js/plugins/jquery-validation/additional-methods.js') }}"></script>
 
     <script src="{{ asset('js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
     <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
+    <script src="{{ asset('js/pages/be_forms_validation.min.js') }}"></script>
 
     <!-- Sweetalert2 JS Code -->
     <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
-
-    <!-- Page JS Code -->
-    <script src="{{ asset('js/pages/tables_datatables.js') }}"></script>
-    <script src="{{ asset('js/pages/be_forms_validation.min.js') }}"></script>
 
     @include('layouts.admin.sweetalert', ['route' => route('admin.merchant.destroy', $merchant), 'redirect' => route('admin.merchant.index')])
 @endsection
@@ -91,33 +83,32 @@
                 {!! Form::btnModalCreate('#service-modal') !!}
             </div>
             <div class="block-content block-content-full">
-                <div class="table-responsive">
-                    <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Duration</th>
-                                <th class="d-none d-md-table-cell">Service Code</th>
-                                <th class="d-none d-md-table-cell">Created</th>
-                                <th class="actions">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($merchant->services as $service)
-                            <tr>
-                               <td>{{ $service->name }}</td>
-                               <td>{!! $service->durations !!}</td>
-                               <td class="d-none d-md-table-cell">{{ $service->service_code }}</td>
-                               <td class="d-none d-md-table-cell">{{ $service->created_at }}</td>
-                               <td>
-                                    {!! Form::btnView(route('admin.service.show', $service)) !!}
-                                    {!! Form::btnEdit(route('admin.service.edit', $service)) !!}
-                               </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <x-table class="js-datatable">
+                    <x-slot name="head">
+                        <x-table.heading>ID</x-table.heading>
+                        <x-table.heading>Name</x-table.heading>
+                        <x-table.heading>Duration</x-table.heading>
+                        <x-table.heading>Service Code</x-table.heading>
+                        <x-table.heading>Created</x-table.heading>
+                        <x-table.heading class="actions">Actions</x-table.heading>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        @foreach ($merchant->services as $service)
+                        <x-table.row>
+                            <x-table.cell>{{ $service->id }}</x-table.cell>
+                            <x-table.cell>{{ $service->name }}</x-table.cell>
+                            <x-table.cell>{{ $service->duration }}</x-table.cell>
+                            <x-table.cell>{{ $service->service_code }}</x-table.cell>
+                            <x-table.cell>{{ $service->created_at }}</x-table.cell>
+                            <x-table.cell>
+                                <x-btn type="show" :url="route('admin.service.show', $service)"/>
+                                <x-btn type="edit" :url="route('admin.service.edit', $service)"/>
+                            </x-table.cell>
+                        </x-table.row>
+                        @endforeach
+                    </x-slot>
+                </x-table>
             </div>
         </div>
         <div class="block block-rounded">
@@ -126,86 +117,49 @@
                 {!! Form::btnModalCreate('#outlet-modal') !!}
             </div>
             <div class="block-content block-content-full">
-                <div class="table-responsive">
-                    <table class="table table-borderless table-striped table-vcenter js-dataTable-full ajax-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Outlet Code</th>
-                                <th class="d-none d-md-table-cell">Phone</th>
-                                <th class="d-none d-md-table-cell">Email</th>
-                                <th class="d-none d-md-table-cell">Published</th>
-                                <th class="actions">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($merchant->outlets as $outlet)
-                            <tr>
-                               <td>{{ $outlet->name }}</td>
-                               <td>{{ $outlet->outlet_code }}</td>
-                               <td class="d-none d-md-table-cell">{{ $outlet->phone }}</td>
-                               <td class="d-none d-md-table-cell">{{ $outlet->email }}</td>
-                               <td class="d-none d-md-table-cell">{!! $outlet->published !!}</td>
-                               <td>
-                                    {!! Form::btnView(route('admin.outlet.show', $outlet)) !!}
-                                    {!! Form::btnEdit(route('admin.outlet.edit', $outlet)) !!}
-                               </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
+                <x-table class="js-datatable">
+                    <x-slot name="head">
+                        <x-table.heading>ID</x-table.heading>
+                        <x-table.heading>Name</x-table.heading>
+                        <x-table.heading>Outlet Code</x-table.heading>
+                        <x-table.heading>Phone</x-table.heading>
+                        <x-table.heading>Email</x-table.heading>
+                        <x-table.heading>Status</x-table.heading>
+                        <x-table.heading class="actions">Actions</x-table.heading>
+                    </x-slot>
+
+                    <x-slot name="body">
+                        @foreach ($merchant->outlets as $outlet)
+                        <x-table.row>
+                            <x-table.cell>{{ $outlet->id }}</x-table.cell>
+                            <x-table.cell>{{ $outlet->name }}</x-table.cell>
+                            <x-table.cell>{{ $outlet->outlet_code }}</x-table.cell>
+                            <x-table.cell>{{ $outlet->phone }}</x-table.cell>
+                            <x-table.cell>{{ $outlet->email }}</x-table.cell>
+                            <x-table.cell>{!! $outlet->published !!}</x-table.cell>
+                            <x-table.cell>
+                                <x-btn type="show" :url="route('admin.outlet.show', $outlet)"/>
+                                <x-btn type="edit" :url="route('admin.outlet.edit', $outlet)"/>
+                            </x-table.cell>
+                        </x-table.row>
+                        @endforeach
+                    </x-slot>
+                </x-table>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="outlet-modal" tabindex="-1" role="dialog" aria-labelledby="outlet-modal" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="block block-rounded block-themed block-transparent mb-0">
-                    <div class="block-header bg-primary-dark">
-                        <h3 class="block-title">Outlet</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                                <i class="fa fa-fw fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="block-content font-size-sm">
-                        @include('admin.outlets.form')
-                    </div>
-                    <div class="p-2 text-right border-top">
-                        <button type="button" class="btn btn-alt-secondary mr-1" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-alt-primary">Save</button>
-                    </div>
-                 {{ Form::close() }}
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-modal modal="outlet-modal">
+        <x-slot name="header">
+            Outlet
+        </x-slot>
+        @include('admin.outlets.form')
+    </x-modal>
 
-    <div class="modal fade" id="service-modal" tabindex="-1" role="dialog" aria-labelledby="service-modal" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="block block-rounded block-themed block-transparent mb-0">
-                    <div class="block-header bg-primary-dark">
-                        <h3 class="block-title">Service</h3>
-                        <div class="block-options">
-                            <button type="button" class="btn-block-option" data-dismiss="modal" aria-label="Close">
-                                <i class="fa fa-fw fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="block-content font-size-sm">
-                        @include('admin.services.form')
-                    </div>
-                    <div class="p-2 text-right border-top">
-                        <button type="button" class="btn btn-alt-secondary mr-1" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-alt-primary">Save</button>
-                    </div>
-                 {{ Form::close() }}
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-modal modal="service-modal">
+        <x-slot name="header">
+            Service
+        </x-slot>
+        @include('admin.services.form')
+    </x-modal>
 </x-layout.backend>
