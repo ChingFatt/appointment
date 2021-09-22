@@ -6,7 +6,7 @@
 @if ($action == 'edit')
     {!! Form::model($service, ['route' => ['admin.service.update', $service], 'method' => 'put', 'files' => true]) !!}
 @else
-    {!! Form::open(['route' => 'admin.service.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
+    {!! Form::open(['route' => 'admin.service.store', 'method' => 'post', 'files' => true, 'id' => 'service-form']) !!}
 @endif
 
 <div class="row">

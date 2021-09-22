@@ -37,7 +37,7 @@
             <main id="main-container">
                 @yield('content')
             </main>
-            @include('layouts.admin.footer')
+            <x-layout.admin.footer/>
         </div>
         <!-- END Page Container -->
         

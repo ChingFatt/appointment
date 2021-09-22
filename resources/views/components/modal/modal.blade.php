@@ -1,5 +1,5 @@
 <div class="modal fade" id="{{ $modal }}" tabindex="-1" role="dialog" aria-labelledby="outlet-modal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="block block-rounded block-themed block-transparent mb-0">
                 <div class="block-header bg-primary-dark">

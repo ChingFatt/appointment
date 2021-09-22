@@ -161,7 +161,7 @@
                         {{ Form::number('interval', 
                             null, [
                                 'class'         => 'form-control', 
-                                'required'      => false, 
+                                'required'      => true, 
                                 'autocomplete'  => 'off',
                                 'min'           => 5,
                                 'max'           => 60,
@@ -463,13 +463,6 @@
 
 @push('scripts')
 <script>
-jQuery('.datepair.operating-hour').datepair({
-    defaultTimeDelta: 8 * 60 * 60 * 1000,
-});
-jQuery('.datepair.rest-time').datepair({
-    defaultTimeDelta: 1 * 60 * 60 * 1000,
-});
-
 jQuery('#searchBtn').on('click', function(e){
     e.preventDefault();
     var country = jQuery('#country').val();

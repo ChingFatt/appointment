@@ -80,7 +80,7 @@
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Services ({{ count($merchant->services) }})</h3>
-                {!! Form::btnModalCreate('#service-modal') !!}
+                <x-btn-modal modal="#service-modal"/>
             </div>
             <div class="block-content block-content-full">
                 <x-table class="js-datatable">
@@ -114,7 +114,7 @@
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Outlets ({{ count($merchant->outlets) }})</h3>
-                {!! Form::btnModalCreate('#outlet-modal') !!}
+                <x-btn-modal modal="#outlet-modal"/>
             </div>
             <div class="block-content block-content-full">
                 <x-table class="js-datatable">
@@ -148,18 +148,17 @@
             </div>
         </div>
     </div>
+    <x-modal modal="service-modal">
+        <x-slot name="header">
+            Service
+        </x-slot>
+        @include('admin.services.form')
+    </x-modal>
 
     <x-modal modal="outlet-modal">
         <x-slot name="header">
             Outlet
         </x-slot>
         @include('admin.outlets.form')
-    </x-modal>
-
-    <x-modal modal="service-modal">
-        <x-slot name="header">
-            Service
-        </x-slot>
-        @include('admin.services.form')
     </x-modal>
 </x-layout.backend>

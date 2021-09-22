@@ -73,7 +73,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $roles = Role::pluck('name', 'id');
+        $merchants = Merchant::pluck('name', 'id');
+
+        return view('admin.users.edit')->with(compact('user', 'roles', 'merchants'));
     }
 
     /**
@@ -85,7 +88,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $user->update($request->except('_method', '_token', 'password'));
+        return redirect()->route('admin.user.index');
     }
 
     /**
@@ -97,6 +101,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function profile()
+    {
+        dd('profile');
     }
 
     public function impersonate($user_id)

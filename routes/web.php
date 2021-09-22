@@ -26,7 +26,6 @@ require __DIR__.'/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {//['role:admin|merchant']]
     Route::get('/impersonate_leave', [UserController::class, 'impersonate_leave'])->name('impersonate.leave');
-
     Route::group(['middleware' => ['role:admin|merchant']], function () {
         Route::resource('outlet.operating_hour', OperatingHourController::class)->shallow();
         Route::resources([
@@ -34,7 +33,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
             'dashboard'         => DashboardController::class,
             'employee'          => EmployeeController::class,
             'merchant'          => MerchantController::class,
-            //'operating_hour'    => OperatingHourController::class,
             'outlet'            => OutletController::class,
             'service'           => ServiceController::class
         ]);
@@ -44,11 +42,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
             'industry'          => IndustryController::class,
             'user'              => UserController::class
         ]);
-
         Route::get('/impersonate/{user_id}', [UserController::class, 'impersonate'])->name('impersonate');
 
     });
-
+    Route::get('profile', [UserController::class, 'profile'])->name('profile');
     Route::get('calendar', [AppointmentController::class, 'calendar'])->name('calendar');
 });
 
@@ -56,9 +53,7 @@ Route::group([], function ($subdomain) { //'subdomain' => '{merchant}.'.config('
     Route::resources([
         'appointment'       => App\Http\Controllers\AppointmentController::class,
     ]);
-
     Route::get('{merchant}', [App\Http\Controllers\AppointmentController::class, 'appointment'])->name('appointment');
-
     Route::get('/', function () {
         return view('landing');
     })->name('landing');

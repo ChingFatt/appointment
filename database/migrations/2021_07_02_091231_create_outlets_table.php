@@ -21,7 +21,7 @@ class CreateOutletsTable extends Migration
             $table->string('description', 255)->nullable();
             $table->string('address', 255)->nullable();
             $table->string('address2', 255)->nullable();
-            $table->string('postocde')->nullable();
+            $table->string('postcode')->nullable();
             $table->string('state')->nullable();
             $table->string('country')->nullable();
             $table->string('latitude')->nullable();

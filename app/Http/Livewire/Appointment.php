@@ -195,14 +195,18 @@ class Appointment extends Component
 
                 $holiday_eve = [];
                 $holidays = [];
-                foreach ($public_holidays as $date => $holiday) {
-                    $holidays[]     = date('Y-m-d', strtotime($date));
-                    $holiday_eve[]  = date('Y-m-d', strtotime($date."-1 day"));
+                if (isset($public_holidays)) {
+                    foreach ($public_holidays as $date => $holiday) {
+                        $holidays[]     = date('Y-m-d', strtotime($date));
+                        $holiday_eve[]  = date('Y-m-d', strtotime($date."-1 day"));
+                    }
                 }
 
-                foreach ($other_holidays as $date => $holiday) {
-                    $holidays[]     = date('Y-m-d', strtotime($date));
-                    $holiday_eve[]  = date('Y-m-d', strtotime($date."-1 day"));
+                if (isset($other_holidays)) {
+                    foreach ($other_holidays as $date => $holiday) {
+                        $holidays[]     = date('Y-m-d', strtotime($date));
+                        $holiday_eve[]  = date('Y-m-d', strtotime($date."-1 day"));
+                    }
                 }
 
                 foreach ($operating_hours as $day => $value) {

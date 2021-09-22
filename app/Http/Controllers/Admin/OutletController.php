@@ -104,9 +104,12 @@ class OutletController extends Controller
     {
         $services = $outlet->merchant->services->pluck('name', 'service_code');
         $selected = [];
-        foreach ($outlet->services() as $code => $name) {
-            $selected[] = $code;
+        if ($outlet->services()) {
+            foreach ($outlet->services() as $code => $name) {
+                $selected[] = $code;
+            }
         }
+        
         //dd($selected);
         return view('admin.outlets.edit')->with(compact('outlet', 'services', 'selected'));
     }

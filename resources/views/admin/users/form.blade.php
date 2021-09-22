@@ -45,6 +45,7 @@
             ) }}
         </div>
     </div>
+    @if ($action == 'create')
     <div class="col-md-12 col-lg-4">
         <div class="form-group">
             <label for="password">Password Generator</label>
@@ -64,6 +65,7 @@
             </div>
         </div>
     </div>
+    @endif
     <div class="col-md-12 col-lg-6">
         <div class="form-group">
             <label for="role">Role</label>
@@ -87,7 +89,7 @@
                 $merchants, 
                 null, [
                     'class'             => 'js-select2 form-control', 
-                    'required'          => true, 
+                    'required'          => false, 
                     'autocomplete'      => 'off', 
                     'data-placeholder'  => 'Choose one..',
                     'placeholder'       => '',

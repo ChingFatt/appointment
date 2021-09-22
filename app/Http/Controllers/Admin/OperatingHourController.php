@@ -73,20 +73,26 @@ class OperatingHourController extends Controller
      */
     public function edit(OperatingHour $operatingHour)
     {
+        $outlet = $operatingHour->outlet;
+        if (Auth::user()->hasRole('admin') || (Auth::user()->merchant->outlets->contains($operatingHour->outlet->id))) {
+            $years[date('Y')] = date('Y');
+
+            for ($x = 1; $x < 5; $x++) {
+                $loop_year = date("Y", strtotime("+ ".$x." year"));
+                $years[$loop_year] = $loop_year;
+            }
+
+            $public_holidays = $operatingHour->public_holidays;
+            //dd($operatingHour->other_holidays);
+            $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
+            return view('admin.operating_hours.edit')->with(compact('operatingHour', 'countries', 'years', 'public_holidays'));
+        } else {
+            abort(403);
+        }
         //dd($operatingHour->outlet->id);
         //dd(Auth::user()->merchant->outlets);
         //dd(Auth::user()->merchant->outlets->contains($operatingHour->outlet->id));
-        $years[date('Y')] = date('Y');
-
-        for ($x = 1; $x < 5; $x++) {
-            $loop_year = date("Y", strtotime("+ ".$x." year"));
-            $years[$loop_year] = $loop_year;
-        }
-
-        $public_holidays = $operatingHour->public_holidays;
-        //dd($operatingHour->other_holidays);
-        $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
-        return view('admin.operating_hours.edit')->with(compact('operatingHour', 'countries', 'years', 'public_holidays'));
+        
     }
 
     /**

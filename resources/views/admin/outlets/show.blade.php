@@ -50,10 +50,10 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Details</h3>
                     @role('admin')
-                    {!! Form::btnBack(route('admin.outlet.index')) !!}
+                    <x-btn type="index" :url="route('admin.outlet.index')"/>
                     @endrole
-                    {!! Form::btnEdit(route('admin.outlet.edit', $outlet)) !!}
-                    {!! Form::btnDelete() !!}
+                    <x-btn type="edit" :url="route('admin.outlet.edit', $outlet)"/>
+                    <x-btn type="delete"/>
                 </div>
                 <div class="block-content">
                     <div class="row">
@@ -145,7 +145,7 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Employee ({{ count($outlet->employees) }})</h3>
                     @role('admin|merchant')
-                    {!! Form::btnModalCreate('#employee-modal') !!}
+                    <x-btn-modal modal="#employee-modal"/>
                     @endrole
                 </div>
                 <div class="block-content block-content-full">
@@ -201,9 +201,9 @@
                     <h3 class="block-title">Operating Hours</h3>
                     <div class="block-options">
                         @empty ($outlet->operating_hour)
-                        {!! Form::btnCreate(route('admin.outlet.operating_hour.create', $outlet)) !!}
+                        <x-btn type="create" :url="route('admin.outlet.operating_hour.create', $outlet)"/>
                         @else
-                        {!! Form::btnEdit(route('admin.operating_hour.edit', $outlet->operating_hour->id)) !!}
+                        <x-btn type="edit" :url="route('admin.operating_hour.edit', $outlet->operating_hour->id)"/>
                         @endempty
                         <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>

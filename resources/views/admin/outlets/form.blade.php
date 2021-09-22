@@ -26,7 +26,7 @@
 @if ($action == 'edit')
     {!! Form::model($outlet, ['route' => ['admin.outlet.update', $outlet], 'method' => 'put', 'files' => true]) !!}
 @else
-    {!! Form::open(['route' => 'admin.outlet.store', 'method' => 'post', 'files' => true, 'class' => 'js-validation']) !!}
+    {!! Form::open(['route' => 'admin.outlet.store', 'method' => 'post', 'files' => true, 'id' => 'outlet-form']) !!}
 @endif
 
 <div class="row">

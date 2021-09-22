@@ -9,6 +9,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
 use App\View\Components\Button\Button;
+use App\View\Components\Button\Modal as BtnModal;
 use App\View\Components\Modal\Modal;
 use App\Models\Appointment;
 
@@ -36,6 +37,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         Blade::component('btn', Button::class);
+        Blade::component('btn-modal', BtnModal::class);
         Blade::component('modal', Modal::class);
 
         //View::composer('*', function ($view) {
