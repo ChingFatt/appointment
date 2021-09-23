@@ -80,7 +80,7 @@ class AppointmentController extends Controller
                 $appointment = Appointment::create($request->all());
                 $this->appointment_no($appointment);
 
-                Mail::to($request->email)->bcc(['outlet7@software.com'])->send(new Welcome($request));
+                Mail::to($request->email)->bcc($outlet->email)->send(new Welcome($request));
 
                 return redirect()->route('appointment', $request->merchant_code)->withSuccess('Thank you. Your appointment has been made.');
             }
