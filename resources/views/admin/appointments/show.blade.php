@@ -1,9 +1,3 @@
-@push('js_before')
-    <script src="{{ asset('js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
-    @include('layouts.admin.sweetalert', ['route' => route('admin.appointment.destroy', $appointment), 'redirect' => route('admin.appointment.index')])
-@endpush
-
 <x-layout.backend>
     <div class="content">
         <div class="row">
@@ -11,10 +5,10 @@
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">Details</h3>
-                        <x-btn type="index" :url="route('admin.appointment.index')"/>
-                        <x-btn type="edit" :url="route('admin.appointment.edit', $appointment)"/>
+                        <x-button.listing route="{{ route('admin.appointment.index') }}"/>
+                        <x-button.edit route="{{ route('admin.appointment.edit', $appointment) }}"/>
                         @role('admin')
-                        <x-btn type="delete"/>
+                        <x-button.delete route="{{ route('admin.appointment.destroy', $appointment) }}" redirect="{{ route('admin.appointment.index') }}"/>
                         @endrole
                     </div>
                     <div class="block-content block-content-full">

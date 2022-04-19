@@ -1,39 +1,14 @@
-@section('css_before')
-    <!-- Page JS Plugins CSS -->
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
-@endsection
-
-@section('js_after')
-    <!-- Page JS Plugins -->
-    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
-    <script src="{{ asset('js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/jquery-validation/additional-methods.js') }}"></script>
-
-    <script src="{{ asset('js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
-    <script src="{{ asset('js/pages/be_forms_validation.min.js') }}"></script>
-
-    <!-- Sweetalert2 JS Code -->
-    <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
-
-    @include('layouts.admin.sweetalert', ['route' => route('admin.merchant.destroy', $merchant), 'redirect' => route('admin.merchant.index')])
-@endsection
-
 <x-layout.backend>
     <div class="content">
     	<div class="block block-rounded">
             <div class="block-header block-header-default">
                 <h3 class="block-title">Details</h3>
                 @role('admin')
-                <x-btn type="index" :url="route('admin.merchant.index')"/>
+                <x-button.listing route="{{ route('admin.merchant.index') }}"/>
                 @endrole
-                <x-btn type="edit" :url="route('admin.merchant.edit', $merchant)"/>
+                <x-button.edit route="{{ route('admin.merchant.edit', $merchant) }}"/>
                 @role('admin')
-                <x-btn type="delete"/>
+                <x-button.delete route="{{ route('admin.merchant.destroy', $merchant) }}" redirect="{{ route('admin.merchant.index') }}"/>
                 @endrole
             </div>
             <div class="block-content">
@@ -102,8 +77,8 @@
                             <x-table.cell>{{ $service->service_code }}</x-table.cell>
                             <x-table.cell>{{ $service->created_at }}</x-table.cell>
                             <x-table.cell>
-                                <x-btn type="show" :url="route('admin.service.show', $service)"/>
-                                <x-btn type="edit" :url="route('admin.service.edit', $service)"/>
+                                <x-button.show route="{{ route('admin.service.show', $service) }}"/>
+                                <x-button.edit route="{{ route('admin.service.edit', $service) }}"/>
                             </x-table.cell>
                         </x-table.row>
                         @endforeach
@@ -138,8 +113,8 @@
                             <x-table.cell>{{ $outlet->email }}</x-table.cell>
                             <x-table.cell>{!! $outlet->published !!}</x-table.cell>
                             <x-table.cell>
-                                <x-btn type="show" :url="route('admin.outlet.show', $outlet)"/>
-                                <x-btn type="edit" :url="route('admin.outlet.edit', $outlet)"/>
+                                <x-button.show route="{{ route('admin.outlet.show', $outlet) }}"/>
+                                <x-button.edit route="{{ route('admin.outlet.edit', $outlet) }}"/>
                             </x-table.cell>
                         </x-table.row>
                         @endforeach

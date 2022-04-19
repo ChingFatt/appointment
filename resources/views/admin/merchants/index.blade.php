@@ -1,20 +1,10 @@
-@section('css_before')
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-@endsection
-
-@section('js_after')
-    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-@endsection
-
 <x-layout.backend>
     <div class="content">
         <div class="block block-rounded">
             <div class="block-header">
                 <h3 class="block-title">Listing</h3>
                 @role('admin')
-                <x-btn type="create" :url="route('admin.merchant.create')"/>
+                <x-button.create route="{{ route('admin.merchant.create') }}"/>
                 @endrole
             </div>
             <div class="block-content block-content-full">
@@ -38,8 +28,8 @@
                                 <x-table.cell>{{ $merchant->industry->name }}</x-table.cell>
                                 <x-table.cell>{!! $merchant->published !!}</x-table.cell>
                                 <x-table.cell>
-                                    <x-btn type="show" :url="route('admin.merchant.show', $merchant)"/>
-                                    <x-btn type="edit" :url="route('admin.merchant.edit', $merchant)"/>
+                                    <x-button.show route="{{ route('admin.merchant.show', $merchant) }}"/>
+                                    <x-button.edit route="{{ route('admin.merchant.edit', $merchant) }}"/>
                                 </x-table.cell>
                             </x-table.row>
                         @endcan

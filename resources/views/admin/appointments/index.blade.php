@@ -1,19 +1,3 @@
-@section('css_before')
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-@endsection
-
-@section('js_after')
-    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
-    <script src="{{ asset('js/pages/tables_datatables.js') }}"></script>
-@endsection
-
 <x-layout.backend>
 <div class="content">
     <div class="block block-rounded">
@@ -43,10 +27,14 @@
                             <x-table.cell>{{ $appointment->outlet->outlet_code }}</x-table.cell>
                             <x-table.cell>{{ $appointment->date }}</x-table.cell>
                             <x-table.cell>{{ $appointment->time }}</x-table.cell>
-                            <x-table.cell><span class="bg-{!! $appointment->status_color !!}-light text-{!! $appointment->status_color !!} font-size-sm font-w600 px-2 py-1 rounded">{{ $appointment->status }}</span></x-table.cell>
                             <x-table.cell>
-                                <x-btn type="show" :url="route('admin.appointment.show', $appointment)"/>
-                                <x-btn type="edit" :url="route('admin.appointment.edit', $appointment)"/>
+                                <span class="bg-{!! $appointment->status_color !!}-light text-{!! $appointment->status_color !!} font-size-sm font-w600 px-2 py-1 rounded">
+                                    {{ $appointment->status }}
+                                </span>
+                            </x-table.cell>
+                            <x-table.cell>
+                                <x-button.show route="{{ route('admin.appointment.show', $appointment) }}"/>
+                                <x-button.edit route="{{ route('admin.appointment.edit', $appointment) }}"/>
                             </x-table.cell>
                         </x-table.row>
                     @endcan

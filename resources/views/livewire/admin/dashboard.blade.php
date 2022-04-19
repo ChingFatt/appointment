@@ -198,7 +198,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-xl-12">
+                    <div class="col-xl-12">
                         <div class="block block-rounded d-flex flex-column" wire:ignore>
                             <div class="block-content block-content-full flex-grow-1 d-flex justify-content-between">
                                 <dl class="mb-0">
@@ -224,7 +224,11 @@
     </div>
 </div>
 
+@once
 @push('scripts')
+<script src="{{ asset('js/plugins/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
+<script src="{{ asset('js/plugins/chart.js/Chart.bundle.min.js') }}"></script>
+<script src="{{ asset('js/pages/be_pages_dashboard.min.js') }}"></script>
 <script>
 Chart.defaults.global.defaultFontColor              = '#495057';
 Chart.defaults.scale.gridLines.color                = 'transparent';
@@ -297,3 +301,4 @@ window.addEventListener('updateChart', event => {
 })
 </script>
 @endpush
+@endonce

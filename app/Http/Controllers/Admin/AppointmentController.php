@@ -7,6 +7,8 @@ use App\Models\Appointment;
 use App\Models\Employee;
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Welcome;
 use Auth;
 
 class AppointmentController extends Controller
@@ -126,7 +128,24 @@ class AppointmentController extends Controller
             ]);
         }
 
+        $content = [
+            'fullname'      => $appointment->fullname,
+            'phone'         => $appointment->phone,
+            'email'         => $appointment->email,
+            'date'          => $appointment->date,
+            'time'          => $appointment->time,
+            'duration'      => $appointment->duration,
+            'merchant_id'   => $appointment->merchant_id,
+            'industry_id'   => $appointment->industry_id,
+            'outlet_id'     => $appointment->outlet_id,
+            'service_id'    => json_decode($appointment->service_id),
+            'employee_id'   => json_decode($appointment->employee_id),
+            'end_time'      => $appointment->end_time,
+            'status'        => $request->status
+        ];
+
         $appointment->update($request->except('_method', '_token'));
+        Mail::to($appointment->email)->bcc($appointment->outlet->email)->send(new Welcome($content));
         return redirect()->route('admin.appointment.show', $appointment);
     }
 
@@ -138,7 +157,8 @@ class AppointmentController extends Controller
      */
     public function destroy(Appointment $appointment)
     {
-        //
+        $appointment->delete();
+        return redirect()->route('admin.appointment.index');
     }
 
     /**

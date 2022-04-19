@@ -14,6 +14,12 @@ class Appointment extends Model
     public $cacheFor = 3600;
     protected static $flushCacheOnUpdate = true;
 
+    const STATUSES = [
+        'Cancelled' => 'Cancelled',
+        'Scheduled' => 'Scheduled',
+        'Pending' => 'Pending',
+    ];
+
     protected $fillable = [
         'appointment_no',
         'fullname',

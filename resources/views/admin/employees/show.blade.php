@@ -1,35 +1,10 @@
-@section('css_before')
-    <!-- Page JS Plugins CSS -->
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-@endsection
-
-@section('js_after')
-    <!-- Page JS Plugins -->
-    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.flash.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/buttons/buttons.colVis.min.js') }}"></script>
-
-    <!-- Page JS Code -->
-    <script src="{{ asset('js/pages/tables_datatables.js') }}"></script>
-
-    <!-- Sweetalert2 JS Code -->
-    <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
-    
-    @include('layouts.admin.sweetalert', ['route' => route('admin.employee.destroy', $employee), 'redirect' => route('admin.outlet.show', $employee->outlet_id)])
-@endsection
-
 <x-layout.backend>
 <div class="content">
 	<div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">Details</h3>
-            {!! Form::btnEdit(route('admin.employee.edit', $employee)) !!}
-            {!! Form::btnDelete() !!}
+            <x-button.edit route="{{ route('admin.employee.edit', $employee) }}"/>
+            <x-button.delete route="{{ route('admin.employee.destroy', $employee) }}" redirect="{{ route('admin.employee.index') }}"/>
         </div>
         <div class="block-content">
             <div class="row">
@@ -97,8 +72,8 @@
                             <x-table.cell>{{ $appointment->time }}</x-table.cell>
                             <x-table.cell><span class="bg-{!! $appointment->status_color !!}-light text-{!! $appointment->status_color !!} font-size-sm font-w600 px-2 py-1 rounded">{{ $appointment->status }}</span></x-table.cell>
                             <x-table.cell>
-                                <x-btn type="show" :url="route('admin.appointment.show', $appointment)"/>
-                                <x-btn type="edit" :url="route('admin.appointment.edit', $appointment)"/>
+                                <x-button.show route="{{ route('admin.appointment.show', $appointment) }}"/>
+                                <x-button.edit route="{{ route('admin.appointment.edit', $appointment) }}"/>
                             </x-table.cell>
                         </x-table.row>
                     @endcan
@@ -136,8 +111,8 @@
                             <x-table.cell>{{ $appointment->time }}</x-table.cell>
                             <x-table.cell><span class="bg-{!! $appointment->status_color !!}-light text-{!! $appointment->status_color !!} font-size-sm font-w600 px-2 py-1 rounded">{{ $appointment->status }}</span></x-table.cell>
                             <x-table.cell>
-                                <x-btn type="show" :url="route('admin.appointment.show', $appointment)"/>
-                                <x-btn type="edit" :url="route('admin.appointment.edit', $appointment)"/>
+                                <x-button.show route="{{ route('admin.appointment.show', $appointment) }}"/>
+                                <x-button.edit route="{{ route('admin.appointment.edit', $appointment) }}"/>
                             </x-table.cell>
                         </x-table.row>
                     @endcan

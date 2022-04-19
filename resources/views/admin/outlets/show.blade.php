@@ -38,8 +38,6 @@
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-service.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-ui.js"></script>
     <script type="text/javascript" src="https://js.api.here.com/v3/3.1/mapsjs-mapevents.js"></script>
-
-    @include('layouts.admin.sweetalert', ['route' => route('admin.outlet.destroy', $outlet), 'redirect' => route('admin.merchant.show', $outlet->merchant->id)])
 @endsection
 
 <x-layout.backend>
@@ -50,10 +48,10 @@
                 <div class="block-header block-header-default">
                     <h3 class="block-title">Details</h3>
                     @role('admin')
-                    <x-btn type="index" :url="route('admin.outlet.index')"/>
+                    <x-button.listing route="{{ route('admin.outlet.index') }}"/>
                     @endrole
-                    <x-btn type="edit" :url="route('admin.outlet.edit', $outlet)"/>
-                    <x-btn type="delete"/>
+                    <x-button.edit route="{{ route('admin.outlet.edit', $outlet) }}"/>
+                    <x-button.delete route="{{ route('admin.outlet.destroy', $outlet) }}" redirect="{{ route('admin.merchant.show', $outlet->merchant->id) }}"/>
                 </div>
                 <div class="block-content">
                     <div class="row">
@@ -164,8 +162,8 @@
                                     <x-table.cell>{{ $employee->name }}</x-table.cell>
                                     <x-table.cell>{{ $employee->employee_code }}</x-table.cell>
                                     <x-table.cell>
-                                        <x-btn type="show" :url="route('admin.employee.show', $employee)"/>
-                                        <x-btn type="edit" :url="route('admin.employee.edit', $employee)"/>
+                                        <x-button.show route="{{ route('admin.employee.show', $employee) }}"/>
+                                        <x-button.edit route="{{ route('admin.employee.edit', $employee) }}"/>
                                     </x-table.cell>
                                 </x-table.row>
                             @endforeach
@@ -201,9 +199,9 @@
                     <h3 class="block-title">Operating Hours</h3>
                     <div class="block-options">
                         @empty ($outlet->operating_hour)
-                        <x-btn type="create" :url="route('admin.outlet.operating_hour.create', $outlet)"/>
+                        <x-button.create route="{{ route('admin.outlet.operating_hour.create', $outlet) }}"/>
                         @else
-                        <x-btn type="edit" :url="route('admin.operating_hour.edit', $outlet->operating_hour->id)"/>
+                        <x-button.edit route="{{ route('admin.operating_hour.edit', $outlet->operating_hour->id) }}"/>
                         @endempty
                         <button type="button" class="btn-block-option" data-toggle="block-option" data-action="content_toggle"></button>
                     </div>

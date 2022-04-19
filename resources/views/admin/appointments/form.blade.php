@@ -1,12 +1,3 @@
-@section('css_before')
-    <link rel="stylesheet" href="{{ asset('js/plugins/select2/css/select2.min.css') }}">
-@endsection
-
-@section('js_after')
-    <script src="{{ asset('js/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/select2/js/select2.full.min.js') }}"></script>
-@endsection
-
 @php
     $route = Route::currentRouteAction();
     $action = substr($route, strpos($route, '@') + 1);
@@ -22,18 +13,7 @@
     <div class="col-md-12 col-lg-12">
         <div class="form-group">
             <label for="status">Status</label>
-            {{ Form::select('status', [
-                    'Cancelled' => 'Cancelled',
-                    'Scheduled' => 'Scheduled',
-                    'Pending' => 'Pending'
-                ],
-                null, [
-                    'class'         => 'form-control', 
-                    'required'      => true, 
-                    'autocomplete'  => 'off',
-                    'placeholder'   => '- Please Select -'
-                ]
-            ) }}
+            <x-input.select2 name="status" :model="$appointment" :options="App\Models\Appointment::STATUSES"/>
         </div>
     </div>
 </div>
@@ -44,20 +24,7 @@
         </p>
         <div class="form-group">
             <label for="one-ecom-customer-note">Remarks</label>
-            {{ Form::textarea('remarks', 
-                null, [
-                    'class'             => 'js-maxlength form-control', 
-                    'required'          => false, 
-                    'autocomplete'      => 'off', 
-                    'rows'              => 4, 
-                    'maxlength'         => 255, 
-                    'data-always-show'  => 'true', 
-                    'data-placement'    => 'top'
-                ]
-            ) }}
-            <small class="form-text text-muted">
-                255 Character Max
-            </small>
+            <x-input.textarea name="remarks" :model="$appointment"/>
         </div>
     </div>
 </div>

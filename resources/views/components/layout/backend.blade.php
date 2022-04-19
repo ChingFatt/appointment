@@ -19,6 +19,7 @@
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
 
         <!-- Fonts and Styles -->
+        @stack('styles')
         @yield('css_before')
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
         <link rel="stylesheet" id="css-main" href="{{ mix('/css/oneui.css') }}">
@@ -26,6 +27,7 @@
 
         @yield('css_after')
         <script>window.Laravel = {!! json_encode(['csrfToken' => csrf_token(),]) !!};</script>
+        @livewireStyles
     </head>
     <body>
         <div id="page-loader" class="show"></div>
@@ -46,6 +48,7 @@
             <x-layout.admin.footer/>
         </div>
         
+        @livewireScripts
         <!-- OneUI Core JS -->
         <script src="{{ mix('js/oneui.app.js') }}"></script>
 

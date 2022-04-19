@@ -345,7 +345,7 @@
                 </div>
                 <div class="col-md-12 col-lg-4">
                     <div class="form-group">
-                        <label>Search</label>
+                        <label>Action</label>
                         <div>
                             <button class="btn btn-alt-secondary" id="searchBtn">Search</button>
                         </div>

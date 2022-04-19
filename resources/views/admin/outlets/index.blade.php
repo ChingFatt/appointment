@@ -1,13 +1,3 @@
-@section('css_before')
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-@endsection
-
-@section('js_after')
-    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-@endsection
-
 <x-layout.backend>
     <div class="content">
         <div class="block block-rounded">
@@ -35,8 +25,8 @@
                                 <x-table.cell>{{ $outlet->merchant->merchant_code }}</x-table.cell>
                                 <x-table.cell>{!! $outlet->published !!}</x-table.cell>
                                 <x-table.cell>
-                                    <x-btn type="show" :url="route('admin.outlet.show', $outlet)"/>
-                                    <x-btn type="edit" :url="route('admin.outlet.edit', $outlet)"/>
+                                    <x-button.show route="{{ route('admin.outlet.show', $outlet) }}"/>
+                                    <x-button.edit route="{{ route('admin.outlet.edit', $outlet) }}"/>
                                 </x-table.cell>
                             </x-table.row>
                         @endcan

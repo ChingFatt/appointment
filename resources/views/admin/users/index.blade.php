@@ -1,20 +1,10 @@
-@section('css_before')
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/dataTables.bootstrap4.css') }}">
-    <link rel="stylesheet" href="{{ asset('js/plugins/datatables/buttons-bs4/buttons.bootstrap4.min.css') }}">
-@endsection
-
-@section('js_after')
-    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-@endsection
-
 <x-layout.backend>
     <div class="content">
         <div class="block block-rounded">
             <div class="block-header">
                 <h3 class="block-title">Listing</h3>
                 @role('admin')
-                <x-btn type="create" :url="route('admin.user.create')"/>
+                <x-button.create route="{{ route('admin.user.create') }}"/>
                 @endrole
             </div>
             <div class="block-content block-content-full table-responsive">
@@ -43,9 +33,9 @@
                                 </x-table.cell>
                                 <x-table.cell>
                                     @role('admin')
-                                    <x-btn type="edit" :url="route('admin.user.edit', $user)"/>
+                                    <x-button.edit route="{{ route('admin.user.edit', $user) }}"/>
                                     @canBeImpersonated($user, $guard = null)
-                                    <x-btn type="impersonate" :url="route('admin.impersonate', $user)"/>
+                                    <x-button.impersonate route="{{ route('admin.impersonate', $user) }}"/>
                                     @endCanBeImpersonated
                                     @endrole
                                 </x-table.cell>

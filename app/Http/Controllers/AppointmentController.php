@@ -9,6 +9,7 @@ use App\Models\Outlet;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -55,7 +56,7 @@ class AppointmentController extends Controller
                 }
             }
 
-            if ($rounded_end_time > $end_operating_hour) {
+            if (Carbon::createFromFormat('g:ia', $rounded_end_time)->gte(Carbon::createFromFormat('g:ia', $end_operating_hour))) {
                 return redirect()->route('appointment', $request->merchant_code)->withError('Total service duration exceeded operating hours. Please try again.');
             }
 

@@ -34,20 +34,7 @@
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            {{ Form::textarea('description', 
-                null, [
-                    'class'             => 'js-maxlength form-control', 
-                    'required'          => true, 
-                    'autocomplete'      => 'off', 
-                    'rows'              => 4, 
-                    'maxlength'         => 255, 
-                    'data-always-show'  => 'true', 
-                    'data-placement'    => 'top'
-                ]
-            ) }}
-            <small class="form-text text-muted">
-                255 Character Max
-            </small>
+            <x-input.textarea name="description" :model="$industry"/>
         </div>
     </div>
 </div>
