@@ -159,7 +159,7 @@ class OutletController extends Controller
         $outlet->save();
     }
 
-    public function getloation($query)
+    public function getlocation($query)
     {
         $response = Http::get('http://api.positionstack.com/v1/forward?access_key=cd507a242f62553f9369dda5f1cf09c2&query="'.$query.'"&limit=1');
         $location = $response->object()->data[0];
