@@ -62,6 +62,33 @@
             </small>
         </div>
         <div class="form-group">
+            <label for="description">Email Body</label>
+            {{ Form::textarea('email_body', 
+                null, [
+                    'class'             => 'js-maxlength form-control', 
+                    'required'          => true, 
+                    'autocomplete'      => 'off', 
+                    'rows'              => 4, 
+                    'maxlength'         => 255, 
+                    'data-always-show'  => 'true', 
+                    'data-placement'    => 'top'
+                ]
+            ) }}
+            <small class="form-text text-muted">
+                255 Character Max
+            </small>
+        </div>
+        <div class="form-group">
+            <label for="name">Email Footer</label>
+            {{ Form::text('email_footer', 
+                null, [
+                    'class'         => 'form-control', 
+                    'required'      => true, 
+                    'autocomplete'  => 'off'
+                ]
+            ) }}
+        </div>
+        <div class="form-group">
             <label>Publish</label>
             <div class="custom-control custom-switch mb-1">
                 {{ Form::checkbox('is_publish', 

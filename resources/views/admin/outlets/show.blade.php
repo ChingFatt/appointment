@@ -171,6 +171,35 @@
                     </x-table>
                 </div>
             </div>
+            <div class="block block-rounded">
+                <div class="block-header block-header-default">
+                    <h3 class="block-title">Email Config</h3>
+                    @role('admin|merchant')
+                    <x-button.create route="{{ route('admin.outlet.email_config.create', $outlet) }}"/>
+                    @endrole
+                </div>
+                <div class="block-content block-content-full">
+                    <x-table class="js-datatable">
+                        <x-slot name="head">
+                            <x-table.heading>ID</x-table.heading>
+                            <x-table.heading>Status</x-table.heading>
+                            <x-table.heading class="actions">Actions</x-table.heading>
+                        </x-slot>
+
+                        <x-slot name="body">
+                            @foreach ($email_configs as $config)
+                                <x-table.row>
+                                    <x-table.cell>{{ $config->id }}</x-table.cell>
+                                    <x-table.cell>{{ $config->status }}</x-table.cell>
+                                    <x-table.cell>
+                                        <x-button.edit route="{{ route('admin.email_config.edit', $config) }}"/>
+                                    </x-table.cell>
+                                </x-table.row>
+                            @endforeach
+                        </x-slot>
+                    </x-table>
+                </div>
+            </div>
         </div>
         <div class="col-lg-4 col-md-12">
             <div class="block block-rounded">

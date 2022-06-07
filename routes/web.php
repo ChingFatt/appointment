@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AppointmentController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\EmailConfigController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\IndustryController;
 use App\Http\Controllers\Admin\MerchantController;
@@ -28,9 +29,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
     Route::get('/impersonate_leave', [UserController::class, 'impersonate_leave'])->name('impersonate.leave');
     Route::group(['middleware' => ['role:admin|merchant']], function () {
         Route::resource('outlet.operating_hour', OperatingHourController::class)->shallow();
+        Route::resource('outlet.email_config', EmailConfigController::class)->shallow();
         Route::resources([
             'appointment'       => AppointmentController::class,
             'dashboard'         => DashboardController::class,
+            //'email_config'      => EmailConfigController::class,
             'employee'          => EmployeeController::class,
             'merchant'          => MerchantController::class,
             'outlet'            => OutletController::class,

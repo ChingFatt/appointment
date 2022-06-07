@@ -29,6 +29,8 @@ class Outlet extends Model
         'country',
         'latitude',
         'longitude',
+        'email_body',
+        'email_footer',
         'is_publish'
     ];
 
@@ -60,6 +62,11 @@ class Outlet extends Model
     public function employees()
     {
         return $this->hasMany('App\Models\Employee');
+    }
+
+    public function email_configs()
+    {
+        return $this->hasMany('App\Models\EmailConfig');
     }
 
     public function services()

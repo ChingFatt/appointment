@@ -141,7 +141,10 @@ class AppointmentController extends Controller
             'service_id'    => json_decode($appointment->service_id),
             'employee_id'   => json_decode($appointment->employee_id),
             'end_time'      => $appointment->end_time,
-            'status'        => $request->status
+            'status'        => $request->status,
+            'email_body'    => $appointment->outlet->email_configs->where('status', $request->status)->first()->body ?? null,
+            'email_footer'  => $appointment->outlet->email_configs->where('status', $request->status)->first()->footer ?? null,
+            'signature'     => $appointment->outlet->email_configs->where('status', $request->status)->first()->signature ?? null,
         ];
 
         $appointment->update($request->except('_method', '_token'));

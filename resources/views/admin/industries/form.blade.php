@@ -34,7 +34,7 @@
         </div>
         <div class="form-group">
             <label for="description">Description</label>
-            <x-input.textarea name="description" :model="$industry"/>
+            <x-input.textarea name="description"/>
         </div>
     </div>
 </div>

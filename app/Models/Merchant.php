@@ -24,6 +24,8 @@ class Merchant extends Model
         'merchant_code',
         'industry_id',
         'description',
+        'email_body',
+        'email_footer',
         'is_publish'
     ];
 

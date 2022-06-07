@@ -7,7 +7,7 @@
         'class'             => 'js-maxlength form-control', 
         'required'          => false, 
         'autocomplete'      => 'off', 
-        'rows'              => 4, 
+        'rows'              => 3, 
         'maxlength'         => 255, 
         'data-always-show'  => 'true', 
         'data-placement'    => 'top'
