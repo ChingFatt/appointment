@@ -1,7 +1,6 @@
 @extends('layouts.simple')
 
 @section('content')
-{{ phpinfo() }}
 <div class="bg-image" style="background-image: url('/media/photos/photo6@2x.jpg');">
     <div class="bg-primary-dark-op">
         <div class="hero bg-black-50">
