@@ -3,7 +3,7 @@
         <div class="block block-rounded">
             <div class="block-header">
                 <h3 class="block-title">Listing</h3>
-                @role('admin')
+                @role('admin|merchant')
                 <x-button.create route="{{ route('admin.user.create') }}"/>
                 @endrole
             </div>
@@ -32,8 +32,10 @@
                                     @endforeach
                                 </x-table.cell>
                                 <x-table.cell>
-                                    @role('admin')
+                                    @role('admin|merchant')
                                     <x-button.edit route="{{ route('admin.user.edit', $user) }}"/>
+                                    @endrole
+                                    @role('admin')
                                     @canBeImpersonated($user, $guard = null)
                                     <x-button.impersonate route="{{ route('admin.impersonate', $user) }}"/>
                                     @endCanBeImpersonated

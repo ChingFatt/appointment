@@ -76,6 +76,7 @@
 jQuery('#services').on('change', function(){
     var options = jQuery('#services option').length;
     var selected = jQuery(this).select2('data').length;
+
     if (options === selected) {
         jQuery("#checkall").prop('checked', true);
     } else {

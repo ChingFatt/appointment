@@ -2,11 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Outlet;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class OutletPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -14,81 +13,81 @@ class OutletPolicy
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
-     * @return mixed
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function viewAny(User $user)
     {
-        return true;
+        return $user->hasRole('admin|merchant');
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Outlet  $outlet
-     * @return mixed
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Outlet $outlet)
+    public function view(User $user, User $model)
     {
-        return $user->merchant_id === $outlet->merchant_id;
+        return $user->merchant_id === $user->merchant_id;
     }
 
     /**
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
-     * @return mixed
+     * @return \Illuminate\Auth\Access\Response|bool
      */
     public function create(User $user)
     {
-        return true;
+        return $user->hasRole('admin|merchant');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Outlet  $outlet
-     * @return mixed
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Outlet $outlet)
+    public function update(User $user, User $model)
     {
-        return $user->merchant_id === $outlet->merchant_id;
+        return $user->merchant_id === $model->merchant_id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Outlet  $outlet
-     * @return mixed
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Outlet $outlet)
+    public function delete(User $user, User $model)
     {
-        return $user->merchant_id === $outlet->merchant_id;
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Outlet  $outlet
-     * @return mixed
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Outlet $outlet)
+    public function restore(User $user, User $model)
     {
-        return false;
+        //
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Outlet  $outlet
-     * @return mixed
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Outlet $outlet)
+    public function forceDelete(User $user, User $model)
     {
-        return false;
+        //
     }
 }

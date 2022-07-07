@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use App\View\Components\Button\Button;
 use App\View\Components\Button\Modal as BtnModal;
 use App\View\Components\Modal\Modal;
@@ -47,6 +48,14 @@ class AppServiceProvider extends ServiceProvider
 
         Builder::macro('search', function ($field, $string) {
             return $string ? $this->where($field, 'like', '%'.$string.'%') : $this;
+        });
+
+        view()->composer('*', function ($view) {
+            //$view->getName();
+            $route = Route::currentRouteName();//currentRouteAction
+            //$action = substr($route, strpos($route, '@') + 1);
+            $action = explode(".", $route);
+            $view->with('action', end($action));
         });
     }
 }

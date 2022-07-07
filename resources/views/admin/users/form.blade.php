@@ -10,8 +10,9 @@
 @endsection
 
 @php
-    $route = Route::currentRouteAction();
-    $action = substr($route, strpos($route, '@') + 1);
+    //dd($action);
+    //$route = Route::currentRouteAction();
+    //$action = substr($route, strpos($route, '@') + 1);
 @endphp
 
 @if ($action == 'edit')
@@ -50,15 +51,7 @@
         <div class="form-group">
             <label for="password">Password Generator</label>
             <div class="input-group">
-                {{ Form::text('password', 
-                    null, [
-                        'class'         => 'form-control', 
-                        'required'      => true, 
-                        'autocomplete'  => 'off',
-                        'minlength'     => 6,
-                        'id'            => 'password'
-                    ]
-                ) }}
+                <input type="password" name="password" class="form-control" minlength="6" autocomplete="off">
                 <div class="input-group-append">
                     <button type="button" class="btn btn-alt-dark" id="generate">Generate</button>
                 </div>
@@ -71,7 +64,7 @@
             <label for="role">Role</label>
             {{ Form::select('role_id', 
                 $roles, 
-                null, [
+                $selected ?? null, [
                     'class'             => 'js-select2 form-control', 
                     'required'          => true, 
                     'autocomplete'      => 'off', 
@@ -109,7 +102,7 @@
         for ( var i = 0; i < 8; i++ ) {
             result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
         }
-        jQuery('#password').val(result);
+        jQuery('input:password').val(result);
     });
 </script>
 @endpush

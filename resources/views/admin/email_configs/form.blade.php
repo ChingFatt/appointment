@@ -29,22 +29,22 @@
         ) }}
         <div class="form-group">
             <label for="status">Status</label>
-            <x-input.select2 name="status" :options="App\Models\Appointment::STATUSES"/>
+            <x-input.select2 name="status" id="status" :options="App\Models\Appointment::STATUSES" required/>
         </div>
         <div class="form-group">
             <label for="header">Header</label>
-            <x-input.textarea name="header"/>
+            <x-input.textarea name="header" id="header" value="We have received an appointment you has been made."/>
         </div>
         <div class="form-group">
             <label for="body">Body</label>
-            <x-input.textarea name="body"/>
+            <x-input.textarea name="body" value="Please kindly refer to the details below."/>
         </div>
         <div class="form-group">
             <label for="footer">Footer</label>
-            <x-input.textarea name="footer"/>
+            <x-input.textarea name="footer" value="Thank you and have a great day."/>
         </div>
         <div class="form-group">
-            <label>Signature </label> <small class="text-muted">eg: 1600 x 1200 ( 4:3 ratio ), less than 500KB</small>
+            <label>Signature </label> <small class="text-muted">less than 500KB</small>
             @isset ($emailConfig->signature)
             <div class="card card-body text-center">
                 <img src="{{ $emailConfig->signature }}" class="d-block w-50 mx-auto">
@@ -56,3 +56,22 @@
     </div>
 </div>
 <x-forms.button/>
+
+@once
+@push ('scripts')
+<script>
+    jQuery('#status').change(function(){
+        var status = jQuery(this).val();
+        console.log(status);
+
+        if (status == 'Pending') {
+            jQuery('#header').val('We have received an appointment you has been made.');
+        } else if (status == 'Cancelled') {
+            jQuery('#header').val('Your appointment has been cancelled.');
+        } else if (status == 'Scheduled') {
+            jQuery('#header').val('Your appointment has been scheduled.');
+        }
+    });
+</script>
+@endpush
+@endonce

@@ -33,7 +33,7 @@
                     <div class="p-3 text-center bg-primary-dark rounded-top">
                         <img class="img-avatar img-avatar48 img-avatar-thumb" src="{{ asset('media/avatars/avatar10.jpg') }}" alt="">
                         <p class="mt-2 mb-0 text-white font-w500">{{ Auth::user()->name }}</p>
-                        <p class="mb-0 text-white-50 font-size-sm">Admin</p>
+                        <p class="mb-0 text-white-50 font-size-sm text-capitalize">{{ Auth::user()->roles->first()->name }}</p>
                     </div>
                     <div class="p-2">
                         <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">

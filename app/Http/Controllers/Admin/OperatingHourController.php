@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\OperatingHour;
 use App\Models\Outlet;
 use Illuminate\Http\Request;
-use Rinvex\Country\Models\Country;
+use PragmaRX\Countries\Package\Countries;
 use Auth;
 
 class OperatingHourController extends Controller
@@ -73,6 +73,9 @@ class OperatingHourController extends Controller
      */
     public function edit(OperatingHour $operatingHour)
     {
+        $list = new Countries();
+        //dd(collect($list->all())->pluck('name.common', 'iso_3166_1_alpha2'));
+
         $outlet = $operatingHour->outlet;
         if (Auth::user()->hasRole('admin') || (Auth::user()->merchant->outlets->contains($operatingHour->outlet->id))) {
             $years[date('Y')] = date('Y');
@@ -84,7 +87,7 @@ class OperatingHourController extends Controller
 
             $public_holidays = $operatingHour->public_holidays;
             //dd($operatingHour->other_holidays);
-            $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
+            $countries = collect($list->all())->pluck('name.common', 'iso_3166_1_alpha2');
             return view('admin.operating_hours.edit')->with(compact('operatingHour', 'countries', 'years', 'public_holidays'));
         } else {
             abort(403);

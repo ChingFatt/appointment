@@ -11,6 +11,11 @@ use Auth;
 
 class EmailConfigController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(EmailConfig::class, 'email_config');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,10 +44,15 @@ class EmailConfigController extends Controller
      */
     public function store(Request $request)
     {
+        $outlet = Outlet::findOrFail($request->outlet_id);
+        $request->merge([
+            'merchant_id'   => $outlet->merchant->id
+        ]);
+
         if ($request->hasFile('file')) {
             $upload = $this->upload($request);
             $request->merge([
-                'signature' => $upload['signature']
+                'signature'     => $upload['signature']
             ]);
         }
 

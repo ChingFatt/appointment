@@ -11,7 +11,6 @@ use App\Http\Controllers\Admin\OperatingHourController;
 use App\Http\Controllers\Admin\OutletController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,7 +21,6 @@ use App\Http\Controllers\Admin\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 require __DIR__.'/auth.php';
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], function () {//['role:admin|merchant']]
@@ -37,13 +35,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth']], 
             'employee'          => EmployeeController::class,
             'merchant'          => MerchantController::class,
             'outlet'            => OutletController::class,
-            'service'           => ServiceController::class
+            'service'           => ServiceController::class,
+            'user'              => UserController::class
         ]);
     });
     Route::group(['middleware' => ['role:admin']], function () {
         Route::resources([
-            'industry'          => IndustryController::class,
-            'user'              => UserController::class
+            'industry'          => IndustryController::class
         ]);
         Route::get('/impersonate/{user_id}', [UserController::class, 'impersonate'])->name('impersonate');
 

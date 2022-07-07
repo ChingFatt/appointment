@@ -7,7 +7,7 @@ use App\Models\Outlet;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Rinvex\Country\Models\Country;
+use Auth;
 
 class OutletController extends Controller
 {
@@ -23,7 +23,11 @@ class OutletController extends Controller
      */
     public function index()
     {
-        $outlets = Outlet::with('merchant')->latest()->get();
+        if (Auth::user()->hasRole('merchant')) {
+            $outlets = Outlet::where('merchant_id', Auth::user()->merchant_id)->with('merchant')->latest()->get();
+        } else {
+            $outlets = Outlet::with('merchant')->latest()->get();
+        }
         return view('admin.outlets.index')->with(compact('outlets'));
     }
 
@@ -70,7 +74,6 @@ class OutletController extends Controller
      */
     public function show(Outlet $outlet)
     {
-        $countries = collect(countries())->pluck('name', 'iso_3166_1_alpha2');
         $picker = collect();
 
         if (isset($outlet->operating_hour)) {
@@ -92,7 +95,7 @@ class OutletController extends Controller
         $services = $outlet->merchant->services->pluck('name', 'service_code');
         $outlet_services = $outlet->services();
         $email_configs = $outlet->email_configs;
-        return view('admin.outlets.show')->with(compact('outlet', 'services', 'outlet_services', 'picker', 'countries', 'week', 'email_configs'));
+        return view('admin.outlets.show')->with(compact('outlet', 'services', 'outlet_services', 'picker', 'week', 'email_configs'));
     }
 
     /**

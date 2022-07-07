@@ -1,16 +1,18 @@
 @props([
-    'name' => null
+    'name' => null,
+    'value' => null,
 ])
 
 {{ Form::textarea($name, 
-    null, [
+    $value, [
         'class'             => 'js-maxlength form-control', 
         'required'          => false, 
         'autocomplete'      => 'off', 
         'rows'              => 3, 
         'maxlength'         => 255, 
         'data-always-show'  => 'true', 
-        'data-placement'    => 'top'
+        'data-placement'    => 'top',
+        $attributes
     ]
 ) }}
 <small class="form-text text-muted">

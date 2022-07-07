@@ -45,11 +45,15 @@ class MerchantController extends Controller
      */
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'merchant_code' => 'required|unique:merchants'
+        ]);
+
         $request->merge([
             'is_publish' => ($request->is_publish) ? $request->is_publish : 0
         ]);
         $merchant = Merchant::create($request->all());
-        $this->merchant_code($merchant); 
+        //$this->merchant_code($merchant); 
 
         return redirect()->route('admin.merchant.show', $merchant);
     }

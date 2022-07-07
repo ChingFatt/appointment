@@ -24,6 +24,7 @@
         <!-- Side Navigation -->
         <div class="content-side">
             <ul class="nav-main">
+                @role('admin|merchant')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('admin/dashboard*') ? ' active' : '' }}" href="/admin/dashboard">
                         <i class="nav-main-link-icon si si-cursor"></i>
@@ -48,6 +49,7 @@
                         </li>
                     </ul>
                 </li>
+                @endrole
                 @role('merchant')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('admin/merchant*') ? ' active' : '' }}" href="{{ route('admin.merchant.show', Auth::user()->merchant_id) }}">
@@ -70,6 +72,8 @@
                         <span class="nav-main-link-name text-capitalize">Merchants</span>
                     </a>
                 </li>
+                @endrole
+                @role('admin|merchant')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('admin/outlet*') ? ' active' : '' }}" href="{{ route('admin.outlet.index') }}">
                         <i class="nav-main-link-icon si si-cursor"></i>
