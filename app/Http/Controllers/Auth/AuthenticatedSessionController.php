@@ -36,13 +36,15 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
-        $merchant = Merchant::where('merchant_code', $request->merchant_code)->first();
-        
-        //to validate user only login into specific admin panel
-        $request->merge([
-            'merchant_id' => ($user->hasRole('admin')) ? null : $merchant->id
-        ]);
 
+        if($user) {
+            $merchant = Merchant::where('merchant_code', $request->merchant_code)->first();
+        
+            //to validate user only login into specific admin panel
+            $request->merge([
+                'merchant_id' => ($user->hasRole('admin')) ? null : $merchant->id
+            ]);
+        }
         $request->authenticate();
 
         $request->session()->regenerate();
